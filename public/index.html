@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="theme-color" content="#000000" />
+    <!--
+      manifest.json provides metadata used when your web app is added to the
+      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link id="favicon" rel="shortcut icon" href="%PUBLIC_URL%/favicon.png" />
+    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet"> -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap" rel="stylesheet" />
+    <!-- Master Stylesheet [If you remove this CSS file, your file will be broken undoubtedly.] -->
+    <link rel="stylesheet" href="%PUBLIC_URL%/style.css" />
+
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>ADS-COIN</title>
+
+    <style>
+      html,
+      body {
+        background-color: #fff !important;
+      }
+      html,
+      body,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      p,
+      li,
+      a,
+      button {
+        font-family: "Poppins", sans-serif !important;
+        font-size: medium !important;
+        font-weight: 400 !important;
+      }
+      a {
+        text-decoration: none !important;
+      }
+      table.table-noborder > tfoot {
+        border: 1px solid hsl(0, 0%, 80%) !important;
+      }
+      table.table-noborder > tbody > tr:hover {
+        background-color: #f7f7fa !important;
+      }
+
+      table.table-noborder > thead > tr > th,
+      table.table-noborder > tbody > tr > td,
+      table.table-noborder > tfoot > tr > th {
+        padding-top: 5px !important;
+        padding-bottom: 5px !important;
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+        vertical-align: middle !important;
+        white-space: nowrap !important;
+        /* border: 1px solid hsl(0, 0%, 80%) !important; */
+      }
+      table.table-noborder > tbody > tr > td {
+        font-weight: lighter;
+        font-size: medium !important;
+        color: #575757 !important;
+      }
+      table.table-noborder > thead > tr > th {
+        font-weight: bold;
+        font-size: medium !important;
+      }
+
+      /* table.table-noborder > tbody > tr > td {
+        font-size: 12px;
+      } */
+      ul.pagination > li.disabled {
+        cursor: not-allowed !important;
+      }
+
+      .page-item.active .page-link {
+        z-index: 1;
+        color: #575757 !important;
+        background-color: #f7f7fa !important;
+      }
+
+      .text-black {
+        color: #575757 !important;
+      }
+
+      .page-link {
+        position: relative;
+        display: block;
+        padding: 0.5rem 0.75rem;
+        margin-left: -1px;
+        line-height: 1.25;
+        color: #575757 !important;
+        background-color: transparent !important;
+        border: 1px solid #f7f7fa !important;
+        cursor: pointer;
+      }
+
+      .page-item:first-child .page-link {
+        margin-left: 0;
+      }
+
+      .page-link:hover {
+        background-color: #f7f7fa !important;
+
+        z-index: 1;
+        color: #575757 !important;
+      }
+
+      .page-link:focus {
+        z-index: 2;
+        outline: 0;
+        box-shadow: none !important;
+      }
+
+      .nowrap {
+        white-space: nowrap !important;
+      }
+
+      .middle {
+        vertical-align: middle !important;
+      }
+
+      span.txt-sidebar {
+        font-size: 16px;
+        margin-left: 5px;
+      }
+
+      .react-bootstrap-daterangepicker-container {
+        display: unset !important;
+      }
+      .custom-map-modal {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      .custom-map-modal > .modal-content {
+        height: auto;
+        min-height: 100%;
+        width: 100%;
+        min-width: 1520px;
+        border-radius: 0;
+      }
+
+      .customDatePickerWidth,
+      .customDatePickerWidth > div.react-datepicker-wrapper,
+      .customDatePickerWidth > div > div.react-datepicker__input-container .customDatePickerWidth > div > div.react-datepicker__input-container input {
+        width: 100%;
+        height: 100%;
+      }
+
+      .react-datepicker__input-container {
+        width: inherit;
+        height: inherit;
+      }
+
+      .react-datepicker__input-container input {
+        width: inherit;
+        height: 100%;
+      }
+
+      #date {
+        width: 183px !important;
+      }
+
+      .react-datepicker-wrapper {
+        width: 100%;
+      }
+
+      .react-datepicker-wrapper,
+      .react-datepicker__input-container,
+      .react-datepicker__input-container input {
+        display: block;
+        width: 100%;
+      }
+
+      .react-tabs__tab-list {
+        border-bottom: none !important;
+      }
+
+      .react-tabs__tab--selected {
+        /*background: #fff;*/
+        border-color: white !important;
+        /*color: black;*/
+        color: #fff !important;
+        background-color: #5d78ff !important;
+        border-radius: 5px 5px 5px 5px !important;
+      }
+
+      .react-tabs__tab {
+        display: inline-block !important;
+        border: 1px solid #5d78ff !important;
+        /*border-bottom: none!important;*/
+        bottom: -1px !important;
+        position: relative !important;
+        list-style: none !important;
+        padding: 6px 12px !important;
+        cursor: pointer !important;
+        border-radius: 5px 5px 5px 5px !important;
+        margin-right: 3px !important;
+      }
+
+      .fade {
+        transition: opacity 0.15s linear;
+        width: 100% !important;
+        height: 100% !important;
+      }
+      .rs-nav-subtle.rs-nav-horizontal .rs-nav-waterline {
+        border-top: none !important;
+      }
+      .cursor-not-allowed {
+        cursor: not-allowed;
+      }
+
+      .cursor-pointer {
+        cursor: pointer;
+      }
+
+      .text-gray-400 {
+        --tw-text-opacity: 1;
+        color: rgba(158, 158, 158, 1);
+      }
+      .rs-nav .rs-dropdown .rs-dropdown-menu-active ~ .rs-dropdown-toggle,
+      .rs-nav .rs-nav-item-active > .rs-nav-item-content,
+      .rs-nav .rs-dropdown .rs-dropdown-menu-active ~ .rs-dropdown-toggle:hover,
+      .rs-nav .rs-nav-item-active > .rs-nav-item-content:hover,
+      .rs-nav .rs-dropdown .rs-dropdown-menu-active ~ .rs-dropdown-toggle:focus,
+      .rs-nav .rs-nav-item-active > .rs-nav-item-content:focus,
+      .rs-nav .rs-dropdown .rs-dropdown-menu-active ~ .rs-dropdown-toggle:active,
+      .rs-nav .rs-nav-item-active > .rs-nav-item-content:active {
+        color: #575757 !important;
+        background: #f7f7fa !important;
+        border-radius: 6px !important;
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqD1Z03FoLnIGJTbpAgRvjcchrR-NiICk&libraries=places" async defer></script>
+  </head>
+
+  <body class="load">
+    <noscript> You need to enable JavaScript to run this app. </noscript>
+
+    <div id="root"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+
+    <!-- Must needed plugins to the run this Template -->
+    <input type="hidden" id="hellyeah" />
+    <input type="hidden" id="coolyeah" />
+    <script src="%PUBLIC_URL%/js/config.js"></script>
+  </body>
+</html>
