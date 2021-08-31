@@ -209,7 +209,7 @@ class LaporanTiket extends Component {
         <br />
         <div style={{ overflowX: "auto" }}>
           <table className="table table-hover">
-            <thead className="thead-dark">
+            <thead>
               <tr>
                 <th style={columnStyle}>NO</th>
                 <th style={columnStyle}>KODE TRANSAKSI</th>

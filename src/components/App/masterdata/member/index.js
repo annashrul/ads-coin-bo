@@ -434,15 +434,11 @@ class IndexMember extends Component {
       textAlign: "right",
       whiteSpace: "nowrap",
     };
-    const { last_page, total, per_page, current_page, data } = this.props.data;
+    const { data } = this.props.data;
+    const { last_page, total, per_page, current_page } = this.props.data.meta;
 
     let totSaldo = 0;
-    let totPin = 0;
-    let totSponsor = 0;
     let totPayment = 0;
-    let totSlot = 0;
-    let totModal = 0;
-    let totOmset = 0;
     return (
       <Layout page={"Member"}>
         <div className="row">
@@ -522,8 +518,8 @@ class IndexMember extends Component {
         </div>
         <br />
         <div style={{ overflowX: "auto" }}>
-          <table className="table table-hover">
-            <thead className="thead-dark">
+          <table className="table table-hover table-noborder">
+            <thead>
               <tr>
                 <th rowSpan="2" style={headStyle}>
                   NO
@@ -541,7 +537,7 @@ class IndexMember extends Component {
                   NO.TELEPON
                 </th>
 
-                <th colSpan="7" style={headStyle}>
+                <th colSpan="2" style={headStyle}>
                   TOTAL
                 </th>
 
@@ -551,12 +547,7 @@ class IndexMember extends Component {
               </tr>
               <tr>
                 <th style={headStyle}>SALDO</th>
-                <th style={headStyle}>SPONSOR</th>
-                <th style={headStyle}>TIKET</th>
                 <th style={headStyle}>PENARIKAN</th>
-                <th style={headStyle}>SLOT AKTIF</th>
-                <th style={headStyle}>MODAL</th>
-                <th style={headStyle}>OMSET</th>
               </tr>
             </thead>
             <tbody>
@@ -564,12 +555,7 @@ class IndexMember extends Component {
                 data.length > 0 ? (
                   data.map((v, i) => {
                     totSaldo += parseFloat(v.saldo);
-                    totPin += parseFloat(v.pin);
-                    totSponsor += parseFloat(v.sponsor);
                     totPayment += parseFloat(v.total_payment);
-                    totSlot += parseFloat(v.slot_active);
-                    totModal += parseFloat(v.total_modal);
-                    totOmset += parseFloat(v.omset);
 
                     return (
                       <tr key={i}>
@@ -581,7 +567,7 @@ class IndexMember extends Component {
                                 Pilihan
                               </DropdownToggle>
                               <DropdownMenu>
-                                <DropdownItem onClick={(e) => this.handleInvestment(e, v)}>Invesment</DropdownItem>
+                                {/* <DropdownItem onClick={(e) => this.handleInvestment(e, v)}>Invesment</DropdownItem> */}
                                 <DropdownItem onClick={(e) => this.handleBankEdit(e, v.id, v.fullname)}>Edit Bank</DropdownItem>
                                 <DropdownItem onClick={(e) => this.handleMemberEdit(e, v.id, v.fullname, v.mobile_no)}>Edit Member</DropdownItem>
                                 <DropdownItem onClick={(e) => this.handleMemberResetPin(e, v.id)}>Reset PIN Member</DropdownItem>
@@ -596,17 +582,8 @@ class IndexMember extends Component {
                         <td style={numberStyle} className="poin">
                           {toCurrency(parseFloat(v.saldo).toFixed(2))}
                         </td>
-                        <td style={numberStyle}>{v.sponsor === "0" ? 0 : toRp(parseFloat(v.sponsor, 10).toFixed(2))}</td>
-                        <td style={numberStyle}>{v.pin === "0" ? 0 : toRp(parseFloat(v.pin, 10))}</td>
                         <td className="poin" style={numberStyle}>
                           {toCurrency(parseFloat(v.total_payment).toFixed(2))}
-                        </td>
-                        <td style={numberStyle}>{v.slot_active === "0" ? 0 : toRp(v.slot_active)}</td>
-                        <td className="poin" style={numberStyle}>
-                          {toCurrency(v.total_modal)}
-                        </td>
-                        <td className="poin" style={numberStyle}>
-                          {toCurrency(v.omset)}
                         </td>
 
                         <td style={headStyle}>{statusQ(v.status)}</td>
@@ -634,17 +611,8 @@ class IndexMember extends Component {
                 <td style={numberStyle} className="poin">
                   {toCurrency(totSaldo.toFixed(2))}
                 </td>
-                <td style={numberStyle}>{toRp(totSponsor)}</td>
-                <td style={numberStyle}>{toRp(totPin)}</td>
                 <td className="poin" style={numberStyle}>
                   {toCurrency(totPayment.toFixed(2))}
-                </td>
-                <td style={numberStyle}>{toRp(totSlot)}</td>
-                <td className="poin" style={numberStyle}>
-                  {toCurrency(totModal)}
-                </td>
-                <td className="poin" style={numberStyle}>
-                  {toCurrency(totOmset)}
                 </td>
                 <td />
               </tr>
@@ -670,12 +638,13 @@ class IndexMember extends Component {
   }
 }
 const mapStateToProps = (state) => {
+  console.log("state.memberReducer",state.memberReducer);
   return {
     isOpen: state.modalReducer,
     isShowModalInvestment: state.memberReducer.isShowModal,
 
     isLoading: state.memberReducer.isLoading,
-    data: state.memberReducer.data,
+    data: state.memberReducer,
 
     loading: state.memberReducer.isLoadingExcel,
     dataExcel: state.memberReducer.excel,

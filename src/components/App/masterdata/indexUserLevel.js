@@ -156,7 +156,7 @@ class IndexUserLevel extends Component {
         </div>
         <div style={{ overflowX: "auto" }}>
           <table className="table table-hover">
-            <thead className="thead-dark">
+            <thead>
               <tr>
                 <th style={headStyle}>NO</th>
                 <th style={headStyle}>#</th>

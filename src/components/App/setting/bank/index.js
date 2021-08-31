@@ -100,7 +100,8 @@ class Bank extends Component {
       textAlign: "center",
       whiteSpace: "nowrap",
     };
-    const { total, per_page, current_page, data } = this.props.data;
+    const { data } = this.props.data;
+    const { total, per_page, current_page } = this.props.data.meta;
     return (
       <Layout page={"Bank Perusahaan"}>
         <div className="row">
@@ -150,8 +151,8 @@ class Bank extends Component {
         </div>
 
         <div style={{ overflowX: "auto" }}>
-          <table className="table table-hover">
-            <thead className="thead-dark">
+          <table className="table table-hover table-noborder">
+            <thead>
               <tr>
                 <th style={headStyle}>NO</th>
                 <th style={headStyle}>#</th>
@@ -186,10 +187,10 @@ class Bank extends Component {
                             <i className={"fa fa-close"} />
                           </button>
                         </td>
-                        <td style={headStyle}>{v.bank_name}</td>
+                        <td style={headStyle}>{v.name}</td>
                         <td style={headStyle}>{v.acc_name}</td>
                         <td style={headStyle}>{v.acc_no}</td>
-                        <td style={headStyle}>{v.tf_code}</td>
+                        <td style={headStyle}>{v.code}</td>
                         <td style={headStyle}>{myDate(v.created_at)}</td>
                       </tr>
                     );
@@ -229,10 +230,11 @@ class Bank extends Component {
   }
 }
 const mapStateToProps = (state) => {
+  console.log("state.banksReducer",state.banksReducer);
   return {
     isLoading: state.banksReducer.isLoading,
     isOpen: state.modalReducer,
-    data: state.banksReducer.data,
+    data: state.banksReducer,
   };
 };
 

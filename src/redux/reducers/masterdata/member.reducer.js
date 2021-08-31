@@ -25,6 +25,7 @@ const initialState = {
     approval:[],
     invesment:[],
     excelInvesment:[],
+    meta:{},
 }
 
 export const memberReducer = (state = initialState, action) => {
@@ -46,6 +47,7 @@ export const memberReducer = (state = initialState, action) => {
                 status: action.data.status,
                 msg: action.data.msg,
                 data: action.data.result,
+                meta: action.data.meta,
             });
         case MEMBER.APPROVAL:
             return Object.assign({}, state, {

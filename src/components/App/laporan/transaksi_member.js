@@ -243,7 +243,7 @@ class LaporanTransaksiMember extends Component {
         <br />
         <div style={{ overflowX: "auto" }}>
           <table className="table table-bordered">
-            <thead className="thead-dark">
+            <thead>
               <tr>
                 <th rowSpan="2" style={columnStyle}>
                   NO

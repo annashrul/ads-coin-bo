@@ -8,6 +8,7 @@ const initialState = {
     status: "",
     msg: "",
     data: [],
+    meta:{},
 }
 
 export const bankReducer = (state = initialState, action) => {
@@ -17,6 +18,7 @@ export const bankReducer = (state = initialState, action) => {
                 status: action.data.status,
                 msg: action.data.msg,
                 data: action.data.result.data,
+                meta: action.data.meta,
             });
         case BANK.LOADING_DETAIL:
             return Object.assign({}, state, {

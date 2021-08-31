@@ -12,7 +12,8 @@ const initialState = {
     data: [],
     edit:[],
     detail:[],
-    list_bank:[]
+    list_bank:[],
+    meta:{},
 }
 
 export const banksReducer = (state = initialState, action) => {
@@ -22,6 +23,7 @@ export const banksReducer = (state = initialState, action) => {
                 status: action.data.status,
                 msg: action.data.msg,
                 data: action.data.result,
+                meta: action.data.meta,
             });
         case BANKS.LISTBANK:
             return Object.assign({}, state, {
