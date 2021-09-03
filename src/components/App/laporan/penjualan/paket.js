@@ -104,7 +104,7 @@ class LaporanPaket extends Component {
             "KODE TRANSAKSI",
             "NAMA PAKET",
             "JUMLAH TIKET",
-            "JUMLAH PEMBAYARAN (POIN)",
+            "JUMLAH PEMBAYARAN (COIN)",
             "METODE PEMBAYARAN",
             "NAMA PEMESAN",
             "BANK TUJUAN",
@@ -134,7 +134,7 @@ class LaporanPaket extends Component {
       verticalAlign: "middle",
       textAlign: "center",
       whiteSpace: "nowrap",
-      color: "white",
+      color: "#888888",
     };
 
     const cusStyle = {
@@ -143,9 +143,10 @@ class LaporanPaket extends Component {
       whiteSpace: "nowrap",
     };
 
-    const { total, per_page, last_page, current_page, data } = this.props.data;
+    const { data } = this.props.res;
+    const { total, per_page, last_page, current_page } = this.props.res.meta;
     return (
-      <Layout page={"Laporan Penjualan Paket"}>
+      <Layout page={"Laporan Penjualan Produk"}>
         <div className="row">
           <div className="col-12 col-xs-12 col-md-10">
             <div className="row">
@@ -262,35 +263,35 @@ class LaporanPaket extends Component {
                           >
                             <div class="col-xs-2 col-sm-2 col-md-2 col-lg-3">
                               <img
-                                src={v.gambar}
+                                src={v.image_product}
                                 className="img-fluid rounded-circle"
                                 alt=""
                                 style={{ height: "50px", width: "100px" }}
                               />
                             </div>
-                            <p className="text-left text-white">
+                            <p className="text-left text-dark">
                               {v.title}
                               <br />
                               <small className="txtGreen">
-                                <b>{v.pin_required} tiket yg dibutuhkan</b>
+                                Preview : <b>{v.preview}</b>
                               </small>
                             </p>
                           </div>
                         </td>
 
                         <td style={cusStyle} className="poin">
-                          <small className="text-white">
-                            {v.metode_pembayaran}
+                          <small className="text-dark">
+                            {v.payment_channel}
                           </small>
                           <br />
-                          {toCurrency(v.total)}
+                          {toCurrency(v.grand_total)}
                         </td>
                         <td style={cusStyle}>
-                          <small className="text-left text-white">
+                          <small className="text-left text-dark">
                             {v.bank_name}
                           </small>
                           <br />
-                          <small className="text-white">{v.acc_name}</small>
+                          <small className="text-dark">{v.acc_name}</small>
                         </td>
                         <td style={cusStyle}>{status}</td>
                       </tr>
@@ -333,6 +334,7 @@ const mapStateToProps = (state) => {
     isLoadingExcel: state.reportPaketReducer.isLoadingExcel,
     isOpen: state.modalReducer,
     data: state.reportPaketReducer.data,
+    res: state.reportPaketReducer,
     dataExcel: state.reportPaketReducer.excel,
   };
 };

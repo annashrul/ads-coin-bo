@@ -10,6 +10,7 @@ const initialState = {
   data: [],
   edit: [],
   detail: [],
+  meta:{}
 };
 
 export const paketReducer = (state = initialState, action) => {
@@ -19,6 +20,7 @@ export const paketReducer = (state = initialState, action) => {
         status: action.data.status,
         msg: action.data.msg,
         data: action.data.result,
+        meta: action.data.meta,
       });
 
     case PAKET.DETAIL:

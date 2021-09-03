@@ -12,6 +12,8 @@ const initialState = {
   edit: [],
   detail: [],
   excel: [],
+  meta:{},
+  total:{},
 };
 
 export const reportTransaksiMemberReducer = (state = initialState, action) => {
@@ -21,6 +23,8 @@ export const reportTransaksiMemberReducer = (state = initialState, action) => {
         status: action.data.status,
         msg: action.data.msg,
         data: action.data.result,
+        meta: action.data.meta,
+        total: action.data.total,
       });
 
     case REPORT_TRANSAKSI_MEMBER.DETAIL:

@@ -135,7 +135,7 @@ class Index extends Component {
           </h4>
           <div className="row">
             <div className="col-md-6 col-sm-12">
-              <div className="form-group">
+              {/* <div className="form-group">
                 <label>Tipe OTP</label>
                 <Select
                   options={this.state.dataTipeOTP}
@@ -145,9 +145,9 @@ class Index extends Component {
                     return op.value === this.state.type_otp;
                   })}
                 />
-              </div>
+              </div> */}
 
-              {this.state.type_otp !== "gabungan" ? (
+              {/* {this.state.type_otp !== "gabungan" ? ( */}
                 <div className="form-group">
                   <label>Provider OTP</label>
                   <Select
@@ -159,9 +159,9 @@ class Index extends Component {
                     })}
                   />
                 </div>
-              ) : (
+              {/* ) : (
                 ""
-              )}
+              )} */}
             </div>
             <div className="col-md-6 col-sm-12">
               <div className="form-group">
@@ -204,27 +204,7 @@ class Index extends Component {
                   value={this.state.aktivasi_message}
                 ></textarea>
               </div>
-              <div className="form-group">
-                <label>
-                  Pesan Transaksi OTP{" "}
-                  <button
-                    className="badge badge-success"
-                    onClick={(event) =>
-                      this.handleBtnSubmit(event, "transaksi_message")
-                    }
-                  >
-                    Simpan
-                  </button>
-                </label>
-                <textarea
-                  rows={4}
-                  className="form-control"
-                  onChange={(event) => this.handleChange(event)}
-                  name="transaksi_message"
-                  value={this.state.transaksi_message}
-                ></textarea>
-              </div>
-              <div className="text-white">
+              <div className="text-dark">
                 <h6 className="text-warning">Note:</h6>
                 <ul>
                   <li>- Gunakan [nama] untuk nama member secara dinamis.</li>

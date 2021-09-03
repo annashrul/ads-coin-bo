@@ -10,11 +10,11 @@ import Paginationq, {
 import { NOTIF_ALERT } from "../../../../redux/actions/_constants";
 import moment from "moment";
 import {
-  getDataReportTiket,
-  getExcelReportTiket,
-} from "../../../../redux/actions/laporan/report_tiket.action";
+  getDataReportPembelian,
+  getExcelReportPembelian,
+} from "../../../../redux/actions/laporan/report_paket.action";
 
-class LaporanTiket extends Component {
+class LaporanPembelian extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -45,17 +45,17 @@ class LaporanTiket extends Component {
   }
   componentWillMount() {
     let where = this.handleValidate();
-    this.props.dispatch(getDataReportTiket("page=1&" + where));
+    this.props.dispatch(getDataReportPembelian("page=1&" + where));
   }
 
   handleSearch(e) {
     e.preventDefault();
     let where = this.handleValidate();
-    this.props.dispatch(getDataReportTiket("page=1&" + where));
+    this.props.dispatch(getDataReportPembelian("page=1&" + where));
   }
   handlePage(num) {
     let where = this.handleValidate();
-    this.props.dispatch(getDataReportTiket(`page=${num}&${where}`));
+    this.props.dispatch(getDataReportPembelian(`page=${num}&${where}`));
   }
   handleEvent = (event, picker) => {
     event.preventDefault();
@@ -66,7 +66,7 @@ class LaporanTiket extends Component {
       dateTo: to,
     });
     this.props.dispatch(
-      getDataReportTiket(`page=1&datefrom=${from}&dateto=${to}`)
+      getDataReportPembelian(`page=1&datefrom=${from}&dateto=${to}`)
     );
   };
 
@@ -79,30 +79,37 @@ class LaporanTiket extends Component {
     if (props.dataExcel.data !== undefined) {
       if (props.dataExcel.data.length > 0) {
         let content = [];
+        let status = "";
+
         props.dataExcel.data.forEach((v, i) => {
+          if (v.status === 0) status = "Pending";
+          if (v.status === 1) status = "Sukses";
+          if (v.status === 2) status = "Gagal";
           content.push([
             v.kd_trx,
             v.title,
-            v.qty,
+            v.pin_required,
             parseFloat(v.total).toFixed(2),
             v.metode_pembayaran,
             v.fullname,
             v.bank_name,
             v.acc_name,
+            status,
           ]);
         });
         toExcel(
-          "LAPORAN TIKET",
+          "LAPORAN PAKET",
           `${this.state.dateFrom} - ${this.state.dateTo}`,
           [
             "KODE TRANSAKSI",
             "NAMA PAKET",
-            "QTY",
-            "TOTAL (POIN)",
+            "JUMLAH TIKET",
+            "JUMLAH PEMBAYARAN (COIN)",
             "METODE PEMBAYARAN",
             "NAMA PEMESAN",
             "BANK TUJUAN",
             "ATAS NAMA",
+            "STATUS",
           ],
           content
         );
@@ -119,7 +126,7 @@ class LaporanTiket extends Component {
     ) {
       where += `&q=${this.state.any}`;
     }
-    this.props.dispatch(getExcelReportTiket(where));
+    this.props.dispatch(getExcelReportPembelian(where));
   };
 
   render() {
@@ -127,14 +134,21 @@ class LaporanTiket extends Component {
       verticalAlign: "middle",
       textAlign: "center",
       whiteSpace: "nowrap",
-      color: "white",
+      color: "#888888",
     };
 
-    const { total, per_page, last_page, current_page, data } = this.props.data;
+    const cusStyle = {
+      verticalAlign: "middle",
+      textAlign: "left",
+      whiteSpace: "nowrap",
+    };
+
+    const { data } = this.props.res;
+    const { total, per_page, last_page, current_page } = this.props.res.meta;
     return (
-      <Layout page={"Laporan Penjualan Tiket"}>
+      <Layout page={"Laporan Penjualan Produk"}>
         <div className="row">
-          <div className="col-md-10">
+          <div className="col-12 col-xs-12 col-md-10">
             <div className="row">
               <div className="col-6 col-xs-6 col-md-3">
                 <div className="form-group">
@@ -209,17 +223,6 @@ class LaporanTiket extends Component {
         <br />
         <div style={{ overflowX: "auto" }}>
           <table className="table table-hover">
-            <thead>
-              <tr>
-                <th style={columnStyle}>NO</th>
-                <th style={columnStyle}>KODE TRANSAKSI</th>
-                <th style={columnStyle}>QTY</th>
-                <th style={columnStyle}>TOTAL</th>
-                <th style={columnStyle}>METODE PEMBAYARAN</th>
-                <th style={columnStyle}>BANK</th>
-                <th style={columnStyle}>STATUS</th>
-              </tr>
-            </thead>
             <tbody>
               {typeof data === "object" ? (
                 data.length > 0 ? (
@@ -245,18 +248,52 @@ class LaporanTiket extends Component {
                         <td style={columnStyle}>
                           {i + 1 + 10 * (parseInt(current_page, 10) - 1)}
                         </td>
-                        <td style={columnStyle}>{v.kd_trx}</td>
-                        <td style={columnStyle}>{v.qty}</td>
-                        <td style={columnStyle} className="poin">
-                          {toCurrency(v.total)}
-                        </td>
-                        <td style={columnStyle}>{v.metode_pembayaran}</td>
-                        <td style={columnStyle}>
-                          {v.bank_name}
+                        <td style={cusStyle}>
+                          {v.kd_trx}
                           <br />
-                          {v.acc_name}
+                          {v.fullname}
                         </td>
-                        <td style={columnStyle}>{status}</td>
+                        <td style={cusStyle}>
+                          <div
+                            class="row"
+                            style={{
+                              verticalAlign: "middle",
+                              paddingTop: "13px",
+                            }}
+                          >
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-3">
+                              <img
+                                src={v.image_product}
+                                className="img-fluid rounded-circle"
+                                alt=""
+                                style={{ height: "50px", width: "100px" }}
+                              />
+                            </div>
+                            <p className="text-left text-dark">
+                              {v.title}
+                              <br />
+                              <small className="txtGreen">
+                                Preview : <b>{v.preview}</b>
+                              </small>
+                            </p>
+                          </div>
+                        </td>
+
+                        <td style={cusStyle} className="poin">
+                          <small className="text-dark">
+                            {v.payment_channel}
+                          </small>
+                          <br />
+                          {toCurrency(v.grand_total)}
+                        </td>
+                        <td style={cusStyle}>
+                          <small className="text-left text-dark">
+                            {v.bank_name}
+                          </small>
+                          <br />
+                          <small className="text-dark">{v.acc_name}</small>
+                        </td>
+                        <td style={cusStyle}>{status}</td>
                       </tr>
                     );
                   })
@@ -293,12 +330,13 @@ class LaporanTiket extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    isLoading: state.reportTiketReducer.isLoading,
-    isLoadingExcel: state.reportTiketReducer.isLoadingExcel,
+    isLoading: state.reportPaketReducer.isLoading,
+    isLoadingExcel: state.reportPaketReducer.isLoadingExcel,
     isOpen: state.modalReducer,
-    data: state.reportTiketReducer.data,
-    dataExcel: state.reportTiketReducer.excel,
+    data: state.reportPaketReducer.data,
+    res: state.reportPaketReducer,
+    dataExcel: state.reportPaketReducer.excel,
   };
 };
 
-export default connect(mapStateToProps)(LaporanTiket);
+export default connect(mapStateToProps)(LaporanPembelian);

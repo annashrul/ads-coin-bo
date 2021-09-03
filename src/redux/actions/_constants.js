@@ -26,6 +26,7 @@ export const HEADERS = {
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwY2RiN2M5OC0wNWNmLTQ4NDgtOGM3Yy0yZTFiYTczZGUwNmYiLCJpYXQiOjE1NzAxNzM0ODYsImV4cCI6MTU3MDc3ODI4Nn0.1NiWtt2luG83am8FJSvWpL5p35Oxd8GSJJTwhFmAdgw",
   USERNAME: "netindo",
   PASSWORD: "$2b$08$hLMU6rEvNILCMaQbthARK.iCmDRO7jNbUB8CcvyRStqsHD4UQxjDO",
+  PROJECT_ID: "8123268367ea27e094e71e290"
 };
 
 /****************
@@ -130,6 +131,7 @@ export const MEMBER = {
   LOADING_POST: `SET_${prefMember}_LOADING_POST`,
   IS_ERROR: `SET_${prefMember}_IS_ERROR`,
   SUCCESS: `SUCCESS_${prefMember}`,
+  SUCCESS_TOP_KONTRIBUTOR: `SUCCESS_${prefMember}_TOP_KONTRIBUTOR`,
   APPROVAL: `APPROVAL_${prefMember}`,
   FAILED: `FAILED_${prefMember}`,
   DETAIL: `DETAIL_${prefMember}`,

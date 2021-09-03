@@ -78,7 +78,7 @@ class Layout extends Component {
         >
           {/* Desktop Logo */}
           <div className="ecaps-logo " style={{ boxShadow: "none" }}>
-            <Link to="/">
+            <Link to="/" className="bg-transparent">
               <img
                 className="desktop-logo"
                 src={BgAuth}

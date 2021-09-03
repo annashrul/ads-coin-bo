@@ -8,6 +8,7 @@ const initialState = {
   msg: "",
   data: [],
   excel: [],
+  meta:{}
 };
 
 export const reportPaketReducer = (state = initialState, action) => {
@@ -17,6 +18,7 @@ export const reportPaketReducer = (state = initialState, action) => {
         status: action.data.status,
         msg: action.data.msg,
         data: action.data.result,
+        meta: action.data.meta,
       });
     case REPORT_PAKET.EXCEL:
       return Object.assign({}, state, {

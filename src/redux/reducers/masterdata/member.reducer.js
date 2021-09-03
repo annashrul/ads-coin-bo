@@ -26,6 +26,8 @@ const initialState = {
     invesment:[],
     excelInvesment:[],
     meta:{},
+    data_top_kontributor:[],
+    meta_top_kontributor:{},
 }
 
 export const memberReducer = (state = initialState, action) => {
@@ -48,6 +50,13 @@ export const memberReducer = (state = initialState, action) => {
                 msg: action.data.msg,
                 data: action.data.result,
                 meta: action.data.meta,
+            });
+        case MEMBER.SUCCESS_TOP_KONTRIBUTOR:
+            return Object.assign({}, state, {
+                status: action.data.status,
+                msg: action.data.msg,
+                data_top_kontributor: action.data.result,
+                meta_top_kontributor: action.data.meta,
             });
         case MEMBER.APPROVAL:
             return Object.assign({}, state, {

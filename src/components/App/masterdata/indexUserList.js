@@ -105,7 +105,8 @@ class IndexUserList extends Component {
       textAlign: "center",
       whiteSpace: "nowrap",
     };
-    const { total, per_page, current_page, data } = this.props.data;
+    const { data } = this.props.data;
+    const { total, per_page, current_page } = this.props.data.meta;
     return (
       <Layout page={"Daftar Pengguna"}>
         <div className="row">
@@ -241,7 +242,7 @@ const mapStateToProps = (state) => {
   return {
     isLoading: state.userListReducer.isLoading,
     isOpen: state.modalReducer,
-    data: state.userListReducer.data,
+    data: state.userListReducer,
   };
 };
 

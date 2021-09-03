@@ -11,6 +11,7 @@ import {
   putUserList,
 } from "../../../../../redux/actions/masterdata/user_list.action";
 import Preloader from "../../../../../Preloader";
+import { Modal } from 'rsuite';
 
 class FormUserList extends Component {
   constructor(props) {
@@ -140,7 +141,7 @@ class FormUserList extends Component {
     this.setState({ status: val.value });
   }
   toggle(e) {
-    e.preventDefault();
+    // e.preventDefault();
     const bool = !this.props.isOpen;
     this.props.dispatch(ModalToggle(bool));
     this.clearState();
@@ -149,15 +150,24 @@ class FormUserList extends Component {
   render() {
     return (
       <WrapperModal
-        isOpen={this.props.isOpen && this.props.type === "formUserList"}
+        // isOpen={this.props.isOpen && this.props.type === "formUserList"}
         size="md"
+        backdropClassName="rs-modal-backdrop"
+        overflow={false}
+        autoFocus={true}
+        backdrop={true}
+        // full
+        show={this.props.isOpen && this.props.type === "formUserList"}
+        onHide={() => this.toggle()}
+        onEnter={() => {
+        }}
       >
-        <ModalHeader toggle={this.toggle}>
-          {this.props.detail.id !== "" ? `Ubah Pengguna` : `Tambah Pengguna`}
-        </ModalHeader>
+        <Modal.Header>
+            <Modal.Title>{this.props.detail.id !== "" ? `Ubah Pengguna` : `Tambah Pengguna`}</Modal.Title>
+        </Modal.Header>
         {this.props.isLoadingPost ? <Preloader /> : null}
 
-        <ModalBody>
+        <Modal.Body>
           <div className="form-group">
             <label>Nama</label>
             <input
@@ -235,7 +245,7 @@ class FormUserList extends Component {
               })}
             />
           </div>
-        </ModalBody>
+        </Modal.Body>
         <ModalFooter>
           <div className="form-group" style={{ textAlign: "right" }}>
             <button
@@ -267,7 +277,7 @@ const mapStateToProps = (state) => {
     type: state.modalTypeReducer,
     isLoadingPost: state.userListReducer.isLoadingPost,
     isError: state.userListReducer.isError,
-    dataLevel: state.userLevelReducer.data,
+    dataLevel: state.userLevelReducer,
   };
 };
 

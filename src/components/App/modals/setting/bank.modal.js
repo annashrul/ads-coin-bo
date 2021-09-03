@@ -10,6 +10,7 @@ import {
   putBankList,
 } from "../../../../redux/actions/setting/bank.action";
 import Preloader from "../../../../Preloader";
+import { Modal } from 'rsuite';
 
 class FormUserList extends Component {
   constructor(props) {
@@ -126,7 +127,7 @@ class FormUserList extends Component {
   }
 
   toggle(e) {
-    e.preventDefault();
+    // e.preventDefault();
     const bool = !this.props.isOpen;
     this.props.dispatch(ModalToggle(bool));
   }
@@ -134,14 +135,28 @@ class FormUserList extends Component {
   render() {
     return (
       <WrapperModal
-        isOpen={this.props.isOpen && this.props.type === "formBankPerusahaan"}
+        // isOpen={this.props.isOpen && this.props.type === "formBankPerusahaan"}
+        
+        backdropClassName="rs-modal-backdrop"
         size="md"
+        overflow={false}
+        autoFocus={true}
+        backdrop={true}
+        // full
+        show={this.props.isOpen && this.props.type === "formBankPerusahaan"}
+        onHide={() => this.toggle()}
+        onEnter={() => {
+        }}
       >
-        <ModalHeader toggle={this.toggle}>
+        {/* <ModalHeader toggle={this.toggle}>
           {this.state.id !== "" ? `Ubah Bank` : `Tambah Bank`}
-        </ModalHeader>
+        </ModalHeader> */}
+        
+        <Modal.Header>
+            <Modal.Title>{this.state.id !== "" ? `Ubah Bank` : `Tambah Bank`}</Modal.Title>
+        </Modal.Header>
         {this.props.isLoadingPost ? <Preloader /> : null}
-        <ModalBody>
+        <Modal.Body>
           <div className="form-group">
             <label>Bank</label>
             <Select
@@ -173,7 +188,7 @@ class FormUserList extends Component {
               onChange={this.handleChange}
             />
           </div>
-        </ModalBody>
+        </Modal.Body>
         <ModalFooter>
           <div className="form-group" style={{ textAlign: "right" }}>
             <button

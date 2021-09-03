@@ -71,14 +71,14 @@ class DaftarPaket extends Component {
     if (par !== "") {
       this.setState({
         detail: {
-          id: this.props.data.data[par].id,
-          title: this.props.data.data[par].title,
-          price: this.props.data.data[par].price,
-          pin_required: this.props.data.data[par].pin_required,
-          caption: this.props.data.data[par].caption,
-          category: this.props.data.data[par].category,
-          id_category: this.props.data.data[par].id_category,
-          gambar: this.props.data.data[par].gambar,
+          id: this.props.res.data[par].id,
+          title: this.props.res.data[par].title,
+          price: this.props.res.data[par].price,
+          pin_required: this.props.res.data[par].pin_required,
+          caption: this.props.res.data[par].caption,
+          category: this.props.res.data[par].category,
+          id_category: this.props.res.data[par].id_category,
+          gambar: this.props.res.data[par].gambar,
         },
       });
     } else {
@@ -112,7 +112,8 @@ class DaftarPaket extends Component {
   }
 
   render() {
-    const { total, per_page, current_page, data } = this.props.data;
+    const { data } = this.props.res;
+    const { total, per_page, current_page } = this.props.res.meta;
 
     return (
       <Layout page={"Daftar Paket"}>
@@ -149,23 +150,23 @@ class DaftarPaket extends Component {
               >
                 <i className="fa fa-search" />
               </button>
-              <button
+              {/* <button
                 style={{ marginTop: "27px", marginLeft: "5px" }}
                 type="button"
                 className="btn btn-primary"
                 onClick={(e) => this.handleModal(e, "")}
               >
                 <i className="fa fa-plus" />
-              </button>
+              </button> */}
             </div>
           </div>
           <br />
-          <div className="col-md-12">
-            <main>
               {typeof data === "object" ? (
                 data.length > 0 ? (
                   data.map((v, i) => {
                     return (
+                  <div className="col-md-4">
+                    <main>
                       <article key={i}>
                         <div className="box-margin">
                           <div
@@ -178,10 +179,10 @@ class DaftarPaket extends Component {
                           >
                             <div className="ribbon-wrapper ">
                               <div className="ribbon ribbon-bookmark ribbon-success">
-                                {v.category}
+                                {v.seller}
                               </div>
                               <img
-                                src={`${v.gambar}`}
+                                src={`${v.image}`}
                                 style={{ width: "100%" }}
                                 alt="member"
                               />
@@ -195,39 +196,39 @@ class DaftarPaket extends Component {
                                   <p className="text-muted">
                                     {myDate(v.created_at)}
                                   </p>
-                                  <h4 className="text-white">{v.title}</h4>
+                                  <h4 className="text-dark">{v.title}</h4>
                                   <table className="table">
                                     <thead>
                                       <tr>
                                         <th
                                           style={{ padding: "0" }}
-                                          className="text-white"
+                                          className="text-dark"
                                         >
-                                          Tiket yang dibutuhkan
+                                          Rating
                                         </th>
                                         <th
                                           style={{ padding: "0" }}
-                                          className="text-white"
+                                          className="text-dark"
                                         >
                                           :
                                         </th>
                                         <th
                                           style={{ padding: "0" }}
-                                          className="text-white"
+                                          className="text-dark"
                                         >
-                                          {v.pin_required} Tiket
+                                          {v.rating} Stars
                                         </th>
                                       </tr>
                                       <tr>
                                         <th
                                           style={{ padding: "0" }}
-                                          className="text-white"
+                                          className="text-dark"
                                         >
-                                          Poin
+                                          Coin
                                         </th>
                                         <th
                                           style={{ padding: "0" }}
-                                          className="text-white"
+                                          className="text-dark"
                                         >
                                           :
                                         </th>
@@ -241,7 +242,7 @@ class DaftarPaket extends Component {
                                     </thead>
                                   </table>
                                   <p className="text-muted">
-                                    {rmHtml(v.caption)}
+                                    Seller Bio : {(v.seller_bio)}
                                   </p>
                                 </div>
                                 <div className="col-md-12">
@@ -257,13 +258,13 @@ class DaftarPaket extends Component {
                                         Pilihan
                                       </DropdownToggle>
                                       <DropdownMenu>
-                                        <DropdownItem
+                                        {/* <DropdownItem
                                           onClick={(e) =>
                                             this.handleModal(e, i)
                                           }
                                         >
                                           Ubah
-                                        </DropdownItem>
+                                        </DropdownItem> */}
                                         <DropdownItem
                                           onClick={(e) =>
                                             this.handleDelete(e, v.id)
@@ -280,6 +281,8 @@ class DaftarPaket extends Component {
                           </div>
                         </div>
                       </article>
+                    </main>
+                  </div>
                     );
                   })
                 ) : (
@@ -292,8 +295,6 @@ class DaftarPaket extends Component {
                   <img alt='{"-"}' src={`${NOTIF_ALERT.NO_DATA}`} />
                 </div>
               )}
-            </main>
-          </div>
         </div>
         <div
           style={{ marginTop: "20px", marginBottom: "20px", float: "right" }}
@@ -317,6 +318,7 @@ const mapStateToProps = (state) => {
     isLoading: state.paketReducer.isLoading,
     isOpen: state.modalReducer,
     data: state.paketReducer.data,
+    res: state.paketReducer,
   };
 };
 

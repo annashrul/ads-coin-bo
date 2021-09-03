@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 
-import {Modal} from 'reactstrap'
+import {Modal} from 'rsuite'
 
 class WrapperModal extends Component{
     render() {

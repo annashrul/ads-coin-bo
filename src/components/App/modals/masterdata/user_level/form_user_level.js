@@ -10,7 +10,7 @@ import {
   putUserLevel,
 } from "../../../../../redux/actions/masterdata/user_level.action";
 import Preloader from "../../../../../Preloader";
-
+import { Modal } from 'rsuite';
 class FormUserLevel extends Component {
   //MENU ACCESS MASTERDATA = 0-9
   constructor(props) {
@@ -29,15 +29,6 @@ class FormUserLevel extends Component {
           isToggle: false,
           sub: undefined,
           icons: "fa fa-user-o",
-        },
-        {
-          id: 1,
-          label: "pin",
-          path: "/pin",
-          isChecked: false,
-          isToggle: false,
-          sub: undefined,
-          icons: "fa fa-vcard",
         },
         {
           id: 2,
@@ -65,7 +56,7 @@ class FormUserLevel extends Component {
         },
         {
           id: 100,
-          label: "paket",
+          label: "produk",
           path: "",
           isChecked: false,
           isToggle: false,
@@ -73,16 +64,16 @@ class FormUserLevel extends Component {
           sub: [
             {
               id: 101,
-              label: "daftar paket",
-              path: "/paket",
-              parent: "paket",
+              label: "daftar produk",
+              path: "/produk",
+              parent: "produk",
               isChecked: false,
             },
             {
               id: 102,
-              label: "kategori paket",
-              path: "/paket/kategori",
-              parent: "paket",
+              label: "kategori produk",
+              path: "/produk/kategori",
+              parent: "produk",
               isChecked: false,
             },
           ],
@@ -113,31 +104,6 @@ class FormUserLevel extends Component {
           ],
         },
         {
-          id: 201,
-          label: "berita",
-          path: "",
-          isChecked: false,
-          isToggle: false,
-          icons: "fa fa-newspaper-o",
-          sub: [
-            {
-              id: 202,
-              label: "daftar Berita",
-              path: "/berita",
-              parent: "berita",
-              isChecked: false,
-            },
-            {
-              id: 203,
-              label: "Kategori Berita",
-              path: "/berita/kategori",
-              parent: "berita",
-              isChecked: false,
-            },
-          ],
-        },
-
-        {
           id: 5,
           label: "laporan",
           path: "",
@@ -161,20 +127,29 @@ class FormUserLevel extends Component {
               sub: [
                 {
                   id: 8,
-                  label: "paket",
-                  path: "/laporan/paket",
+                  label: "penjualan produk",
+                  path: "/laporan/penjualan_produk",
                   parent: "penjualan",
                   isChecked: false,
                   sub: undefined,
-                },
+                }
+              ],
+            },
+            {
+              id: 13,
+              label: "pembelian",
+              path: "",
+              parent: "laporan",
+              isChecked: false,
+              sub: [
                 {
-                  id: 9,
-                  label: "tiket",
-                  path: "/laporan/tiket",
+                  id: 14,
+                  label: "pembelian produk",
+                  path: "/laporan/pembelian_produk",
                   parent: "penjualan",
                   isChecked: false,
                   sub: undefined,
-                },
+                }
               ],
             },
           ],
@@ -223,7 +198,7 @@ class FormUserLevel extends Component {
     this.getProps(this.props);
   }
   toggle(e) {
-    e.preventDefault();
+    // e.preventDefault();
     const bool = !this.props.isOpen;
     this.props.dispatch(ModalToggle(bool));
   }
@@ -281,14 +256,27 @@ class FormUserLevel extends Component {
     const { menu } = this.state;
     return (
       <WrapperModal
-        isOpen={this.props.isOpen && this.props.type === "formUserLevel"}
+        // isOpen={this.props.isOpen && this.props.type === "formUserLevel"}
+        
+        backdropClassName="rs-modal-backdrop"
         size="lg"
+        overflow={false}
+        autoFocus={true}
+        backdrop={true}
+        // full
+        show={this.props.isOpen && this.props.type === "formUserLevel"}
+        onHide={() => this.toggle()}
+        onEnter={() => {
+        }}
       >
-        <ModalHeader toggle={this.toggle}>
+        {/* <ModalHeader toggle={this.toggle}>
           {this.props.detail.id === "" ? "Tambah" : "Ubah"} Akses Pengguna
-        </ModalHeader>
+        </ModalHeader> */}
+        <Modal.Header>
+            <Modal.Title>{this.props.detail.id === "" ? "Tambah" : "Ubah"} Akses Pengguna</Modal.Title>
+        </Modal.Header>
         {this.props.isLoadingPost ? <Preloader /> : null}
-        <ModalBody>
+        <Modal.Body>
           <div className="row">
             <div className="col-12">
               <div className="form-group">
@@ -308,7 +296,7 @@ class FormUserLevel extends Component {
                 <div style={{ zoom: "80%" }} className="col-md-12" key={key}>
                   <div className="form-group">
                     <label htmlFor="">
-                      <b style={{ color: "white", letterSpacing: "2px" }}>
+                      <b style={{ color: "#D4AF37", letterSpacing: "2px" }}>
                         {val.label.replace("_", " ").toUpperCase()}
                       </b>
                     </label>
@@ -323,7 +311,7 @@ class FormUserLevel extends Component {
                 <div style={{ zoom: "80%" }} className="col-md-12" key={key}>
                   <div className="form-group">
                     <label htmlFor="">
-                      <b style={{ color: "white", letterSpacing: "2px" }}>
+                      <b style={{ color: "#D4AF37", letterSpacing: "2px" }}>
                         {val.label.replace("_", " ").toUpperCase()}
                       </b>
                     </label>
@@ -403,7 +391,7 @@ class FormUserLevel extends Component {
               );
             })}
           </div>
-        </ModalBody>
+        </Modal.Body>
         <ModalFooter>
           <div className="form-group" style={{ textAlign: "right" }}>
             <button

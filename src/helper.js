@@ -83,7 +83,7 @@ export const toCurrency = (angka) => {
   }
 
   rupiah = split[1] !== undefined ? rupiah + "," + split[1] : rupiah;
-  return rupiah + " Poin";
+  return rupiah + " Coin";
 };
 export const stringifyFormData = (fd) => {
   const data = {};

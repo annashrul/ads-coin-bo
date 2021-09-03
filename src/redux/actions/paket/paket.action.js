@@ -52,7 +52,7 @@ export function setDataFailed(data = []) {
 
 export const getPaket = (where) => {
   return (dispatch) => {
-    let url = "paket";
+    let url = "product";
     if (where) {
       url += `?${where}`;
     }
@@ -66,7 +66,7 @@ export const postPaket = (data) => {
   return (dispatch) => {
     dispatch(setLoadingPost(true));
     dispatch(setIsError(false));
-    const url = HEADERS.URL + `paket`;
+    const url = HEADERS.URL + `product`;
     axios
       .post(url, data)
       .then(function (response) {
@@ -119,7 +119,7 @@ export const putPaket = (id, data) => {
   return (dispatch) => {
     dispatch(setLoadingPost(true));
     dispatch(setIsError(false));
-    const url = HEADERS.URL + `paket/${id}`;
+    const url = HEADERS.URL + `product/${id}`;
     axios
       .put(url, data)
       .then(function (response) {
@@ -179,7 +179,7 @@ export const deletePaket = (id) => async (dispatch) => {
   });
 
   axios
-    .delete(HEADERS.URL + `paket/${id}`)
+    .delete(HEADERS.URL + `product/${id}`)
     .then((response) => {
       setTimeout(function () {
         Swal.close();

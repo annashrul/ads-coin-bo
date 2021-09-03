@@ -15,7 +15,7 @@ import Deposit from "../App/ewallet/indexDeposit";
 import Penarikan from "../App/ewallet/indexPenarikan";
 import LaporanTransaksiMember from "../App/laporan/transaksi_member";
 import LaporanPaket from "../App/laporan/penjualan/paket";
-import LaporanTiket from "../App/laporan/penjualan/tiket";
+import LaporanProdukPembelian from "../App/laporan/pembelian";
 import Bank from "../App/setting/bank";
 import IndexSetting from "../App/setting/umum";
 
@@ -28,8 +28,8 @@ const Routes = (
       <PrivateRoute path="/" exact strict component={Dashboard} />
       {/* DASHBOARD SECTION END */}
       {/* PAKET SECTION START */}
-      <PrivateRoute path="/pin" exact strict component={Pin} />
-      <PrivateRoute path="/paket" exact strict component={DaftarPaket} />
+      {/* <PrivateRoute path="/pin" exact strict component={Pin} /> */}
+      <PrivateRoute path="/produk" exact strict component={DaftarPaket} />
       <PrivateRoute
         path="/:kategori/kategori"
         exact
@@ -43,7 +43,7 @@ const Routes = (
       {/* MASTERDATA SECTION END */}
       {/* MANAGEMENT CONTENT SECTION START */}
       <PrivateRoute path="/member" exact strict component={Member} />
-      <PrivateRoute path="/berita" exact strict component={Berita} />
+      {/* <PrivateRoute path="/berita" exact strict component={Berita} /> */}
       {/* MANAGEMENT CONTENT SECTION END */}
       {/* LAPORAN SECTION START */}
       <PrivateRoute
@@ -53,16 +53,16 @@ const Routes = (
         component={LaporanTransaksiMember}
       />
       <PrivateRoute
-        path="/laporan/paket"
+        path="/laporan/penjualan_produk"
         exact
         strict
         component={LaporanPaket}
       />
       <PrivateRoute
-        path="/laporan/tiket"
+        path="/laporan/pembelian_produk"
         exact
         strict
-        component={LaporanTiket}
+        component={LaporanProdukPembelian}
       />
       {/* E-WALLET SECTION START */}
       <PrivateRoute path="/ewallet/deposit" exact strict component={Deposit} />

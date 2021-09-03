@@ -156,8 +156,8 @@ class IndexDeposit extends Component {
     e.preventDefault();
     Swal.fire({
       title: "Bukti Transfer",
-      text: this.props.data.data[param].name,
-      imageUrl: this.props.data.data[param].payment_slip,
+      text: this.props.res.data[param].fullname,
+      imageUrl: this.props.res.data[param].payment_slip,
       imageAlt: "gambar tidak tersedia",
       showClass: { popup: "animate__animated animate__fadeInDown" },
       hideClass: { popup: "animate__animated animate__fadeOutUp" },
@@ -200,7 +200,8 @@ class IndexDeposit extends Component {
     };
     let totAmountPoint = 0;
     let totAmountRp = 0;
-    const { total, per_page, last_page, current_page, data } = this.props.data;
+    const { data } = this.props.res;
+    const { total, per_page, last_page, current_page } = this.props.res.meta;
     console.log("config wallet", this.props.configWallet);
     return (
       <Layout page={"Laporan Deposit"}>
@@ -319,7 +320,7 @@ class IndexDeposit extends Component {
                 </th>
               </tr>
               <tr>
-                <th style={columnStyle}>POIN</th>
+                <th style={columnStyle}>COIN</th>
                 <th style={columnStyle}>RUPIAH</th>
               </tr>
             </thead>
@@ -429,6 +430,7 @@ const mapStateToProps = (state) => {
     isLoading: state.depositReducer.isLoading,
     isOpen: state.modalReducer,
     data: state.depositReducer.data,
+    res: state.depositReducer,
     isLoadingExcel: state.depositReducer.isLoadingExcel,
     dataExcel: state.depositReducer.excel,
     configWallet: state.configWalletReducer.data,

@@ -5,7 +5,7 @@ const setAuthToken = token =>{
     if(token){
         // axios.AxiosRequestConfig.method.
         // Apply to every request
-        axios.defaults.headers.common['Authorization'] = token;
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         // axios.defaults.headers.common['identities'] = `${HEADERS.USERNAME}`;
         // axios.defaults.headers.common['sercet-id'] = `${HEADERS.PASSWORD}`;
         // axios.defaults.headers.common['connectifity-agent'] = `backoffice`;

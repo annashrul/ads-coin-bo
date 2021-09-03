@@ -97,8 +97,8 @@ class DetailInvesment extends Component {
           [
             "KODE TRANSAKSI",
             "NAMA",
-            "TRX MASUK ( POIN )",
-            "TRX KELUAR ( POIN )",
+            "TRX MASUK ( COIN )",
+            "TRX KELUAR ( COIN )",
             "CATATAN",
             "TANGGAL",
           ],
@@ -162,7 +162,7 @@ class DetailInvesment extends Component {
             &nbsp;
             {summary !== undefined
               ? toCurrency(`${summary.saldo_awal}`)
-              : 0 + " Poin"}
+              : 0 + " Coin"}
           </span>
         </ModalHeader>
         {this.props.isLoading || this.props.isLoadingExcel ? (

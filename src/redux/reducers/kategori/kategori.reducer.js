@@ -10,7 +10,8 @@ const initialState = {
     msg: "",
     data: [],
     edit:[],
-    detail:[]
+    detail:[],
+    meta:{}
 }
 
 export const kategoriReducer = (state = initialState, action) => {
@@ -20,6 +21,7 @@ export const kategoriReducer = (state = initialState, action) => {
                 status: action.data.status,
                 msg: action.data.msg,
                 data: action.data.result,
+                meta: action.data.meta
             });
         case KATEGORI.EDIT:
             return Object.assign({}, state, {

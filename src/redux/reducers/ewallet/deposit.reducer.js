@@ -14,7 +14,8 @@ const initialState = {
     data: [],
     edit:[],
     detail:[],
-    excel:[]
+    excel:[],
+    meta:{}
 }
 
 export const depositReducer = (state = initialState, action) => {
@@ -24,6 +25,7 @@ export const depositReducer = (state = initialState, action) => {
                 status: action.data.status,
                 msg: action.data.msg,
                 data: action.data.result,
+                meta: action.data.meta,
             });
         case DEPOSIT.EXCEL:
             return Object.assign({}, state, {

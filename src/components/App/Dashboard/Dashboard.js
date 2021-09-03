@@ -12,6 +12,9 @@ import Clock from "../../common/clock";
 import Default from "assets/default.png";
 import { toCurrency } from "../../../helper";
 import { FetchBo } from "../../../redux/actions/dashboard/dashboard.action";
+import { Nav, Rate } from "rsuite";
+import { getDataReportPaket } from "../../../redux/actions/laporan/report_paket.action";
+import { getMemberTopKontributor } from "../../../redux/actions/masterdata/member.action";
 
 // const socket = socketIOClient(HEADERS.URL);
 //
@@ -22,52 +25,19 @@ class Dashboard extends Component {
       startDate: moment(new Date()).format("yyyy-MM-DD"),
       endDate: moment(new Date()).format("yyyy-MM-DD"),
       saldo_member: 0,
-      total_penarikan: 0,
+      total_komisi_perusahaan: 0,
       slot_aktif: 0,
-      total_modal: 0,
-      total_member: 0,
+      total_omset_penjualan: 0,
+      total_member_aktif: 0,
+      selectedIndex: 0,
       member_aktif: [],
       member_omset: {},
-      // penjualan_paket:[],
-      // saldo_member:0,
-      // total_penarikan:0,
-      // total_member:0,
-      // total_penjualan:0,
+      recent_order: [],
       get_sponsor_terbaik: [],
       get_member_baru: [],
       location_data: [],
       location: "-",
-      // penjualan_pin:{
-      //     series: [{
-      //         name: 'series1',
-      //         data: [31, 40]
-      //     }, {
-      //         name: 'series2',
-      //         data: [11, 32]
-      //     }],
-      //     options: {
-      //         chart: {
-      //             height: 350,
-      //             type: 'area'
-      //         },
-      //         dataLabels: {
-      //             enabled: false
-      //         },
-      //         stroke: {
-      //             curve: 'smooth'
-      //         },
-      //         xaxis: {
-      //             type: 'date',
-      //             categories: ["2018-09-19", "2018-09-19"]
-      //         },
-      //         tooltip: {
-      //             x: {
-      //                 format: 'dd/MM/yy'
-      //             },
-      //         },
-      //     },
-      // },
-      penjualan_paket: {
+      chart_column_omset: {
         series: [
           {
             name: "series1",
@@ -100,57 +70,39 @@ class Dashboard extends Component {
           },
         },
       },
-      // pie_membership: {
-      //     series: [44, 55],
-      //     options: {
-      //         labels: ['Team A', 'Team B'],
-      //         responsive: [{
-      //             breakpoint: 480,
-      //             options: {
-      //                 chart: {
-      //                     width: 200
-      //                 },
-      //                 legend: {
-      //                     position: 'bottom'
-      //                 }
-      //             }
-      //         }]
-      //     },
-      // },
-      // pie_karir: {
-      //     series: [44, 55],
-      //     options: {
-      //         labels: ['Team A', 'Team B'],
-      //         responsive: [{
-      //             breakpoint: 480,
-      //             options: {
-      //                 chart: {
-      //                     width: 200
-      //                 },
-      //                 legend: {
-      //                     position: 'bottom'
-      //                 }
-      //             }
-      //         }]
-      //     },
-      // },
-      // pie_signup: {
-      //     series: [44, 55],
-      //     options: {
-      //         labels: ['Team A', 'Team B'],
-      //         responsive: [{
-      //             breakpoint: 480,
-      //             options: {
-      //                 chart: {
-      //                     width: 200
-      //                 },
-      //                 legend: {
-      //                     position: 'bottom'
-      //                 }
-      //             }
-      //         }]
-      //     },
-      // }
+      chart_pie_penjualan: {
+        series: [
+          {
+            name: "series1",
+            data: [31, 40],
+          },
+          {
+            name: "series2",
+            data: [11, 32],
+          },
+        ],
+        options: {
+          chart: {
+            height: 350,
+            type: "area",
+          },
+          dataLabels: {
+            enabled: false,
+          },
+          stroke: {
+            curve: "smooth",
+          },
+          xaxis: {
+            type: "date",
+            categories: ["2018-09-19", "2018-09-19"],
+          },
+          tooltip: {
+            x: {
+              format: "dd/MM/yy",
+            },
+          },
+        },
+      },
     };
     this.handleEvent = this.handleEvent.bind(this);
 
@@ -161,13 +113,13 @@ class Dashboard extends Component {
     // socket.on("set_dashboard_bo", (data) => {
     //     this.setState({
     //         penjualan_pin:data.penjualan_pin,
-    //         penjualan_paket:data.penjualan_paket,
+    //         chart_column_omset:data.chart_column_omset,
     //         pie_membership:data.pie_membership,
     //         pie_karir:data.pie_karir,
     //         pie_signup:data.pie_signup,
     //         saldo_member: data.saldo_member,
-    //         total_penarikan: data.total_penarikan,
-    //         total_member: data.total_member,
+    //         total_komisi_perusahaan: data.total_komisi_perusahaan,
+    //         total_member_aktif: data.total_member_aktif,
     //         total_penjualan: data.total_penjualan,
     //         get_sponsor_terbaik: data.get_sponsor_terbaik,
     //         get_member_baru: data.get_member_baru,
@@ -199,16 +151,18 @@ class Dashboard extends Component {
         });
       }
     }
-    if (this.props.resBo.saldo_member !== undefined) {
+    if (this.props.resBo.widget !== undefined) {
       this.setState({
-        saldo_member: this.props.resBo.saldo_member,
-        total_penarikan: this.props.resBo.total_penarikan,
+        saldo_member: this.props.resBo.widget.total_saldo_member,
+        total_komisi_perusahaan: this.props.resBo.widget.total_komisi_perusahaan,
+        total_omset_penjualan: this.props.resBo.widget.total_omset_penjualan,
+        total_member_aktif: this.props.resBo.widget.total_member_aktif,
         slot_aktif: this.props.resBo.slot_aktif,
-        total_modal: this.props.resBo.total_modal,
-        total_member: this.props.resBo.total_member,
         member_aktif: this.props.resBo.member_aktif,
         member_omset: this.props.resBo.member_omset,
-        penjualan_paket: this.props.resBo.penjualan_paket,
+        chart_column_omset: this.props.resBo.chart_column_omset,
+        chart_pie_penjualan: this.props.resBo.chart_pie_penjualan,
+        recent_order: this.props.resBo.recent_order,
       });
       console.log("object", this.props.resBo);
     }
@@ -224,6 +178,7 @@ class Dashboard extends Component {
 
   componentWillMount() {
     this.props.dispatch(FetchBo());
+    this.props.dispatch(getMemberTopKontributor(1,`&type=${this.state.selectedIndex===0?'penjualan':'rating'}`));
     this.refreshData();
     // this.props.dispatch(CheckDaily());
   }
@@ -253,7 +208,10 @@ class Dashboard extends Component {
     );
     // this.refreshData();
   };
-
+  handleSelect = (index) => {
+    this.props.dispatch(getMemberTopKontributor(1,`&type=${index===0?'penjualan':'rating'}`));
+    this.setState({ selectedIndex: index }, () => {});
+  };
   render() {
     return (
       <Layout page="Dashboard">
@@ -294,25 +252,25 @@ class Dashboard extends Component {
               <Cards
                 classCols="col-md-6 col-xl-3 box-margin"
                 title="TOTAL SALDO MEMBER"
-                data={toCurrency(this.state.saldo_member)}
+                data={toCurrency(parseFloat(this.state.saldo_member).toFixed(2))}
                 icon="fa fa-money"
               />
               <Cards
                 classCols="col-md-6 col-xl-3 box-margin"
-                title="TOTAL MODAL"
-                data={toCurrency(this.state.total_modal)}
+                title="TOTAL OMSET PENJUALAN"
+                data={toCurrency(parseFloat(this.state.total_omset_penjualan).toFixed(2))}
                 icon="fa fa-shopping-cart "
               />
               <Cards
                 classCols="col-md-6 col-xl-3 box-margin"
-                title="MEMBER AKTIF"
-                data={this.state.total_member}
+                title="TOTAL MEMBER AKTIF"
+                data={this.state.total_member_aktif}
                 icon="fa fa-users "
               />
               <Cards
                 classCols="col-md-6 col-xl-3 box-margin"
-                title="SLOT AKTIF"
-                data={this.state.slot_aktif}
+                title="TOTAL KOMISI PERUSAHAAN"
+                data={toCurrency(parseFloat(this.state.total_komisi_perusahaan).toFixed(2))}
                 icon="fa fa-list "
               />
             </div>
@@ -320,191 +278,100 @@ class Dashboard extends Component {
           </div>
         </div>
         <div className="row">
-          {/* <div className="col-md-7 box-margin">
-                        <Chart
-                        data={this.state.penjualan_pin}
-                        title="Penjualan PIN"
-                        type="area"
-                        height={300} />
-                    </div> */}
-          {/* <div className="col-md-5 col-xl-5 box-margin">
-                        <Chart
-                        style={{marginTop:'30px'}}
-                        data={this.state.pie_membership}
-                        title="Membership Status"
-                        type="pie"
-                        height={300} />
-                    </div> */}
-        </div>
-        <div className="row">
-          {/* <div className="col-md-5 col-xl-5 box-margin">
-                        <Chart
-                        style={{marginTop:'30px'}}
-                        data={this.state.pie_karir}
-                        title="Jenjang Karir Member"
-                        type="pie"
-                        height={300} />
-                    </div> */}
-          <div className="col-md-12 box-margin">
+          <div className="col-md-8 box-margin">
             <Chart
-              data={this.state.penjualan_paket}
-              title="Penjualan Paket"
-              type="area"
+              data={this.state.chart_column_omset}
+              title="OMSET"
+              type="bar"
+              height={300}
+            />
+          </div>
+          <div className="col-md-4 box-margin">
+            <Chart
+              data={this.state.chart_pie_penjualan}
+              title="Penjualan"
+              type="pie"
               height={300}
             />
           </div>
         </div>
         <div className="row">
-          <div className="col-md-6 col-xl-6 box-margin">
+          <div className="col-md-5 box-margin">
             <div className="card">
               <div className="card-header bg-transparent user-area d-flex align-items-center justify-content-between">
-                <h5 className="card-title mb-0">
-                  Member Dengan Slot Terbanyak
-                </h5>
+                  <h4 className="card-title mt-3">KONTRIBUTOR TERATAS</h4>
+                  {/* <button type="button" onClick={(e)=>this.HandleStock(e)} className="btn btn-primary"><i className="fa fa-refresh"></i></button> */}
+                  
+                  <Nav style={{ backgroundColor: "transparent" }} appearance="subtle" activeKey={this.state.selectedIndex}>
+                    {/* Filter : &nbsp; */}
+                    <Nav.Item active={this.state.selectedIndex===0} eventKey={0} onSelect={() => this.handleSelect(0)}>Penjualan</Nav.Item>
+                    <Nav.Item active={this.state.selectedIndex===1} eventKey={1} onSelect={() => this.handleSelect(1)}>Rating</Nav.Item>
+                  </Nav>
               </div>
-              <div
-                className="card-body"
-                style={{ overflowX: "auto", height: "300px" }}
-              >
-                <ul className="total-earnings-list">
-                  {this.state.member_aktif.length > 0
-                    ? this.state.member_aktif.map((item, i) => (
-                        <li key={i}>
-                          <div className="author-info d-flex align-items-center">
-                            <div className="author-img mr-3">
-                              <img
-                                src={item.foto}
-                                onError={(e) => {
-                                  e.target.onerror = null;
-                                  e.target.src = `${Default}`;
-                                }}
-                                alt={item.fullname}
-                              />
-                            </div>
-                            <div className="author-text">
-                              <h6 className="mb-0 text-light">
-                                {item.fullname}
-                              </h6>
-                              <p
-                                className="mb-0 text-muted"
-                                style={{ fontSize: ".7em" }}
-                              >
-                                Slot Aktif: {item.slot_active}
-                              </p>
-                            </div>
-                          </div>
-                          {/*<a href={"#"} className="text-light badge badge-primary">{item.membership}</a>*/}
-                        </li>
-                      ))
-                    : ""}
-                </ul>
+              <div className="card-body" style={{height: '355px', overflowY: 'auto'}}>
+                {
+                  this.props.resTop.length!==0?
+                  (
+                      this.props.resTop.map((i,_inx)=>{
+                          return(
+                              <div className="widget-download-file d-flex align-items-center justify-content-between mb-4">
+                                  <div className="d-flex align-items-center mr-3">
+                                      <div className="download-file-icon mr-3">
+                                          <img src={i.foto} alt="img"></img>
+                                      </div>
+                                      <div className="user-text-table">
+                                      <h6 className="d-inline-block font-15 mb-0">{i.fullname} - {i.referral}</h6>
+                                      <p className="mb-0">Penjualan : {i.copy_terjual} copy</p>
+                                      </div>
+                                  </div>
+                                  <Rate defaultValue={i.rating} allowHalf readOnly />
+                              </div>
+                          )
+                      })
+                  )
+                  :
+                  (
+                      <div style={{textAlign:'center',fontSize:"11px",fontStyle:"italic"}}>Tidak tersedia.</div>
+                  )
+                }
               </div>
             </div>
           </div>
-          <div className="col-md-6 col-xl-6 box-margin">
+          <div className="col-md-7 box-margin">
             <div className="card">
               <div className="card-header bg-transparent user-area d-flex align-items-center justify-content-between">
-                <h5 className="card-title mb-0">
-                  Member Dengan Omset Terbanyak
-                </h5>
+                  <h4 className="card-title mt-3">10 ORDERAN TERAKHIR</h4>
+                  {/* <button type="button" onClick={(e)=>this.HandleStock(e)} className="btn btn-primary"><i className="fa fa-refresh"></i></button> */}
               </div>
-              <div
-                className="card-body"
-                style={{ overflowX: "auto", height: "300px" }}
-              >
-                <ul className="total-earnings-list">
-                  {this.state.member_omset.length > 0
-                    ? this.state.member_omset.map((item, i) => (
-                        <li key={i}>
-                          <div className="author-info d-flex align-items-center">
-                            <div className="author-img mr-3">
-                              <img
-                                src={item.foto}
-                                onError={(e) => {
-                                  e.target.onerror = null;
-                                  e.target.src = `${Default}`;
-                                }}
-                                alt={item.fullname}
-                              />
-                            </div>
-                            <div className="author-text">
-                              <h6 className="mb-0 text-light">
-                                {item.fullname}
-                              </h6>
-                              <p
-                                className="mb-0 text-muted"
-                                style={{ fontSize: ".7em" }}
-                              >
-                                Downline Omset:{" "}
-                                {toCurrency(item.downline_omset)}
-                              </p>
-                            </div>
-                          </div>
-                          {/*<a href={"#"} className="text-light badge badge-primary">{item.membership}</a>*/}
-                        </li>
-                      ))
-                    : ""}
-                </ul>
+              <div className="card-body" style={{height: '355px', overflowY: 'auto'}}>
+                  {
+                      this.state.recent_order.length!==0?
+                      (
+                          this.state.recent_order.map((i,_inx)=>{
+                              return(
+                                  <div className="widget-download-file d-flex align-items-center justify-content-between mb-4">
+                                      <div className="d-flex align-items-center mr-3">
+                                          <div className="download-file-icon mr-3">
+                                              <img src={i.image_product} alt="img"></img>
+                                          </div>
+                                          <div className="user-text-table">
+                                          <h6 className="d-inline-block font-15 mb-0">{i.kd_trx} - {i.title}</h6>
+                                          <p className="mb-0">{i.fullname}</p>
+                                          </div>
+                                      </div>
+                                      <a href="about:blank" className={"download-link badge badge-primary badge-pill"} style={{padding:'8px'}}>{i.category}</a>
+                                  </div>
+                              )
+                          })
+                      )
+                      :
+                      (
+                          <div style={{textAlign:'center',fontSize:"11px",fontStyle:"italic"}}>Tidak tersedia.</div>
+                      )
+                  }
+                  
               </div>
             </div>
-          </div>
-          <div className="col-md-4 col-xl-4 box-margin d-none">
-            <div className="card">
-              <div className="card-header bg-transparent user-area d-flex align-items-center justify-content-between">
-                <h5 className="card-title mb-0">
-                  10 Sponsor Terbaik
-                </h5>
-              </div>
-              <div
-                className="card-body"
-                style={{ overflowX: "auto", height: "340px" }}
-              >
-                <ul className="total-earnings-list">
-                  {this.state.get_sponsor_terbaik.length > 0
-                    ? this.state.get_sponsor_terbaik.map((item, i) => (
-                        <li key={i}>
-                          <div className="author-info d-flex align-items-center">
-                            <div className="author-img mr-3">
-                              <img
-                                src={item.picture}
-                                onError={(e) => {
-                                  e.target.onerror = null;
-                                  e.target.src = `${Default}`;
-                                }}
-                                alt={item.title}
-                              />
-                            </div>
-                            <div className="author-text">
-                              <h6 className="mb-0">
-                                {item.full_name}{" "}
-                                <img
-                                  src={item.membership}
-                                  width={20}
-                                  alt={item.title}
-                                />
-                              </h6>
-                              <p className="mb-0">{item.jenjang_karir}</p>
-                            </div>
-                          </div>
-                          <p className="text-light badge badge-warning">
-                            {item.sponsor}
-                            <br />
-                            Sponsor
-                          </p>
-                        </li>
-                      ))
-                    : ""}
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-5 col-xl-5 box-margin">
-            {/* <Chart
-                        style={{marginTop:'30px'}}
-                        data={this.state.pie_signup}
-                        title="Platform Pendaftaran"
-                        type="pie"
-                        height={300} /> */}
           </div>
         </div>
       </Layout>
@@ -521,6 +388,9 @@ const mapStateToProps = (state) => {
     stock: state.dashboardReducer.data,
     resBo: state.dashboardReducer.data_bo,
     isLoading: state.dashboardReducer.isLoadingBo,
+    resTop: state.memberReducer.data_top_kontributor,
+    
+
     // skipped: state.transactionReducer.skipped,
     // isLoadingCheck: state.transactionReducer.isLoadingCheck,
   };

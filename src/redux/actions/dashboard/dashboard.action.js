@@ -114,7 +114,7 @@ export const FetchStock = () => {
 export const FetchBo = (where = '') => {
     return (dispatch) => {
         dispatch(setLoadingBo(true));
-        let url = 'site/backoffice';
+        let url = 'site/dashboard';
         if (where !== '') {
             url += `?${where}`;
         }

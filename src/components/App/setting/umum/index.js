@@ -4,7 +4,7 @@ import Layout from "components/Layout";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import moment from "moment";
 import General from "./general";
-import Alokasi from "./alokasi";
+import Fee from "./fee";
 import { fetchGeneral } from "../../../../redux/actions/setting/general.action";
 class IndexSetting extends Component {
   constructor(props) {
@@ -29,15 +29,15 @@ class IndexSetting extends Component {
           <div className="col-12 box-margin">
             <Tabs>
               <TabList style={{ margin: "0px" }}>
-                <Tab>Alokasi</Tab>
+                <Tab>Fee</Tab>
                 <Tab>General</Tab>
               </TabList>
 
               <TabPanel>
-                <Alokasi res_alokasi={this.props.resData} />
+                <Fee res_fee={this.props.resData} />
               </TabPanel>
               <TabPanel>
-                <General res_general={this.props.resData.general} />
+                <General res_general={this.props.resData} />
               </TabPanel>
             </Tabs>
           </div>

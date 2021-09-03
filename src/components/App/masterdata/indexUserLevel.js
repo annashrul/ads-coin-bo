@@ -102,7 +102,8 @@ class IndexUserLevel extends Component {
       textAlign: "center",
       whiteSpace: "nowrap",
     };
-    const { total, per_page, current_page, data } = this.props.data;
+    const { data } = this.props.data;
+    const { total, per_page, current_page } = this.props.data.meta;
 
     return (
       <Layout page={"Akses Pengguna"}>
@@ -231,7 +232,7 @@ const mapStateToProps = (state) => {
   return {
     isLoading: state.userLevelReducer.isLoading,
     isOpen: state.modalReducer,
-    data: state.userLevelReducer.data,
+    data: state.userLevelReducer,
   };
 };
 

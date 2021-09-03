@@ -29,7 +29,7 @@ export function setExcel(data = []) {
 
 export const getDataReportPaket = (where = "") => {
   return (dispatch) => {
-    let url = "transaction/report/paket";
+    let url = "transaction/report/penjualan";
     if (where !== "") url += `?${where}`;
     handleGet(url, (res) => {
       dispatch(setData(res));
@@ -39,7 +39,27 @@ export const getDataReportPaket = (where = "") => {
 
 export const getExcelReportPaket = (where = "") => {
   return (dispatch) => {
-    let url = "transaction/report/paket";
+    let url = "transaction/report/penjualan";
+    if (where !== "") url += `?${where}`;
+    handleGet(url, (res) => {
+      dispatch(setExcel(res));
+    });
+  };
+};
+
+export const getDataReportPembelian = (where = "") => {
+  return (dispatch) => {
+    let url = "transaction/report/pembelian";
+    if (where !== "") url += `?${where}`;
+    handleGet(url, (res) => {
+      dispatch(setData(res));
+    });
+  };
+};
+
+export const getExcelReportPembelian = (where = "") => {
+  return (dispatch) => {
+    let url = "transaction/report/pembelian";
     if (where !== "") url += `?${where}`;
     handleGet(url, (res) => {
       dispatch(setExcel(res));

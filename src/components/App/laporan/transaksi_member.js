@@ -161,10 +161,12 @@ class LaporanTransaksiMember extends Component {
       total,
       per_page,
       last_page,
-      current_page,
-      data,
-      summary,
-    } = this.props.data;
+      current_page
+    } = this.props.res.meta;
+    const {
+      data
+    } = this.props.res;
+    const summary = this.props.res.total;
     return (
       <Layout page={"Laporan Transaksi"}>
         <div className="row">
@@ -291,16 +293,16 @@ class LaporanTransaksiMember extends Component {
                         </td>
 
                         <td style={columnStyle}>{v.fullname}</td>
-                        <td className={"poin"} style={numStyle}>
+                        <td className={"coin"} style={numStyle}>
                           {toCurrency(`${parseFloat(v.saldo_awal).toFixed(2)}`)}
                         </td>
-                        <td className={"poin"} style={numStyle}>
+                        <td className={"coin"} style={numStyle}>
                           {toCurrency(`${parseFloat(v.trx_in).toFixed(2)}`)}
                         </td>
-                        <td className={"poin"} style={numStyle}>
+                        <td className={"coin"} style={numStyle}>
                           {toCurrency(`${parseFloat(v.trx_out).toFixed(2)}`)}
                         </td>
-                        <td className={"poin"} style={numStyle}>
+                        <td className={"coin"} style={numStyle}>
                           {toCurrency(`${parseFloat(v.saldo_akhir).toFixed(2)}`)}
                         </td>
                       </tr>
@@ -324,48 +326,48 @@ class LaporanTransaksiMember extends Component {
             <tfoot className="">
               <tr>
                 <th colSpan={3}>TOTAL PERHALAMAN</th>
-                <th className={"poin"} style={numStyle}>
+                <th className={"coin"} style={numStyle}>
                   {toCurrency(`${totSaldoAwal.toFixed(2)}`)}
                 </th>
-                <th className={"poin"} style={numStyle}>
+                <th className={"coin"} style={numStyle}>
                   {toCurrency(`${totTrxIn.toFixed(2)}`)}
                 </th>
-                <th className={"poin"} style={numStyle}>
+                <th className={"coin"} style={numStyle}>
                   {toCurrency(`${totTrxOut.toFixed(2)}`)}
                 </th>
-                <th className={"poin"} style={numStyle}>
+                <th className={"coin"} style={numStyle}>
                   {toCurrency(`${totSaldoAkhir.toFixed(2)}`)}
                 </th>
               </tr>
 
               <tr>
                 <th colSpan={3}>TOTAL KESELURUHAN</th>
-                <th className={"poin"} style={numStyle}>
+                <th className={"coin"} style={numStyle}>
                   {summary === undefined
-                    ? "0 Poin"
+                    ? "0 Coin"
                     : parseInt(summary.saldo_awal, 10) === 0
-                    ? "0 Poin"
+                    ? "0 Coin"
                     : toCurrency(`${parseFloat(summary.saldo_awal).toFixed(2)}`)}
                 </th>
-                <th className={"poin"} style={numStyle}>
+                <th className={"coin"} style={numStyle}>
                   {summary === undefined
-                    ? "0 Poin"
+                    ? "0 Coin"
                     : parseInt(summary.trx_in, 10) === 0
-                    ? "0 Poin"
+                    ? "0 Coin"
                     : toCurrency(`${parseFloat(summary.trx_in).toFixed(2)}`)}
                 </th>
-                <th className={"poin"} style={numStyle}>
+                <th className={"coin"} style={numStyle}>
                   {summary === undefined
-                    ? "0 Poin"
+                    ? "0 Coin"
                     : parseInt(summary.trx_out, 10) === 0
-                    ? "0 Poin"
+                    ? "0 Coin"
                     : toCurrency(`${parseFloat(summary.trx_out).toFixed(2)}`)}
                 </th>
-                <th className={"poin"} style={numStyle}>
+                <th className={"coin"} style={numStyle}>
                   {summary === undefined
-                    ? "0 Poin"
+                    ? "0 Coin"
                     : parseInt(summary.saldo_akhir, 10) === 0
-                    ? "0 Poin"
+                    ? "0 Coin"
                     : toCurrency(`${parseFloat(summary.saldo_akhir).toFixed(2)}`)}
                 </th>
               </tr>
@@ -395,6 +397,7 @@ const mapStateToProps = (state) => {
     isLoadingExcel: state.reportTransaksiMemberReducer.isLoadingExcel,
     isOpen: state.modalReducer,
     data: state.reportTransaksiMemberReducer.data,
+    res: state.reportTransaksiMemberReducer,
     dataExcel: state.reportTransaksiMemberReducer.excel,
     kategori: state.kategoriReducer.data,
   };

@@ -11,7 +11,8 @@ const initialState = {
     msg: "",
     data: [],
     edit:[],
-    detail:[]
+    detail:[],
+    meta:{},
 }
 
 export const userListReducer = (state = initialState, action) => {
@@ -21,6 +22,7 @@ export const userListReducer = (state = initialState, action) => {
                 status: action.data.status,
                 msg: action.data.msg,
                 data: action.data.result,
+                meta: action.data.meta,
             });
 
         case USER_LIST.DETAIL:

@@ -40,8 +40,8 @@ class Kategori extends Component {
     let newParam = "";
     let newParamType;
     let newPath = "";
-    if (this.props.location.pathname.split("/")[1] === "paket") {
-      newParam = "membership";
+    if (this.props.location.pathname.split("/")[1] === "produk") {
+      newParam = "product";
       newParamType = 0;
       newPath = "Paket";
       this.props.dispatch(fetchKategori(`${newParam}?page=1`));
@@ -97,8 +97,8 @@ class Kategori extends Component {
         detail: {
           paramType: this.state.paramType,
           param: this.state.param,
-          id: this.props.data.data[par].id,
-          title: this.props.data.data[par].title,
+          id: this.props.res.data[par].id,
+          title: this.props.res.data[par].title,
         },
       });
     } else {
@@ -139,7 +139,8 @@ class Kategori extends Component {
       textAlign: "center",
       whiteSpace: "nowrap",
     };
-    const { total, per_page, current_page, data } = this.props.data;
+    const { data } = this.props.res;
+    const { total, per_page, current_page } = this.props.res.meta;
 
     return (
       <Layout page={`Kategori ${this.state.path}`}>
@@ -275,6 +276,7 @@ const mapStateToProps = (state) => {
     isLoading: state.kategoriReducer.isLoading,
     isOpen: state.modalReducer,
     data: state.kategoriReducer.data,
+    res: state.kategoriReducer,
   };
 };
 

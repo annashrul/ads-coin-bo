@@ -68,6 +68,12 @@ export function setData(data = []) {
     data,
   };
 }
+export function setDataTopKontributor(data = []) {
+  return {
+    type: MEMBER.SUCCESS_TOP_KONTRIBUTOR,
+    data,
+  };
+}
 export function setInvesment(data = []) {
   return {
     type: MEMBER.DATA_INVESMENT,
@@ -115,6 +121,18 @@ export const getMember = (page = 1, where) => {
     }
     handleGet(url, (res) => {
       dispatch(setData(res));
+    });
+  };
+};
+
+export const getMemberTopKontributor = (page = 1, where) => {
+  return (dispatch) => {
+    let url = "member/top_kontributor";
+    if (where) {
+      url += `?page=${page}&${where}`;
+    }
+    handleGet(url, (res) => {
+      dispatch(setDataTopKontributor(res));
     });
   };
 };

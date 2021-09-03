@@ -13,6 +13,7 @@ import {
   putPaket,
 } from "../../../../redux/actions/paket/paket.action";
 import Preloader from "../../../../Preloader";
+import { Modal } from 'rsuite';
 
 class FormPaket extends Component {
   constructor(props) {
@@ -105,7 +106,7 @@ class FormPaket extends Component {
   };
 
   toggle = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     const bool = !this.props.isOpen;
     this.props.dispatch(ModalToggle(bool));
   };
@@ -169,14 +170,28 @@ class FormPaket extends Component {
   render() {
     return (
       <WrapperModal
-        isOpen={this.props.isOpen && this.props.type === "formPaket"}
+        // isOpen={this.props.isOpen && this.props.type === "formPaket"}
+        
+        backdropClassName="rs-modal-backdrop"
         size="lg"
+        overflow={false}
+        autoFocus={true}
+        backdrop={true}
+        // full
+        show={this.props.isOpen && this.props.type === "formPaket"}
+        onHide={() => this.toggle()}
+        onEnter={() => {
+        }}
       >
         {this.props.isLoadingPost ? <Preloader /> : null}
-        <ModalHeader toggle={this.toggle}>
+        {/* <ModalHeader toggle={this.toggle}>
           {this.props.detail.id === "" ? "Tambah" : "Ubah"} Paket
-        </ModalHeader>
-        <ModalBody>
+        </ModalHeader> */}
+        
+        <Modal.Header>
+            <Modal.Title>{this.props.detail.id === "" ? "Tambah" : "Ubah"} Paket</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
           <div className="row">
             <div className="col-md-6">
               <div className="form-group">
@@ -213,7 +228,7 @@ class FormPaket extends Component {
                 />
               </div>
               <div className="form-group">
-                <label>Poin</label>
+                <label>Coin</label>
                 <input
                   type="text"
                   className={"form-control"}
@@ -261,7 +276,7 @@ class FormPaket extends Component {
               </div>
             </div>
           </div>
-        </ModalBody>
+        </Modal.Body>
         <ModalFooter>
           <div className="form-group" style={{ textAlign: "right" }}>
             <button

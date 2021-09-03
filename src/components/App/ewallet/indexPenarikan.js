@@ -181,7 +181,8 @@ class IndexPenarikan extends Component {
     // const data = this.state.data;
     let totAmountPoint = 0;
     let totAmountRp = 0;
-    const { total, per_page, last_page, current_page, data } = this.props.data;
+    const { data } = this.props.res;
+    const { total, per_page, last_page, current_page } = this.props.res.meta;
     return (
       <Layout page={"Laporan Penarikan"}>
         <div className="row">
@@ -395,6 +396,7 @@ const mapStateToProps = (state) => {
     isLoading: state.penarikanReducer.isLoading,
     isOpen: state.modalReducer,
     data: state.penarikanReducer.data,
+    res: state.penarikanReducer,
     isLoadingExcel: state.penarikanReducer.isLoadingExcel,
     dataExcel: state.penarikanReducer.excel,
     configWallet: state.configWalletReducer.data,

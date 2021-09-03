@@ -14,6 +14,7 @@ const initialState = {
     edit:[],
     detail:[],
     excel:[],
+    meta:{}
 }
 
 export const penarikanReducer = (state = initialState, action) => {
@@ -23,6 +24,7 @@ export const penarikanReducer = (state = initialState, action) => {
                 status: action.data.status,
                 msg: action.data.msg,
                 data: action.data.result,
+                meta: action.data.meta,
             });
         case PENARIKAN.EXCEL:
             return Object.assign({}, state, {

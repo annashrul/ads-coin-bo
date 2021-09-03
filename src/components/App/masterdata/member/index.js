@@ -19,6 +19,7 @@ import * as Swal from "sweetalert2";
 import Select from "react-select";
 import FormMemberBank from "../../modals/masterdata/member/form_member_bank";
 import FormMemberPinReset from "../../modals/masterdata/member/form_member_pin_reset";
+import { Table, Button, ButtonToolbar, Dropdown, Form, Icon } from 'rsuite';
 
 class IndexMember extends Component {
   constructor(props) {
@@ -123,7 +124,7 @@ class IndexMember extends Component {
         toExcel(
           `LAPORAN MEMBER ${stts === 0 ? "Tidak Aktif" : stts === 1 ? "Aktif" : ""}`,
           `SEMUA PERIODE`,
-          ["NAMA", "REFERRAL", "NO.TELEPON", "SALDO ( POIN )", "SPONSOR", "TIKET", "PENARIKAN ( POIN )", "SLOT AKTIF", "MODAL ( POIN )", "OMSET ( POIN )", "STATUS"],
+          ["NAMA", "REFERRAL", "NO.TELEPON", "SALDO ( COIN )", "SPONSOR", "TIKET", "PENARIKAN ( COIN )", "SLOT AKTIF", "MODAL ( COIN )", "OMSET ( COIN )", "STATUS"],
           content,
           [[""], [""], ["TOTAL", "", "", totSaldo, totSposor, totPin, totPayment, totSlotActive, totModal, totOmset]]
         );
@@ -424,6 +425,9 @@ class IndexMember extends Component {
   //   //   }
   // }
   render() {
+
+    const { Column, HeaderCell, Cell, ColumnGroup } = Table;
+    
     const headStyle = {
       verticalAlign: "middle",
       textAlign: "center",
@@ -517,6 +521,94 @@ class IndexMember extends Component {
           </div>
         </div>
         <br />
+        <Table
+          data={data}
+          headerHeight={80}
+          onRowClick={data => {
+            console.log(data);
+          }}
+        >
+          <Column align="center" fixed>
+            <HeaderCell>#</HeaderCell>
+            <Cell>
+              {v => {
+                return (
+                  <div className="btn-group">
+                    
+                    <ButtonToolbar>
+                      <Dropdown appearance="default" title="AKSI" size="xs" placement="rightStart">
+                          <Dropdown.Item onClick={(e)=>this.handleBankEdit(e, v.id, v.fullname)}>
+                          <Icon icon="edit2" /> Edit Bank
+                          </Dropdown.Item>
+                          <Dropdown.Item onClick={(e)=>this.handleMemberEdit(e, v.id, v.fullname, v.mobile_no)}>
+                          <Icon icon="edit2" /> Edit Member
+                          </Dropdown.Item>
+                          <Dropdown.Item onClick={(e)=>this.handleMemberResetPin(e, v.id)}>
+                          <Icon icon="eye" /> Reset PIN Member
+                          </Dropdown.Item>
+                          <Dropdown.Item onClick={(e)=>this.handleUpdate(e, v)}>
+                          <Icon icon="trash" /> {v.status === 0 ? "Aktifkan" : "Non-aktifkan"}
+                          </Dropdown.Item>
+                      </Dropdown>
+                    </ButtonToolbar>
+
+                  </div>
+                );
+              }}
+            </Cell>
+          </Column>
+
+          <Column width={200} colSpan={2} fixed>
+            <HeaderCell>NAMA</HeaderCell>
+            <Cell dataKey="fullname" />
+          </Column>
+
+          <Column width={200} colSpan={2}>
+            <HeaderCell>USER ID</HeaderCell>
+            <Cell dataKey="referral" />
+          </Column>
+
+          <Column width={300} colSpan={2}>
+            <HeaderCell>NO.TELEPON</HeaderCell>
+            <Cell dataKey="mobile_no" />
+          </Column>
+
+          <ColumnGroup header="TOTAL" align="center">
+            <Column width={130} colSpan={2} align="right">
+              <HeaderCell>SALDO</HeaderCell>
+            <Cell>
+              {v => {
+                  return (
+                    toCurrency(parseFloat(v.saldo).toFixed(2))
+                  )
+              }}
+              </Cell>
+            </Column>
+
+            <Column width={130} align="right">
+              <HeaderCell>PENARIKAN</HeaderCell>
+            <Cell>
+              {v => {
+                  return (
+                    toCurrency(parseFloat(v.total_payment).toFixed(2))
+                  )
+              }}
+              </Cell>
+            </Column>
+          </ColumnGroup>
+
+          <Column flexGrow={1} colSpan={2} align="center">
+            <HeaderCell>STATUS</HeaderCell>
+            <Cell>
+              {v => {
+                  return (
+                    statusQ(v.status)
+                  )
+              }}
+              </Cell>
+          </Column>
+          
+        </Table>
         <div style={{ overflowX: "auto" }}>
           <table className="table table-hover table-noborder">
             <thead>
@@ -562,18 +654,22 @@ class IndexMember extends Component {
                         <td style={headStyle}>{i + 1 + 10 * (parseInt(current_page, 10) - 1)}</td>
                         <td style={headStyle}>
                           <div className="btn-group">
-                            <UncontrolledButtonDropdown nav>
-                              <DropdownToggle caret className="myDropdown">
-                                Pilihan
-                              </DropdownToggle>
-                              <DropdownMenu>
-                                {/* <DropdownItem onClick={(e) => this.handleInvestment(e, v)}>Invesment</DropdownItem> */}
-                                <DropdownItem onClick={(e) => this.handleBankEdit(e, v.id, v.fullname)}>Edit Bank</DropdownItem>
-                                <DropdownItem onClick={(e) => this.handleMemberEdit(e, v.id, v.fullname, v.mobile_no)}>Edit Member</DropdownItem>
-                                <DropdownItem onClick={(e) => this.handleMemberResetPin(e, v.id)}>Reset PIN Member</DropdownItem>
-                                <DropdownItem onClick={(e) => this.handleUpdate(e, v)}>{v.status === 0 ? "Aktifkan" : "Non-aktifkan"}</DropdownItem>
-                              </DropdownMenu>
-                            </UncontrolledButtonDropdown>
+                            <ButtonToolbar>
+                              <Dropdown appearance="default" title="AKSI" size="xs" placement="rightStart">
+                                  <Dropdown.Item onClick={(e)=>this.handleBankEdit(e, v.id, v.fullname)}>
+                                  <Icon icon="edit2" /> Edit Bank
+                                  </Dropdown.Item>
+                                  <Dropdown.Item onClick={(e)=>this.handleMemberEdit(e, v.id, v.fullname, v.mobile_no)}>
+                                  <Icon icon="edit2" /> Edit Member
+                                  </Dropdown.Item>
+                                  <Dropdown.Item onClick={(e)=>this.handleMemberResetPin(e, v.id)}>
+                                  <Icon icon="eye" /> Reset PIN Member
+                                  </Dropdown.Item>
+                                  <Dropdown.Item onClick={(e)=>this.handleUpdate(e, v)}>
+                                  <Icon icon="trash" /> {v.status === 0 ? "Aktifkan" : "Non-aktifkan"}
+                                  </Dropdown.Item>
+                              </Dropdown>
+                            </ButtonToolbar>
                           </div>
                         </td>
                         <td style={headStyle}>{v.fullname}</td>

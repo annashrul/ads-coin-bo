@@ -16,11 +16,13 @@ import { get } from "components/model/app.model";
 import { HEADERS } from "../../redux/actions/_constants";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
+import "rsuite/dist/styles/rsuite-default.css";
 initDB(DBConfig);
 // Check token in localStorage
 axios.defaults.headers.common["username"] = `${HEADERS.USERNAME}`;
 axios.defaults.headers.common["password"] = `${HEADERS.PASSWORD}`;
-axios.defaults.headers.common["myconnection"] = `backoffice`;
+axios.defaults.headers.common["X-Project-ID"] = `${HEADERS.PROJECT_ID}`;
+axios.defaults.headers.common["X-Requested-From"] = `backoffice`;
 axios.defaults.headers.common[
   "Content-Type"
 ] = `application/x-www-form-urlencoded`;
