@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Layout from "components/Layout";
-import Paginationq, { myDate } from "../../../helper";
+import Paginationq, { myDate, statusQ } from "../../../helper";
 import moment from "moment";
 
 import { ModalToggle, ModalType } from "../../../redux/actions/modal.action";
@@ -12,6 +12,7 @@ import {
   fetchKategori,
 } from "../../../redux/actions/kategori/kategori.action";
 import { NOTIF_ALERT } from "../../../redux/actions/_constants";
+import { Button, Icon } from "rsuite";
 moment.locale("id"); // en
 
 class Kategori extends Component {
@@ -43,7 +44,7 @@ class Kategori extends Component {
     if (this.props.location.pathname.split("/")[1] === "produk") {
       newParam = "product";
       newParamType = 0;
-      newPath = "Paket";
+      newPath = "Produk";
       this.props.dispatch(fetchKategori(`${newParam}?page=1`));
     } else {
       newParam = "berita";
@@ -152,8 +153,9 @@ class Kategori extends Component {
                   <label>Cari</label>
                   <input
                     type="text"
-                    className="form-control"
+                    className="form-control form-control-lg"
                     name="any"
+                    maxLength="200"
                     placeholder={"cari disini"}
                     value={this.state.any}
                     onChange={this.handleChange}
@@ -167,9 +169,9 @@ class Kategori extends Component {
               </div>
             </div>
           </div>
-          <div className="col-4 col-xs-4 col-md-2 text-right">
+          <div className="col-4 col-xs-4 col-md-2  d-flex align-items-end justify-content-end">
             <div className="form-group">
-              <button
+              {/* <button
                 style={{ marginTop: "27px" }}
                 type="button"
                 className="btn btn-primary"
@@ -184,7 +186,21 @@ class Kategori extends Component {
                 onClick={(e) => this.handleModal(e, "")}
               >
                 <i className="fa fa-plus" />
-              </button>
+              </button> */}
+              <Button
+                size="lg"
+                color="blue"
+                appearance="subtle"
+                className="mr-2" onClick={(e) => this.handleSearch(e)}>
+                <Icon icon="search" />
+              </Button>
+              <Button 
+                size="lg"
+                color="cyan"
+                appearance="subtle"
+                className="" onClick={(e) => this.handleModal(e, "")}>
+                <Icon icon="plus" />
+              </Button>
             </div>
           </div>
           <br />
@@ -197,8 +213,10 @@ class Kategori extends Component {
                 <tr>
                   <th style={headStyle}>NO</th>
                   <th style={headStyle}>#</th>
+                  <th style={headStyle}>IKON</th>
                   <th style={headStyle}>NAMA</th>
                   <th style={headStyle}>TANGGAL</th>
+                  <th style={headStyle}>STATUS</th>
                 </tr>
               </thead>
               <tbody>
@@ -207,11 +225,11 @@ class Kategori extends Component {
                     data.map((v, i) => {
                       return (
                         <tr key={i}>
-                          <td style={headStyle}>
+                          <td style={{...headStyle, width:'1%'}}>
                             {i + 1 + 10 * (parseInt(current_page, 10) - 1)}
                           </td>
-                          <td style={headStyle}>
-                            <button
+                          <td style={{...headStyle, width:'1%'}}>
+                            {/* <button
                               onClick={(e) => this.handleModal(e, i)}
                               className={"btn btn-primary"}
                               style={{ marginRight: "10px" }}
@@ -223,10 +241,26 @@ class Kategori extends Component {
                               className={"btn btn-primary"}
                             >
                               <i className={"fa fa-close"} />
-                            </button>
+                            </button> */}
+                            <Button
+                              size="sm"
+                              color="green"
+                              appearance="subtle"
+                              className="mr-1" onClick={(e) => this.handleModal(e, i)}>
+                              <Icon icon="edit2" />
+                            </Button>
+                            <Button 
+                              size="sm"
+                              color="red"
+                              appearance="subtle"
+                              className="" onClick={(e) => this.handleDelete(e, v.id)}>
+                              <Icon icon="trash" />
+                            </Button>
                           </td>
+                          <td style={{...headStyle, width:'1%'}}><img src={v.icon} alt="img"/></td>
                           <td style={headStyle}>{v.title}</td>
                           <td style={headStyle}>{myDate(v.created_at)}</td>
+                          <td style={{...headStyle, width:'1%'}}>{statusQ(v.status)}</td>
                         </tr>
                       );
                     })

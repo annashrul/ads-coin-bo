@@ -10,7 +10,7 @@ import {
   putUserLevel,
 } from "../../../../../redux/actions/masterdata/user_level.action";
 import Preloader from "../../../../../Preloader";
-import { Modal } from 'rsuite';
+import { Button, Icon, Modal } from 'rsuite';
 class FormUserLevel extends Component {
   //MENU ACCESS MASTERDATA = 0-9
   constructor(props) {
@@ -394,7 +394,7 @@ class FormUserLevel extends Component {
         </Modal.Body>
         <ModalFooter>
           <div className="form-group" style={{ textAlign: "right" }}>
-            <button
+            {/* <button
               style={{ color: "white" }}
               type="button"
               className="btn btn-warning mb-2 mr-2"
@@ -408,7 +408,21 @@ class FormUserLevel extends Component {
               onClick={this.handleSubmit}
             >
               <i className="ti-save" /> Simpan
-            </button>
+            </button> */}
+            <Button
+                size="sm"
+                color="yellow"
+                appearance="subtle"
+                className="mr-1" onClick={this.toggle}>
+                <Icon icon="close" /> Keluar
+              </Button>
+              <Button 
+                size="sm"
+                color="violet"
+                appearance="subtle"
+                className="" onClick={this.handleSubmit}>
+                <Icon icon="save" /> Simpan
+              </Button>
           </div>
         </ModalFooter>
       </WrapperModal>

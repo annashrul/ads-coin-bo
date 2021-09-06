@@ -11,7 +11,7 @@ import {
   putUserList,
 } from "../../../../../redux/actions/masterdata/user_list.action";
 import Preloader from "../../../../../Preloader";
-import { Modal } from 'rsuite';
+import { Button, Icon, Modal } from 'rsuite';
 
 class FormUserList extends Component {
   constructor(props) {
@@ -174,6 +174,7 @@ class FormUserList extends Component {
               type="text"
               className="form-control"
               name="name"
+              maxLength="200"
               value={this.state.name}
               onChange={this.handleChange}
             />
@@ -185,6 +186,7 @@ class FormUserList extends Component {
               type="text"
               className="form-control"
               name="username"
+              maxLength="200"
               value={this.state.username}
               onChange={this.handleChange}
             />
@@ -248,7 +250,7 @@ class FormUserList extends Component {
         </Modal.Body>
         <ModalFooter>
           <div className="form-group" style={{ textAlign: "right" }}>
-            <button
+            {/* <button
               style={{ color: "white" }}
               type="button"
               className="btn btn-warning mb-2 mr-2"
@@ -263,7 +265,21 @@ class FormUserList extends Component {
               onClick={this.handleSubmit}
             >
               <i className="ti-save" /> Simpan
-            </button>
+            </button> */}
+            <Button
+                size="sm"
+                color="yellow"
+                appearance="subtle"
+                className="mr-1" onClick={this.toggle}>
+                <Icon icon="close" /> Keluar
+              </Button>
+              <Button 
+                size="sm"
+                color="violet"
+                appearance="subtle"
+                className="" onClick={this.handleSubmit}>
+                <Icon icon="save" /> Simpan
+              </Button>
           </div>
         </ModalFooter>
       </WrapperModal>

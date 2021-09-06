@@ -10,6 +10,7 @@ import {
   deleteUserList,
   getUserList,
 } from "../../../redux/actions/masterdata/user_list.action";
+import { Button, Icon } from "rsuite";
 
 class IndexUserList extends Component {
   constructor(props) {
@@ -117,7 +118,7 @@ class IndexUserList extends Component {
                   <label>Cari</label>
                   <input
                     type="text"
-                    className="form-control"
+                    className="form-control form-control-lg"
                     name="any"
                     placeholder={"cari disini"}
                     value={this.state.any}
@@ -134,26 +135,24 @@ class IndexUserList extends Component {
           </div>
 
           <div
-            className="col-4 col-xs-4 col-md-2"
+            className="col-4 col-xs-4 col-md-2 d-flex align-items-end justify-content-end"
             style={{ textAlign: "right" }}
           >
             <div className="form-group">
-              <button
-                style={{ marginTop: "28px" }}
-                type="button"
-                className="btn btn-primary"
-                onClick={(e) => this.handleSearch(e)}
-              >
-                <i className="fa fa-search" />
-              </button>
-              <button
-                style={{ marginTop: "28px", marginLeft: "5px" }}
-                type="button"
-                className="btn btn-primary"
-                onClick={(e) => this.handleModal(e, "")}
-              >
-                <i className="fa fa-plus" />
-              </button>
+              <Button
+                size="lg"
+                color="blue"
+                appearance="subtle"
+                className="mr-2" onClick={(e) => this.handleSearch(e)}>
+                <Icon icon="search" />
+              </Button>
+              <Button 
+                size="lg"
+                color="cyan"
+                appearance="subtle"
+                className="" onClick={(e) => this.handleModal(e, "")}>
+                <Icon icon="plus" />
+              </Button>
             </div>
           </div>
         </div>
@@ -161,8 +160,8 @@ class IndexUserList extends Component {
           <table className="table table-hover">
             <thead>
               <tr>
-                <th style={headStyle}>NO</th>
-                <th style={headStyle}>#</th>
+                <th style={{...headStyle, width:'1%'}}>NO</th>
+                <th style={{...headStyle, width:'1%'}}>#</th>
                 <th style={headStyle}>NAMA</th>
                 <th style={headStyle}>USERNAME</th>
                 <th style={headStyle}>AKSES</th>
@@ -180,7 +179,7 @@ class IndexUserList extends Component {
                           {i + 1 + 10 * (parseInt(current_page, 10) - 1)}
                         </td>
                         <td style={headStyle}>
-                          <button
+                          {/* <button
                             onClick={(e) => this.handleModal(e, i)}
                             type="button"
                             className={"btn btn-primary"}
@@ -194,7 +193,22 @@ class IndexUserList extends Component {
                             className={"btn btn-primary"}
                           >
                             <i className="fa fa-close" />
-                          </button>
+                          </button> */}
+                          
+                          <Button
+                              size="sm"
+                              color="green"
+                              appearance="subtle"
+                              className="mr-1" onClick={(e) => this.handleModal(e, i)}>
+                              <Icon icon="edit2" />
+                            </Button>
+                            <Button 
+                              size="sm"
+                              color="red"
+                              appearance="subtle"
+                              className="" onClick={(e) => this.handleDelete(e, v.id)}>
+                              <Icon icon="trash" />
+                            </Button>
                         </td>
                         <td style={headStyle}>{v.name}</td>
                         <td style={headStyle}>{v.username}</td>

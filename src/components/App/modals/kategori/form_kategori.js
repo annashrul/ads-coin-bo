@@ -9,6 +9,8 @@ import {
   putKategori,
 } from "../../../../redux/actions/kategori/kategori.action";
 import Preloader from "../../../../Preloader";
+import FileBase64 from "react-file-base64";
+import { Button, Icon, Modal } from "rsuite";
 
 class FormKategori extends Component {
   constructor(props) {
@@ -16,8 +18,11 @@ class FormKategori extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.toggle = this.toggle.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChangeImage = this.handleChangeImage.bind(this);
     this.state = {
       title: "",
+      image: "",
+      status: "1",
     };
   }
   getProps(props) {
@@ -38,7 +43,7 @@ class FormKategori extends Component {
   };
 
   toggle = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     const bool = !this.props.isOpen;
     this.props.dispatch(ModalToggle(bool));
   };
@@ -46,10 +51,13 @@ class FormKategori extends Component {
   handleSubmit(e) {
     e.preventDefault();
     let state = this.state;
-    let parsedata = { title: state.title, type: this.props.detail.paramType };
+    let parsedata = { title: state.title, type: this.props.detail.paramType, status: state.status };
     if (state.title === "" || state.title === undefined) {
       ToastQ.fire({ icon: "error", title: `title tidak boleh kosong` });
       return;
+    }
+    if(parsedata['image']!==''){
+        parsedata['icon'] = this.state.image.base64;
     }
     if (this.props.detail.id !== "") {
       this.props.dispatch(
@@ -60,18 +68,40 @@ class FormKategori extends Component {
     }
   }
 
+  handleChangeImage(files) {
+    this.setState({
+        image: files
+    })
+  };
   render() {
     return (
       <WrapperModal
         isOpen={this.props.isOpen && this.props.type === "formKategori"}
-        size="md"
+        
+        backdropClassName="rs-modal-backdrop"
+        size="sm"
+        overflow={false}
+        autoFocus={true}
+        backdrop={true}
+        // full
+        show={this.props.isOpen && this.props.type === "formKategori"}
+        onHide={() => this.toggle()}
+        onEnter={() => {
+        }}
       >
         {this.props.isLoadingPost ? <Preloader /> : null}
-        <ModalHeader toggle={this.toggle}>
+        {/* <ModalHeader toggle={this.toggle}>
           {this.props.detail.id !== "" ? "Ubah" : "Tambah"} Kategori &nbsp;
           {this.props.detail.param}
-        </ModalHeader>
-        <ModalBody>
+        </ModalHeader> */}
+        
+        <Modal.Header>
+            <Modal.Title>
+            {this.props.detail.id !== "" ? "Ubah" : "Tambah"} Kategori &nbsp;
+            {this.props.detail.param}
+            </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
           <div className="row">
             <div className="col-md-12">
               <div className="form-group">
@@ -84,12 +114,27 @@ class FormKategori extends Component {
                   onChange={this.handleChange}
                 />
               </div>
+              <div className="form-group">
+                  <label>Status</label>
+                  <select className="form-control" name="status" defaultValue={this.state.status} value={this.state.status} onChange={this.handleChange}>
+                      <option value="1">Aktif</option>
+                      <option value="0">Tidak Aktif</option>
+                  </select>
+              </div>
+              <div className="form-group">
+                  <label htmlFor="inputState" className="col-form-label">Ikon {this.props.detail===undefined?<small>kosongkan apabila tidak akan diubah</small>:""}</label><br/>
+                  <FileBase64
+                      multiple={ false }
+                      className="mr-3 form-control-file"
+                      onDone={ this.handleChangeImage } />
+              </div>
             </div>
+
           </div>
-        </ModalBody>
+        </Modal.Body>
         <ModalFooter>
           <div className="form-group" style={{ textAlign: "right" }}>
-            <button
+            {/* <button
               style={{ color: "white" }}
               type="button"
               className="btn btn-warning mb-2 mr-2"
@@ -105,7 +150,21 @@ class FormKategori extends Component {
             >
               <i className="ti-save" />
               Simpan
-            </button>
+            </button> */}
+            <Button
+                size="sm"
+                color="yellow"
+                appearance="subtle"
+                className="mr-1" onClick={this.toggle}>
+                <Icon icon="close" /> Keluar
+              </Button>
+              <Button 
+                size="sm"
+                color="violet"
+                appearance="subtle"
+                className="" onClick={this.handleSubmit}>
+                <Icon icon="save" /> Simpan
+              </Button>
           </div>
         </ModalFooter>
       </WrapperModal>

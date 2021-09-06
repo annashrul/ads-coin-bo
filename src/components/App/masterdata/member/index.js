@@ -490,7 +490,7 @@ class IndexMember extends Component {
                   <label>Tulis Pencarian Disini</label>
                   <input
                     type="text"
-                    className="form-control"
+                    className="form-control form-control-lg"
                     name="any"
                     placeholder={"Tulis Pencarian Disini"}
                     value={this.state.any}
@@ -505,118 +505,44 @@ class IndexMember extends Component {
               </div>
             </div>
           </div>
-          <div className="col-12 col-xs-12 col-md-2" style={{ textAlign: "right" }}>
+          <div className="col-12 col-xs-12 col-md-2 d-flex align-items-end justify-content-end" style={{ textAlign: "right" }}>
             <div className="row">
               <div className="col-md-12">
                 <div className="form-group">
-                  <button style={{ marginTop: "28px", marginRight: "5px" }} className="btn btn-primary" onClick={this.handleSearch}>
+                  {/* <button style={{ marginTop: "28px", marginRight: "5px" }} className="btn btn-primary" onClick={this.handleSearch}>
                     <i className="fa fa-search" />
                   </button>
                   <button style={{ marginTop: "28px" }} className="btn btn-primary" onClick={(e) => this.printDocumentXLsx(e, per_page * last_page)}>
                     <i className="fa fa-print" />
-                  </button>
+                  </button> */}
+                  <Button 
+                    size="lg"
+                    color="blue"
+                    appearance="subtle"
+                    className="mr-2" onClick={(e) => this.handleSearch(e)}>
+                    <Icon icon="search" />
+                  </Button>
+                  <Button 
+                    size="lg"
+                    color="cyan"
+                    appearance="subtle"
+                    className="" onClick={(e) => this.printDocumentXLsx(e, per_page * last_page)}>
+                    <Icon icon="print" />
+                  </Button>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <br />
-        <Table
-          data={data}
-          headerHeight={80}
-          onRowClick={data => {
-            console.log(data);
-          }}
-        >
-          <Column align="center" fixed>
-            <HeaderCell>#</HeaderCell>
-            <Cell>
-              {v => {
-                return (
-                  <div className="btn-group">
-                    
-                    <ButtonToolbar>
-                      <Dropdown appearance="default" title="AKSI" size="xs" placement="rightStart">
-                          <Dropdown.Item onClick={(e)=>this.handleBankEdit(e, v.id, v.fullname)}>
-                          <Icon icon="edit2" /> Edit Bank
-                          </Dropdown.Item>
-                          <Dropdown.Item onClick={(e)=>this.handleMemberEdit(e, v.id, v.fullname, v.mobile_no)}>
-                          <Icon icon="edit2" /> Edit Member
-                          </Dropdown.Item>
-                          <Dropdown.Item onClick={(e)=>this.handleMemberResetPin(e, v.id)}>
-                          <Icon icon="eye" /> Reset PIN Member
-                          </Dropdown.Item>
-                          <Dropdown.Item onClick={(e)=>this.handleUpdate(e, v)}>
-                          <Icon icon="trash" /> {v.status === 0 ? "Aktifkan" : "Non-aktifkan"}
-                          </Dropdown.Item>
-                      </Dropdown>
-                    </ButtonToolbar>
-
-                  </div>
-                );
-              }}
-            </Cell>
-          </Column>
-
-          <Column width={200} colSpan={2} fixed>
-            <HeaderCell>NAMA</HeaderCell>
-            <Cell dataKey="fullname" />
-          </Column>
-
-          <Column width={200} colSpan={2}>
-            <HeaderCell>USER ID</HeaderCell>
-            <Cell dataKey="referral" />
-          </Column>
-
-          <Column width={300} colSpan={2}>
-            <HeaderCell>NO.TELEPON</HeaderCell>
-            <Cell dataKey="mobile_no" />
-          </Column>
-
-          <ColumnGroup header="TOTAL" align="center">
-            <Column width={130} colSpan={2} align="right">
-              <HeaderCell>SALDO</HeaderCell>
-            <Cell>
-              {v => {
-                  return (
-                    toCurrency(parseFloat(v.saldo).toFixed(2))
-                  )
-              }}
-              </Cell>
-            </Column>
-
-            <Column width={130} align="right">
-              <HeaderCell>PENARIKAN</HeaderCell>
-            <Cell>
-              {v => {
-                  return (
-                    toCurrency(parseFloat(v.total_payment).toFixed(2))
-                  )
-              }}
-              </Cell>
-            </Column>
-          </ColumnGroup>
-
-          <Column flexGrow={1} colSpan={2} align="center">
-            <HeaderCell>STATUS</HeaderCell>
-            <Cell>
-              {v => {
-                  return (
-                    statusQ(v.status)
-                  )
-              }}
-              </Cell>
-          </Column>
-          
-        </Table>
         <div style={{ overflowX: "auto" }}>
           <table className="table table-hover table-noborder">
             <thead>
               <tr>
-                <th rowSpan="2" style={headStyle}>
+                <th rowSpan="2" style={{...headStyle, width:'1%'}}>
                   NO
                 </th>
-                <th rowSpan="2" style={headStyle}>
+                <th rowSpan="2" style={{...headStyle, width:'1%'}}>
                   #
                 </th>
                 <th rowSpan="2" style={headStyle}>
