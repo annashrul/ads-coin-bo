@@ -76,6 +76,13 @@ class FormUserLevel extends Component {
               parent: "produk",
               isChecked: false,
             },
+            {
+              id: 103,
+              label: "promo",
+              path: "/produk/promo",
+              parent: "produk",
+              isChecked: false,
+            },
           ],
         },
 

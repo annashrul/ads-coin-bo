@@ -9,6 +9,7 @@ import * as Swal from "sweetalert2";
 import { getExcelPenarikan, getPenarikan, postPenarikan } from "../../../redux/actions/ewallet/penarikan.action";
 import Select from "react-select";
 import { getConfigWallet } from "../../../redux/actions/ewallet/config_wallet.action";
+import { Button, Icon } from "rsuite";
 
 class IndexPenarikan extends Component {
   constructor(props) {
@@ -192,7 +193,7 @@ class IndexPenarikan extends Component {
                 <div className="form-group">
                   <label>Periode </label>
                   <DateRangePicker autoUpdateInput={true} showDropdowns={true} style={{ display: "unset" }} ranges={rangeDate} alwaysShowCalendars={true} onApply={this.handleEvent}>
-                    <input type="text" readOnly={true} className="form-control" value={`${this.state.dateFrom} to ${this.state.dateTo}`} />
+                    <input type="text" readOnly={true} className="form-control form-control-lg" value={`${this.state.dateFrom} to ${this.state.dateTo}`} />
                   </DateRangePicker>
                 </div>
               </div>
@@ -237,7 +238,7 @@ class IndexPenarikan extends Component {
                   <label>Cari</label>
                   <input
                     type="text"
-                    className="form-control"
+                    className="form-control form-control-lg"
                     name="any"
                     placeholder={"cari disini"}
                     value={this.state.any}
@@ -252,20 +253,35 @@ class IndexPenarikan extends Component {
               </div>
             </div>
           </div>
-          <div className="col-12 col-xs-12 col-md-2" style={{ textAlign: "right" }}>
+          <div className="col-12 col-xs-12 col-md-2 d-flex align-items-end justify-content-end" style={{ textAlign: "right" }}>
             <div className="form-group">
-              <button style={{ marginTop: "28px", marginRight: "5px" }} className="btn btn-primary" onClick={(e) => this.handleSearch(e)}>
+              {/* <button style={{ marginTop: "28px", marginRight: "5px" }} className="btn btn-primary" onClick={(e) => this.handleSearch(e)}>
                 <i className="fa fa-search" />
               </button>
               <button style={{ marginTop: "28px" }} className="btn btn-primary" onClick={(e) => this.printDocumentXLsx(e, per_page * last_page)}>
                 <i className="fa fa-print" />
-              </button>
+              </button> */}
+              
+              <Button
+                size="lg"
+                color="blue"
+                appearance="subtle"
+                className="mr-2" onClick={(e) => this.handleSearch(e)}>
+                <Icon icon="search" />
+              </Button>
+              <Button 
+                size="lg"
+                color="cyan"
+                appearance="subtle"
+                className="" onClick={(e) => this.printDocumentXLsx(e, per_page * last_page)}>
+                <Icon icon="print" />
+              </Button>
             </div>
           </div>
         </div>
         <br />
         <div style={{ overflowX: "auto" }}>
-          <table className="table table-hover">
+          <table className="table table-hover  table-noborder">
             <thead>
               <tr>
                 <th rowSpan="2" style={columnStyle}>
@@ -327,16 +343,32 @@ class IndexPenarikan extends Component {
                     }
                     return (
                       <tr key={i}>
-                        <td style={columnStyle}>
+                        <td style={{...columnStyle, width:'1%'}}>
                           <span className="circle">{i + 1 + 10 * (parseInt(current_page, 10) - 1)}</span>
                         </td>
-                        <td style={columnStyle}>
-                          <button style={{ marginRight: "5px" }} className={"btn btn-primary"} disabled={v.status === 1 || v.status === 2} onClick={(e) => this.handleApproval(e, v.id, 1)}>
+                        <td style={{...columnStyle, width:'1%'}}>
+                          {/* <button style={{ marginRight: "5px" }} className={"btn btn-primary"} disabled={v.status === 1 || v.status === 2} onClick={(e) => this.handleApproval(e, v.id, 1)}>
                             <i className={"fa fa-check"} />
                           </button>
                           <button style={{ marginRight: "5px" }} className={"btn btn-primary"} disabled={v.status === 1 || v.status === 2} onClick={(e) => this.handleApproval(e, v.id, 2)}>
                             <i className={"fa fa-close"} />
-                          </button>
+                          </button> */}
+                          <Button
+                            size="sm"
+                            color="violet"
+                            appearance="subtle"
+                            disabled={v.status === 1 || v.status === 2}
+                            className="mr-2" onClick={(e) => this.handleApproval(e, v.id, 1)}>
+                            <Icon icon="check" />
+                          </Button>
+                          <Button 
+                            size="sm"
+                            color="red"
+                            appearance="subtle"
+                            disabled={v.status === 1 || v.status === 2}
+                            className="mr-2" onClick={(e) => this.handleApproval(e, v.id, 2)}>
+                            <Icon icon="close" />
+                          </Button>
                         </td>
                         <td style={columnStyle}>{v.kd_trx}</td>
                         <td style={columnStyle}>{v.fullname}</td>

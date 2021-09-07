@@ -212,7 +212,7 @@ class DetailInvesment extends Component {
             </div>
           </div>
           <div style={{ overflowX: "auto" }}>
-            <table className="table table-hover">
+            <table className="table table-hover  table-noborder">
               <thead>
                 <tr>
                   <th style={headStyle} rowSpan={"2"}>

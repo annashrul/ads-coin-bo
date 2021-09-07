@@ -208,7 +208,7 @@ class Kategori extends Component {
 
         <div className="col-md-12">
           <div style={{ overflowX: "auto" }}>
-            <table className="table table-hover">
+            <table className="table table-hover  table-noborder">
               <thead>
                 <tr>
                   <th style={headStyle}>NO</th>

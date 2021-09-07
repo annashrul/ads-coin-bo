@@ -144,6 +144,30 @@ export const MEMBER = {
   LOADING_EXCEL_INVESMENT: `SET_${prefMember}_LOADING_EXCEL`,
   EXCEL_INVESMENT: `EXCEL_INVESMENT_${prefMember}`,
 };
+/****************
+     PROMO
+     *****************/
+let prefPromo = "PROMO";
+export const PROMO = {
+  LOADING: `SET_${prefPromo}_LOADING`,
+  LOADING_DETAIL: `SET_${prefPromo}_LOADING_DETAIL`,
+  LOADING_POST: `SET_${prefPromo}_LOADING_POST`,
+  IS_ERROR: `SET_${prefPromo}_IS_ERROR`,
+  SUCCESS: `SUCCESS_${prefPromo}`,
+  SUCCESS_DETAIL: `SUCCESS_${prefPromo}_DETAIL`,
+  SUCCESS_TOP_KONTRIBUTOR: `SUCCESS_${prefPromo}_TOP_KONTRIBUTOR`,
+  APPROVAL: `APPROVAL_${prefPromo}`,
+  FAILED: `FAILED_${prefPromo}`,
+  DETAIL: `DETAIL_${prefPromo}`,
+  EDIT: `EDIT_${prefPromo}`,
+  LOADING_EXCEL: `SET_${prefPromo}_LOADING_EXCEL`,
+  EXCEL: `EXCEL_${prefPromo}`,
+  LOADING_INVESMENT: `SET_${prefPromo}_LOADING_INVESMENT`,
+  DATA_INVESMENT: `DATA_INVESMENT_${prefPromo}`,
+  SHOW_MODAL: `SHOW_MODAL_${prefPromo}`,
+  LOADING_EXCEL_INVESMENT: `SET_${prefPromo}_LOADING_EXCEL`,
+  EXCEL_INVESMENT: `EXCEL_INVESMENT_${prefPromo}`,
+};
 
 /****************
      ALAMAT

@@ -13,6 +13,7 @@ import {
   getDataReportPaket,
   getExcelReportPaket,
 } from "../../../../redux/actions/laporan/report_paket.action";
+import { Button, Icon } from "rsuite";
 
 class LaporanPaket extends Component {
   constructor(props) {
@@ -165,7 +166,7 @@ class LaporanPaket extends Component {
                     <input
                       type="text"
                       readOnly={true}
-                      className="form-control"
+                      className="form-control form-control-lg"
                       value={`${this.state.dateFrom} to ${this.state.dateTo}`}
                     />
                   </DateRangePicker>
@@ -177,7 +178,7 @@ class LaporanPaket extends Component {
                   <label>Cari</label>
                   <input
                     type="text"
-                    className="form-control"
+                    className="form-control form-control-lg"
                     name="any"
                     placeholder={"cari disini"}
                     value={this.state.any}
@@ -193,13 +194,13 @@ class LaporanPaket extends Component {
             </div>
           </div>
           <div
-            className="col-12 col-xs-12 col-md-2"
+            className="col-12 col-xs-12 col-md-2 d-flex align-items-end justify-content-end"
             style={{ textAlign: "right" }}
           >
             <div className="row">
               <div className="col-md-12">
                 <div className="form-group">
-                  <button
+                  {/* <button
                     style={{ marginTop: "28px", marginRight: "5px" }}
                     className="btn btn-primary"
                     onClick={this.handleSearch}
@@ -214,7 +215,21 @@ class LaporanPaket extends Component {
                     }
                   >
                     <i className="fa fa-print" />
-                  </button>
+                  </button> */}
+                  <Button
+                    size="lg"
+                    color="blue"
+                    appearance="subtle"
+                    className="mr-2" onClick={(e) => this.handleSearch(e)}>
+                    <Icon icon="search" />
+                  </Button>
+                  <Button 
+                    size="lg"
+                    color="cyan"
+                    appearance="subtle"
+                    className="" onClick={(e) => this.printDocumentXLsx(e, per_page * last_page)}>
+                    <Icon icon="print" />
+                  </Button>
                 </div>
               </div>
             </div>
@@ -222,7 +237,7 @@ class LaporanPaket extends Component {
         </div>
         <br />
         <div style={{ overflowX: "auto" }}>
-          <table className="table table-hover">
+          <table className="table table-hover  table-noborder">
             <tbody>
               {typeof data === "object" ? (
                 data.length > 0 ? (
@@ -245,10 +260,10 @@ class LaporanPaket extends Component {
                     }
                     return (
                       <tr key={i}>
-                        <td style={columnStyle}>
+                        <td style={{...columnStyle, width:'1%'}}>
                           {i + 1 + 10 * (parseInt(current_page, 10) - 1)}
                         </td>
-                        <td style={cusStyle}>
+                        <td style={{...cusStyle, width:'1%'}}>
                           {v.kd_trx}
                           <br />
                           {v.fullname}
@@ -286,14 +301,14 @@ class LaporanPaket extends Component {
                           <br />
                           {toCurrency(v.grand_total)}
                         </td>
-                        <td style={cusStyle}>
+                        <td style={{...cusStyle, width:'1%'}}>
                           <small className="text-left text-dark">
                             {v.bank_name}
                           </small>
                           <br />
                           <small className="text-dark">{v.acc_name}</small>
                         </td>
-                        <td style={cusStyle}>{status}</td>
+                        <td style={{...cusStyle, width:'1%'}}>{status}</td>
                       </tr>
                     );
                   })

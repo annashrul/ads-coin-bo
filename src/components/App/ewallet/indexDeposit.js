@@ -10,6 +10,7 @@ import { getDeposit, getExcelDeposit, postDeposit } from "../../../redux/actions
 import * as Swal from "sweetalert2";
 import Select from "react-select";
 import { getConfigWallet } from "../../../redux/actions/ewallet/config_wallet.action";
+import { Button, Icon } from "rsuite";
 
 class IndexDeposit extends Component {
   constructor(props) {
@@ -212,7 +213,7 @@ class IndexDeposit extends Component {
                 <div className="form-group">
                   <label>Periode </label>
                   <DateRangePicker autoUpdateInput={true} showDropdowns={true} style={{ display: "unset" }} ranges={rangeDate} alwaysShowCalendars={true} onApply={this.handleEvent}>
-                    <input type="text" readOnly={true} className="form-control" value={`${this.state.dateFrom} to ${this.state.dateTo}`} />
+                    <input type="text" readOnly={true} className="form-control form-control-lg" value={`${this.state.dateFrom} to ${this.state.dateTo}`} />
                   </DateRangePicker>
                 </div>
               </div>
@@ -257,7 +258,7 @@ class IndexDeposit extends Component {
                   <label>Cari</label>
                   <input
                     type="text"
-                    className="form-control"
+                    className="form-control form-control-lg"
                     name="any"
                     placeholder={"cari disini"}
                     value={this.state.any}
@@ -272,20 +273,35 @@ class IndexDeposit extends Component {
               </div>
             </div>
           </div>
-          <div className="col-12 col-xs-12 col-md-2" style={{ textAlign: "right" }}>
+          <div className="col-12 col-xs-12 col-md-2 d-flex align-items-end justify-content-end" style={{ textAlign: "right" }}>
             <div className="form-group">
-              <button style={{ marginTop: "28px", marginRight: "5px" }} className="btn btn-primary" onClick={(e) => this.handleSearch(e)}>
+              {/* <button style={{ marginTop: "28px", marginRight: "5px" }} className="btn btn-primary" onClick={(e) => this.handleSearch(e)}>
                 <i className="fa fa-search" />
               </button>
               <button style={{ marginTop: "28px" }} className="btn btn-primary" onClick={(e) => this.printDocumentXLsx(e, per_page * last_page)}>
                 <i className="fa fa-print" />
-              </button>
+              </button> */}
+              
+              <Button
+                size="lg"
+                color="blue"
+                appearance="subtle"
+                className="mr-2" onClick={(e) => this.handleSearch(e)}>
+                <Icon icon="search" />
+              </Button>
+              <Button 
+                size="lg"
+                color="cyan"
+                appearance="subtle"
+                className="" onClick={(e) => this.printDocumentXLsx(e, per_page * last_page)}>
+                <Icon icon="print" />
+              </Button>
             </div>
           </div>
         </div>
         <br />
         <div style={{ overflowX: "auto" }}>
-          <table className="table table-hover">
+          <table className="table table-hover  table-noborder">
             <thead>
               <tr>
                 <th rowSpan="2" style={columnStyle}>
@@ -347,9 +363,9 @@ class IndexDeposit extends Component {
                     }
                     return (
                       <tr key={i}>
-                        <td style={columnStyle}>{i + 1 + 10 * (parseInt(current_page, 10) - 1)}</td>
-                        <td style={columnStyle}>
-                          <button style={{ marginRight: "5px" }} className={"btn btn-primary"} disabled={v.status === 1 || v.status === 2} onClick={(e) => this.handleApproval(e, v.kd_trx, 1)}>
+                        <td style={{...columnStyle, width:'1%'}}>{i + 1 + 10 * (parseInt(current_page, 10) - 1)}</td>
+                        <td style={{...columnStyle, width:'1%'}}>
+                          {/* <button style={{ marginRight: "5px" }} className={"btn btn-primary"} disabled={v.status === 1 || v.status === 2} onClick={(e) => this.handleApproval(e, v.kd_trx, 1)}>
                             <i className={"fa fa-check"} />
                           </button>
                           <button style={{ marginRight: "5px" }} className={"btn btn-primary"} disabled={v.status === 1 || v.status === 2} onClick={(e) => this.handleApproval(e, v.kd_trx, 2)}>
@@ -357,7 +373,30 @@ class IndexDeposit extends Component {
                           </button>
                           <button className={"btn btn-primary"} onClick={(e) => this.handlePaymentSlip(e, i)}>
                             <i className={"fa fa-image"} />
-                          </button>
+                          </button> */}
+                          <Button
+                            size="sm"
+                            color="violet"
+                            appearance="subtle"
+                            disabled={v.status === 1 || v.status === 2}
+                            className="mr-2" onClick={(e) => this.handleApproval(e, v.kd_trx, 1)}>
+                            <Icon icon="check" />
+                          </Button>
+                          <Button 
+                            size="sm"
+                            color="red"
+                            appearance="subtle"
+                            disabled={v.status === 1 || v.status === 2}
+                            className="mr-2" onClick={(e) => this.handleApproval(e, v.kd_trx, 2)}>
+                            <Icon icon="close" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            color="cyan"
+                            appearance="subtle"
+                            className="" onClick={(e) => this.handlePaymentSlip(e, i)}>
+                            <Icon icon="file-image-o" />
+                          </Button>
                         </td>
                         <td style={columnStyle}>{v.kd_trx}</td>
                         <td style={columnStyle}>{v.fullname}</td>

@@ -8,6 +8,7 @@ import { kategoriReducer } from "./kategori/kategori.reducer";
 import { pinReducer } from "./paket/pin.reducer";
 import { paketReducer } from "./paket/paket.reducer";
 import { memberReducer } from "./masterdata/member.reducer";
+import { promoReducer } from "./masterdata/promo.reducer";
 import { alamatReducer } from "./masterdata/alamat.reducer";
 import { bankReducer } from "./masterdata/bank.reducer";
 import { contentReducer } from "./konten/konten.reducer";
@@ -44,6 +45,7 @@ export default combineReducers({
   reportTiketReducer,
   generalReducer,
   banksReducer,
+  promoReducer,
   auth: authReducer,
   errors: errorsReducer,
 });

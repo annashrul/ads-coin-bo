@@ -110,6 +110,7 @@ class FormKategori extends Component {
                   type="text"
                   className={"form-control"}
                   name={"title"}
+                  maxLength="200"
                   value={this.state.title}
                   onChange={this.handleChange}
                 />

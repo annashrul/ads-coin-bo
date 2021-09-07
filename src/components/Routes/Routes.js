@@ -18,6 +18,7 @@ import LaporanPaket from "../App/laporan/penjualan/paket";
 import LaporanProdukPembelian from "../App/laporan/pembelian";
 import Bank from "../App/setting/bank";
 import IndexSetting from "../App/setting/umum";
+import Promo from "../App/masterdata/promo";
 
 const Routes = (
   <div>
@@ -30,6 +31,7 @@ const Routes = (
       {/* PAKET SECTION START */}
       {/* <PrivateRoute path="/pin" exact strict component={Pin} /> */}
       <PrivateRoute path="/produk" exact strict component={DaftarPaket} />
+      <PrivateRoute path="/produk/promo" exact strict component={Promo} />
       <PrivateRoute
         path="/:kategori/kategori"
         exact
