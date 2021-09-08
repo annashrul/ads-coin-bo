@@ -14,6 +14,7 @@ import {
   getExcelReportPaket,
 } from "../../../../redux/actions/laporan/report_paket.action";
 import { Button, Icon } from "rsuite";
+import Default from "assets/default.png";
 
 class LaporanPaket extends Component {
   constructor(props) {
@@ -276,10 +277,11 @@ class LaporanPaket extends Component {
                               paddingTop: "13px",
                             }}
                           >
-                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-3">
+                            <div class="mx-2">
                               <img
                                 src={v.image_product}
-                                className="img-fluid rounded-circle"
+                                className=""
+                                onError={(e)=>{e.target.onerror = null; e.target.src=`${Default}`}} 
                                 alt=""
                                 style={{ height: "50px", width: "100px" }}
                               />

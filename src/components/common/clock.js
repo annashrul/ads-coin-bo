@@ -23,7 +23,7 @@ export default class Clock extends Component {
       }
       render() {
         return (
-            <ul className="d-flex align-items-center justify-content-end">
+            <ul className="d-flex align-items-center justify-content-end m-0">
                 <li id="hours">{this.state.time.format("HH")}</li>
                 <li>:</li>
                 <li id="min">{this.state.time.format("mm")}</li>

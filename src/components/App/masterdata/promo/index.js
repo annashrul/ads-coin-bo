@@ -16,6 +16,7 @@ import { Button, ButtonToolbar, Icon } from 'rsuite';
 import FormPromo from "../../modals/masterdata/promo/form_promo";
 import DetailPromo from "../../modals/masterdata/promo/detail_promo";
 
+import Default from "assets/default.png";
 class IndexPromo extends Component {
   constructor(props) {
     super(props);
@@ -25,12 +26,10 @@ class IndexPromo extends Component {
       isLoading: false,
       dateFrom: moment(new Date()).format("yyyy-MM-DD"),
       dateTo: moment(new Date()).format("yyyy-MM-DD"),
-      searchBy: "fullname",
+      searchBy: "title",
       searchByData: [
-        { value: "fullname", label: "Nama" },
-        { value: "referral", label: "Referral" },
-        { value: "mobile_no", label: "Telepon" },
-        { value: "status", label: "Status" },
+        { value: "title", label: "Judul" },
+        { value: "deskripsi", label: "Deskripsi" },
       ],
       promoship: "",
       jenjangKarir: "",
@@ -496,6 +495,7 @@ class IndexPromo extends Component {
                           <img
                             src={v.image}
                             alt=""
+                            onError={(e)=>{e.target.onerror = null; e.target.src=`${Default}`}} 
                             style={{ height: "50px", width: "100px", maxWidth:'unset' }}
                           />
                         </td>

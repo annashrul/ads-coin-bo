@@ -13,6 +13,7 @@ import {
 } from "../../../redux/actions/kategori/kategori.action";
 import { NOTIF_ALERT } from "../../../redux/actions/_constants";
 import { Button, Icon } from "rsuite";
+import Default from "assets/default.png";
 moment.locale("id"); // en
 
 class Kategori extends Component {
@@ -257,7 +258,7 @@ class Kategori extends Component {
                               <Icon icon="trash" />
                             </Button>
                           </td>
-                          <td style={{...headStyle, width:'1%'}}><img src={v.icon} alt="img"/></td>
+                          <td style={{...headStyle, width:'1%'}}><img src={v.icon} onError={(e)=>{e.target.onerror = null; e.target.src=`${Default}`}} alt="img"/></td>
                           <td style={headStyle}>{v.title}</td>
                           <td style={headStyle}>{myDate(v.created_at)}</td>
                           <td style={{...headStyle, width:'1%'}}>{statusQ(v.status)}</td>

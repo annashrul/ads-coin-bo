@@ -12,7 +12,7 @@ import Clock from "../../common/clock";
 import Default from "assets/default.png";
 import { toCurrency } from "../../../helper";
 import { FetchBo } from "../../../redux/actions/dashboard/dashboard.action";
-import { Nav, Rate } from "rsuite";
+import { Button, Icon, Nav, Rate } from "rsuite";
 import { getDataReportPaket } from "../../../redux/actions/laporan/report_paket.action";
 import { getMemberTopKontributor } from "../../../redux/actions/masterdata/member.action";
 
@@ -235,13 +235,22 @@ class Dashboard extends Component {
                 <Clock />
               </div>
               <div className="dashboard-btn-group d-flex align-items-center">
-                <button
+                {/* <button
                   type="button"
                   onClick={(e) => this.handleSubmit(e)}
                   className="btn btn-primary ml-1 float-right"
                 >
                   <i className="fa fa-refresh" />
-                </button>
+                </button> */}
+                
+                <Button
+                  size="md"
+                  color="blue"
+                  appearance="default"
+                  className=""
+                  onClick={(e) => this.handleSubmit(e)}>
+                  <Icon icon="refresh" />
+                </Button>
               </div>
             </div>
           </div>
@@ -316,8 +325,8 @@ class Dashboard extends Component {
                           return(
                               <div className="widget-download-file d-flex align-items-center justify-content-between mb-4">
                                   <div className="d-flex align-items-center mr-3">
-                                      <div className="download-file-icon mr-3">
-                                          <img src={i.foto} alt="img"></img>
+                                      <div className="download-file-icon mr-3" style={{padding:'unset', backgroundColor:'grey'}}>
+                                          <img src={i.foto} onError={(e)=>{e.target.onerror = null; e.target.src=`${Default}`}} alt="img" className="thumb-md mb-2 mr-2 rounded-circle" style={{maxHeight:'unset'}}></img>
                                       </div>
                                       <div className="user-text-table">
                                       <h6 className="d-inline-block font-15 mb-0">{i.fullname} - {i.referral}</h6>
@@ -351,15 +360,15 @@ class Dashboard extends Component {
                               return(
                                   <div className="widget-download-file d-flex align-items-center justify-content-between mb-4">
                                       <div className="d-flex align-items-center mr-3">
-                                          <div className="download-file-icon mr-3">
-                                              <img src={i.image_product} alt="img"></img>
+                                          <div className="download-file-icon mr-3" style={{padding:'unset', backgroundColor:'grey'}}>
+                                              <img src={i.image_product} onError={(e)=>{e.target.onerror = null; e.target.src=`${Default}`}} alt="img" className="thumb-md rounded-circle" style={{maxHeight:'unset'}}></img>
                                           </div>
                                           <div className="user-text-table">
                                           <h6 className="d-inline-block font-15 mb-0">{i.kd_trx} - {i.title}</h6>
                                           <p className="mb-0">{i.fullname}</p>
                                           </div>
                                       </div>
-                                      <a href="about:blank" className={"download-link badge badge-primary badge-pill"} style={{padding:'8px'}}>{i.category}</a>
+                                      <a href="about:blank" className={"download-link badge badge-info badge-pill"} style={{padding:'8px'}}>{i.category}</a>
                                   </div>
                               )
                           })

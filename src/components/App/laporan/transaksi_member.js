@@ -265,9 +265,9 @@ class LaporanTransaksiMember extends Component {
                 <th rowSpan="2" style={{...columnStyle, width:'1%'}}>
                   NO
                 </th>
-                <th rowSpan="2" style={{...columnStyle, width:'1%'}}>
+                {/* <th rowSpan="2" style={{...columnStyle, width:'1%'}}>
                   #
-                </th>
+                </th> */}
                 <th rowSpan="2" style={columnStyle}>
                   NAMA
                 </th>
@@ -296,15 +296,7 @@ class LaporanTransaksiMember extends Component {
                         <td style={columnStyle}>
                           {i + 1 + 10 * (parseInt(current_page, 10) - 1)}
                         </td>
-                        <td style={columnStyle}>
-                          {/* <button
-                            className={"btn btn-primary"}
-                            onClick={(e) =>
-                              this.handleDetail(e, v.id, v.fullname)
-                            }
-                          >
-                            <i className={"fa fa-eye"} />
-                          </button> */}
+                        {/* <td style={columnStyle}>
                           <Button
                             size="sm"
                             color="cyan"
@@ -312,7 +304,7 @@ class LaporanTransaksiMember extends Component {
                             className="" onClick={(e) => this.handleDetail(e, v.id, v.fullname)}>
                             <Icon icon="eye" />
                           </Button>
-                        </td>
+                        </td> */}
 
                         <td style={columnStyle}>{v.fullname}</td>
                         <td className={"coin"} style={numStyle}>
@@ -347,7 +339,7 @@ class LaporanTransaksiMember extends Component {
             </tbody>
             <tfoot className="">
               <tr>
-                <th colSpan={3}>TOTAL PERHALAMAN</th>
+                <th colSpan={2}>TOTAL PERHALAMAN</th>
                 <th className={"coin"} style={numStyle}>
                   {toCurrency(`${totSaldoAwal.toFixed(2)}`)}
                 </th>
@@ -363,7 +355,7 @@ class LaporanTransaksiMember extends Component {
               </tr>
 
               <tr>
-                <th colSpan={3}>TOTAL KESELURUHAN</th>
+                <th colSpan={2}>TOTAL KESELURUHAN</th>
                 <th className={"coin"} style={numStyle}>
                   {summary === undefined
                     ? "0 Coin"

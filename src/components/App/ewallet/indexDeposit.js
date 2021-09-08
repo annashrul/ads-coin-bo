@@ -22,7 +22,7 @@ class IndexDeposit extends Component {
       dateTo: moment(new Date()).format("yyyy-MM-DD"),
       kolom_data: [
         { value: "kd_trx", label: "kode transaksi" },
-        { value: "full_name", label: "nama" },
+        { value: "fullname", label: "nama" },
         { value: "status", label: "status" },
       ],
       kolom: "",

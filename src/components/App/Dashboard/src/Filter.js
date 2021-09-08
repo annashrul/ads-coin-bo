@@ -10,7 +10,7 @@ class Charts extends Component {
                     <div className="form-group">
                         <DateRangePicker
                             autoUpdateInput={true} showDropdowns={true} style={{display:'unset'}} ranges={rangeDate} alwaysShowCalendars={true} onApply={this.props.handleEvent}>
-                            <input type="text" readOnly={true} className="form-control" value={`${this.props.startDate} to ${this.props.endDate}`}/>
+                            <input type="text" readOnly={true} className="form-control form-control-lg" value={`${this.props.startDate} to ${this.props.endDate}`}/>
                         </DateRangePicker>
 
                     </div>
