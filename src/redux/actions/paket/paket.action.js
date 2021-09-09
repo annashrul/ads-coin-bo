@@ -217,3 +217,12 @@ export const deletePaket = (id) => async (dispatch) => {
       }
     });
 };
+
+export const detailPaket = (id ) => {
+  return (dispatch) => {
+    let url = `product/get/${id}`;
+    handleGet(url, (res) => {
+      dispatch(setDataDetail(res));
+    });
+  };
+};

@@ -16,11 +16,14 @@ import * as Swal from "sweetalert2";
 import {
   getPaket,
   deletePaket,
+  detailPaket,
 } from "../../../redux/actions/paket/paket.action";
 import { NOTIF_ALERT } from "../../../redux/actions/_constants";
+import { ButtonToolbar, Dropdown, Icon, Rate } from "rsuite";
+import DetailPaket from "../modals/paket/detail_paket";
 
 moment.locale("id"); // en
-const perpage = 3;
+const perpage = 9;
 class DaftarPaket extends Component {
   constructor(props) {
     super(props);
@@ -92,7 +95,13 @@ class DaftarPaket extends Component {
     this.props.dispatch(ModalToggle(bool));
     this.props.dispatch(ModalType("formPaket"));
   }
-
+  handleDetail(e, id) {
+    e.preventDefault();
+    const bool = !this.props.isOpen;
+    this.props.dispatch(ModalToggle(bool));
+    this.props.dispatch(ModalType("detailPaket"));
+    this.props.dispatch(detailPaket(id));
+  }
   handleDelete(e, id) {
     e.preventDefault();
     Swal.fire({
@@ -161,14 +170,75 @@ class DaftarPaket extends Component {
             </div>
           </div>
           <br />
+            <div className="card mx-3 w-100 rounded-lg">
+            <div className="card-columns" style={{columnRule:'solid #e8ebf1', columnRuleWidth:'thin'}}>
               {typeof data === "object" ? (
                 data.length > 0 ? (
                   data.map((v, i) => {
                     return (
-                  <div className="col-md-4">
-                    <main>
-                      <article key={i}>
-                        <div className="box-margin">
+                  <div className="border border-0 w-100" key={i} style={{display:'inline-block'}}>
+                          <div className="chat">
+                            <div className="d-flex justify-content-between align-items-center pt-3 pb-2 px-2">
+                              <div className="chat-header-text d-flex">
+                                <div className="chat-header-thumb">
+                                  <img src={v.seller_foto} alt="avatar" style={{width:'100px'}}/>
+                                </div>
+                                <div className="chat-about">
+                                  <div className="chat-with font-18">{v.seller}</div>
+                                  {/* <div className="chat-num-messages font-14">{v.seller_bio}</div> */}
+                                </div>
+                              </div>
+                              <div className="chat-features text-right" style={{width:'-webkit-fill-available'}}>
+                                {/* <Rate defaultValue={v.rating} allowHalf readOnly /> */}
+                                  <ButtonToolbar>
+                                  <Dropdown appearance="default" title="AKSI" size="xs" placement="bottomEnd">
+                                      <Dropdown.Item onClick={(e)=>this.handleDetail(e,v.id)}>
+                                      <Icon icon="eye" /> View
+                                      </Dropdown.Item>
+                                      {/* <Dropdown.Item onClick={(e)=>this.handleEdit(e,v)}>
+                                      <Icon icon="edit2" /> Edit
+                                      </Dropdown.Item> */}
+                                      <Dropdown.Item onClick={(e)=>this.handleDelete(e,v.id)}>
+                                      <Icon icon="trash" /> Delete
+                                      </Dropdown.Item>
+                                  </Dropdown>
+                                  </ButtonToolbar>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="px-2">
+                            <div className="card shadow-none bg-light rounded-lg">
+                              <div className="card-body">
+                                {v.status===1?<span className="text-success font-24">●</span>:<span className="text-danger font-24">●</span>}&nbsp;
+                                <strong className="font-20 mb-0">{v.title}</strong>
+                                <p className="m-0 p-0">{v.preview}</p>
+                                
+                                <div className="d-flex justify-content-between align-items-center">
+                                  <p className="">#{v.category}</p>
+                                  <Rate defaultValue={v.rating} allowHalf readOnly />
+                                </div>
+                                  <hr className="m-0 p-0"/>
+                                <div className="d-flex justify-content-between align-items-center">
+                                <p className="m-0 p-0">Harga {v.price} COIN</p>
+                                  <p className="">{v.terjual}x terjual</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          {/* <div className="px-2">
+                            <div className="card shadow-none bg-light rounded-lg">
+                              <div className="card-body">
+                                <p className="m-0 p-0">Harga : {v.price}</p>
+                                
+                                <div className="d-flex justify-content-between align-items-center">
+                                  <p className="">Terjual : {v.terjual}</p>
+                                  {v.status===1?<span className="text-success font-24">●</span>:<span className="text-danger font-24">●</span>}
+                                </div>
+                              </div>
+                            </div>
+                          </div> */}
+
+                        {/* <div className="box-margin">
                           <div
                             className="coupon"
                             style={{
@@ -258,13 +328,6 @@ class DaftarPaket extends Component {
                                         Pilihan
                                       </DropdownToggle>
                                       <DropdownMenu>
-                                        {/* <DropdownItem
-                                          onClick={(e) =>
-                                            this.handleModal(e, i)
-                                          }
-                                        >
-                                          Ubah
-                                        </DropdownItem> */}
                                         <DropdownItem
                                           onClick={(e) =>
                                             this.handleDelete(e, v.id)
@@ -279,9 +342,7 @@ class DaftarPaket extends Component {
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </article>
-                    </main>
+                        </div> */}
                   </div>
                     );
                   })
@@ -296,6 +357,8 @@ class DaftarPaket extends Component {
                 </div>
               )}
         </div>
+        </div>
+        </div>
         <div
           style={{ marginTop: "20px", marginBottom: "20px", float: "right" }}
         >
@@ -307,7 +370,7 @@ class DaftarPaket extends Component {
           />
         </div>
         {this.props.isOpen === true ? (
-          <FormPaket detail={this.state.detail} />
+          <DetailPaket />
         ) : null}
       </Layout>
     );

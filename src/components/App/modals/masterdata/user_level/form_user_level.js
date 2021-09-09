@@ -142,23 +142,23 @@ class FormUserLevel extends Component {
                 }
               ],
             },
-            {
-              id: 13,
-              label: "pembelian",
-              path: "",
-              parent: "laporan",
-              isChecked: false,
-              sub: [
-                {
-                  id: 14,
-                  label: "pembelian produk",
-                  path: "/laporan/pembelian_produk",
-                  parent: "penjualan",
-                  isChecked: false,
-                  sub: undefined,
-                }
-              ],
-            },
+            // {
+            //   id: 13,
+            //   label: "pembelian",
+            //   path: "",
+            //   parent: "laporan",
+            //   isChecked: false,
+            //   sub: [
+            //     {
+            //       id: 14,
+            //       label: "pembelian produk",
+            //       path: "/laporan/pembelian_produk",
+            //       parent: "penjualan",
+            //       isChecked: false,
+            //       sub: undefined,
+            //     }
+            //   ],
+            // },
           ],
           otherSub: true,
         },

@@ -17,7 +17,7 @@ export const bankReducer = (state = initialState, action) => {
             return Object.assign({}, state, {
                 status: action.data.status,
                 msg: action.data.msg,
-                data: action.data.result.data,
+                data: action.data.result,
                 meta: action.data.meta,
             });
         case BANK.LOADING_DETAIL:

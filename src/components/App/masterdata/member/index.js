@@ -58,6 +58,7 @@ class IndexMember extends Component {
     this.handleBankEdit = this.handleBankEdit.bind(this);
     this.handleMemberEdit = this.handleMemberEdit.bind(this);
     this.handleMemberResetPin = this.handleMemberResetPin.bind(this);
+    this.handleType = this.handleType.bind(this);
   }
 
   componentWillUnmount() {
@@ -227,21 +228,38 @@ class IndexMember extends Component {
       }
     });
   }
+  handleType(e, val) {
+    e.preventDefault();
+    Swal.fire({
+      title: "Perhatian !!!",
+      html: `anda yakin akan menjadikan ${val.fullname} sebagai ${val.type_id === 1 ? "MEMBER" : "KONTRIBUTOR"}??`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: `Oke, ${val.type_id === 1 ? "jadikan MEMBER" : "jadikan KONTRIBUTOR"}`,
+      cancelButtonText: "Batal",
+    }).then((result) => {
+      if (result.value) {
+        this.props.dispatch(putMember({ type_id: val.type_id === 0 ? "1" : "0" }, val.id));
+      }
+    });
+  }
 
   handleMemberEdit(e, id, name_old, mobile_no) {
     e.preventDefault();
     let proping = this.props;
     Swal.fire({
-      title: '<span class="text-light">Ubah Member</span>',
+      title: '<span class="text-dark">Ubah Member</span>',
       focusConfirm: true,
-      background: "#1a1c23",
+      background: "#fff",
       html:
-        '<div class="form-group"><label class="text-light">Nama Member</label><div class="input-group"><input type="text" id="nameModal" class="form-control" placeholder="Nama Member" value="' +
+        '<div class="form-group"><label class="text-dark">Nama Member</label><div class="input-group"><input type="text" id="nameModal" class="form-control" placeholder="Nama Member" value="' +
         name_old +
         '"></div></div>' +
-        '<div class="form-group"><label class="text-light">No Hp Member</label><div class="input-group"><input type="number" id="mobilenoModal" class="form-control" placeholder="No Hp Member" value="' +
+        '<div class="form-group"><label class="text-dark">No Hp Member</label><div class="input-group"><input type="number" id="mobilenoModal" class="form-control" placeholder="No Hp Member" value="' +
         mobile_no +
-        '"></div></div>',
+        '"></div><small class="float-left text-danger text-left font-11">Mengganti no telpon akan berdampak pada perubahan kode referral anda</small></div>',
       type: "warning",
       showCancelButton: true,
       cancelButtonColor: "grey",
@@ -443,6 +461,8 @@ class IndexMember extends Component {
 
     let totSaldo = 0;
     let totPayment = 0;
+    let totReferral = 0;
+    let totCopyTerjual = 0;
     return (
       <Layout page={"Member"}>
         <div className="row">
@@ -549,13 +569,25 @@ class IndexMember extends Component {
                   NAMA
                 </th>
                 <th rowSpan="2" style={headStyle}>
-                  USER ID
+                  REFERRAL
                 </th>
                 <th rowSpan="2" style={headStyle}>
                   NO.TELEPON
                 </th>
+                <th rowSpan="2" style={headStyle}>
+                  TANGGAL JOIN
+                </th>
+                <th rowSpan="2" style={headStyle}>
+                  BIO
+                </th>
+                <th rowSpan="2" style={headStyle}>
+                  WEBSITE
+                </th>
+                <th rowSpan="2" style={headStyle}>
+                  RATING
+                </th>
 
-                <th colSpan="2" style={headStyle}>
+                <th colSpan="4" style={headStyle}>
                   TOTAL
                 </th>
 
@@ -566,6 +598,8 @@ class IndexMember extends Component {
               <tr>
                 <th style={headStyle}>SALDO</th>
                 <th style={headStyle}>PENARIKAN</th>
+                <th style={headStyle}>REFERRAL</th>
+                <th style={headStyle}>COPY TERJUAL</th>
               </tr>
             </thead>
             <tbody>
@@ -574,6 +608,8 @@ class IndexMember extends Component {
                   data.map((v, i) => {
                     totSaldo += parseFloat(v.saldo);
                     totPayment += parseFloat(v.total_payment);
+                    totReferral += parseInt(v.total_referral,10);
+                    totCopyTerjual += parseInt(v.copy_terjual,10);
 
                     return (
                       <tr key={i}>
@@ -583,13 +619,16 @@ class IndexMember extends Component {
                             <ButtonToolbar>
                               <Dropdown appearance="default" title="AKSI" size="xs" placement="rightStart">
                                   <Dropdown.Item onClick={(e)=>this.handleBankEdit(e, v.id, v.fullname)}>
-                                  <Icon icon="edit2" /> Edit Bank
+                                  <Icon icon="edit2" /> Edit Bank {v.type_id === 1 ? "Kontributor" : "Member"}
                                   </Dropdown.Item>
                                   <Dropdown.Item onClick={(e)=>this.handleMemberEdit(e, v.id, v.fullname, v.mobile_no)}>
-                                  <Icon icon="edit2" /> Edit Member
+                                  <Icon icon="edit2" /> Edit {v.type_id === 1 ? "Kontributor" : "Member"}
                                   </Dropdown.Item>
                                   <Dropdown.Item onClick={(e)=>this.handleMemberResetPin(e, v.id)}>
-                                  <Icon icon="eye" /> Reset PIN Member
+                                  <Icon icon="eye" /> Reset PIN {v.type_id === 1 ? "Kontributor" : "Member"}
+                                  </Dropdown.Item>
+                                  <Dropdown.Item onClick={(e)=>this.handleType(e, v)}>
+                                  <Icon icon="crosshairs" /> {v.type_id === 0 ? "Jadikan Kontributor" : "Jadikan Member"}
                                   </Dropdown.Item>
                                   <Dropdown.Item onClick={(e)=>this.handleUpdate(e, v)}>
                                   <Icon icon="trash" /> {v.status === 0 ? "Aktifkan" : "Non-aktifkan"}
@@ -601,11 +640,21 @@ class IndexMember extends Component {
                         <td style={headStyle}>{v.fullname}</td>
                         <td style={headStyle}>{v.referral}</td>
                         <td style={headStyle}>{v.mobile_no}</td>
+                        <td style={headStyle}>{moment(v.created_at).format('yyyy-mm-DD')}</td>
+                        <td style={headStyle}>{v.bio}</td>
+                        <td style={headStyle}>{v.website}</td>
+                        <td style={headStyle}>{v.rating}</td>
                         <td style={numberStyle} className="poin">
                           {toCurrency(parseFloat(v.saldo).toFixed(2))}
                         </td>
                         <td className="poin" style={numberStyle}>
                           {toCurrency(parseFloat(v.total_payment).toFixed(2))}
+                        </td>
+                        <td className="poin" style={numberStyle}>
+                          {(v.total_referral)}
+                        </td>
+                        <td className="poin" style={numberStyle}>
+                          {(v.copy_terjual)}
                         </td>
 
                         <td style={headStyle}>{statusQ(v.status)}</td>
@@ -629,12 +678,18 @@ class IndexMember extends Component {
             </tbody>
             <tfoot className="">
               <tr>
-                <td colSpan={5}>TOTAL PERHALAMAN</td>
+                <td colSpan={9}>TOTAL PERHALAMAN</td>
                 <td style={numberStyle} className="poin">
                   {toCurrency(totSaldo.toFixed(2))}
                 </td>
                 <td className="poin" style={numberStyle}>
                   {toCurrency(totPayment.toFixed(2))}
+                </td>
+                <td style={numberStyle} className="poin">
+                  {(totReferral)}
+                </td>
+                <td className="poin" style={numberStyle}>
+                  {(totCopyTerjual)}
                 </td>
                 <td />
               </tr>

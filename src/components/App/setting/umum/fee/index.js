@@ -154,7 +154,7 @@ class Index extends Component {
                   />
                 </div>
               </div>
-              <div className="form-group">
+              {/* <div className="form-group">
                 <label>Minimal Transfer</label>
                 <div className="input-group">
                   <div className="input-group-append">
@@ -172,7 +172,7 @@ class Index extends Component {
                     placeholder="Minimal Transer"
                   />
                 </div>
-              </div>
+              </div> */}
               <h4
                 className="margin-bottom-20 text-white"
                 style={{ marginTop: "30px", marginBottom: "20px" }}
@@ -198,7 +198,7 @@ class Index extends Component {
                   />
                 </div>
               </div>
-              <div className="form-group">
+              {/* <div className="form-group">
                 <label>Biaya Transfer</label>
                 <div className="input-group">
                   <div className="input-group-append">
@@ -216,7 +216,7 @@ class Index extends Component {
                     placeholder="Biaya Transfer"
                   />
                 </div>
-              </div>
+              </div> */}
             </div>
 
             <div className="col-md-6 col-sm-12">
@@ -224,7 +224,7 @@ class Index extends Component {
                 <label>Harga Copy</label>
                 <div className="input-group">
                   <div className="input-group-append">
-                    <span className="input-group-text">%</span>
+                    <span className="input-group-text">Coin</span>
                   </div>
                   <input
                     type="number"

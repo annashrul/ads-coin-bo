@@ -13,6 +13,7 @@ import {
   putMemberBank,
   setShowModal,
 } from "../../../../../redux/actions/masterdata/bank.action";
+import { Modal } from "rsuite";
 
 const { Option } = components;
 const IconOption = (props) => (
@@ -20,8 +21,8 @@ const IconOption = (props) => (
     <div className="client-media-content d-flex align-items-center p-1">
       {/* <img className="client-thumb mr-3" src={props.data.icon} alt={props.data.label} /> */}
       <div className="user--media-body">
-        <h6 className="mb-0 text-light font-15">{props.data.label}</h6>
-        <span className="font-13 text-light">{props.data.childLabel}</span>
+        <h6 className="mb-0 text-dark font-15">{props.data.label}</h6>
+        <span className="font-13 text-dark">{props.data.childLabel}</span>
       </div>
     </div>
   </Option>
@@ -181,15 +182,30 @@ class FormMemberBank extends Component {
   render() {
     return (
       <WrapperModal
-        isOpen={this.props.isOpen && this.props.type === "formMemberBank"}
-        size="lg"
-      >
-        <ModalHeader toggle={this.toggle}>
+        backdropClassName="rs-modal-backdrop"
+        size="sm"
+        overflow={false}
+        autoFocus={true}
+        backdrop={true}
+        // full
+        show={this.props.isOpen && this.props.type === "formMemberBank"}
+        onHide={() => this.toggle()}
+        onEnter={() => {
+        }}>
+        
+        <Modal.Header>
+            <Modal.Title>
+              {this.props.detail.id === ""
+              ? "Tambah Member Bank"
+              : "Ubah Member Bank"}
+            </Modal.Title>
+        </Modal.Header>
+        {/* <ModalHeader toggle={this.toggle}>
           {this.props.detail.id === ""
             ? "Tambah Member Bank"
             : "Ubah Member Bank"}
-        </ModalHeader>
-        <ModalBody>
+        </ModalHeader> */}
+        <Modal.Body>
           <div className="row">
             <div className="col-12">
               <div className="bg-transparent rounded-lg p-2">
@@ -277,7 +293,7 @@ class FormMemberBank extends Component {
               </div>
             </div>
           </div>
-        </ModalBody>
+        </Modal.Body>
         <ModalFooter>
           <div className="form-group" style={{ textAlign: "right" }}>
             <button
@@ -305,6 +321,7 @@ class FormMemberBank extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log("state.bankReducer",state.banksReducer);
   return {
     isOpen: state.modalReducer,
     type: state.modalTypeReducer,
@@ -312,6 +329,7 @@ const mapStateToProps = (state) => {
     isError: state.userLevelReducer.isError,
     isLoadingData: state.banksReducer.isLoading,
     resBank: state.banksReducer.list_bank,
+    detailBank: state.bankReducer.data,
   };
 };
 
