@@ -65,7 +65,6 @@ export const getLaporanPenjualan = (where = '') => {
         if (where !== '') {
             url += `?${where}`;
         }
-        console.log("URL PENJUALAN", url);
 
         axios.get(HEADERS.URL + `${url}`)
             .then(function (response) {
@@ -122,13 +121,11 @@ export const lacakResi = (kd_trx, resi,kurir) => {
             })
             .then(function (response) {
                 const data = response.data;
-                console.log(data);
                 dispatch(getLaporanPenjualan('page=1'))
                 dispatch(setLoading(false));
             })
             .catch(function (error) {
                 dispatch(setLoading(false));
-                console.log("ERR",);
                 if (error.message === 'Network Error') {
                     Swal.fire(
                         'Network Failed!.',

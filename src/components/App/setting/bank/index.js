@@ -64,6 +64,7 @@ class Bank extends Component {
           acc_name: this.props.data.data[par].acc_name,
           acc_no: this.props.data.data[par].acc_no,
           tf_code: this.props.data.data[par].tf_code,
+          status: this.props.data.data[par].status,
         },
       });
     } else {
@@ -130,22 +131,6 @@ class Bank extends Component {
           </div>
           <div className="col-4 col-xs-4 col-md-2 text-right d-flex align-items-end justify-content-end">
             <div className="form-group">
-              {/* <button
-                style={{ marginTop: "27px" }}
-                type="button"
-                className="btn btn-primary"
-                onClick={(e) => this.handleSearch(e)}
-              >
-                <i className="fa fa-search" />
-              </button>
-              <button
-                style={{ marginTop: "27px", marginLeft: "5px" }}
-                type="button"
-                className="btn btn-primary"
-                onClick={(e) => this.handleModal(e, "")}
-              >
-                <i className="fa fa-plus" />
-              </button> */}
               <Button
                 size="lg"
                 color="blue"
@@ -188,19 +173,6 @@ class Bank extends Component {
                           {i + 1 + 10 * (parseInt(current_page, 10) - 1)}
                         </td>
                         <td style={{...headStyle, width:'1%'}}>
-                          {/* <button
-                            onClick={(e) => this.handleModal(e, i)}
-                            className={"btn btn-primary"}
-                            style={{ marginRight: "10px" }}
-                          >
-                            <i className={"fa fa-pencil"} />
-                          </button>
-                          <button
-                            onClick={(e) => this.handleDelete(e, v.id)}
-                            className={"btn btn-primary"}
-                          >
-                            <i className={"fa fa-close"} />
-                          </button> */}
                           <Button
                               size="sm"
                               color="green"
@@ -259,7 +231,6 @@ class Bank extends Component {
   }
 }
 const mapStateToProps = (state) => {
-  console.log("state.banksReducer",state.banksReducer);
   return {
     isLoading: state.banksReducer.isLoading,
     isOpen: state.modalReducer,

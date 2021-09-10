@@ -238,7 +238,6 @@ export const getInvesment = (where) => {
     if (where) {
       url += `?${where}`;
     }
-    console.log(url);
     dispatch(setLoadingInvesment(true));
     handleGet(url, (data) => {
       dispatch(setInvesment(data));

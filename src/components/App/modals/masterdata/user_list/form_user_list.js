@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import WrapperModal from "../../_wrapper.modal";
 import connect from "react-redux/es/connect/connect";
-import { ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import Select from "react-select";
 import { getUserLevel } from "../../../../../redux/actions/masterdata/user_level.action";
 import { ModalToggle } from "../../../../../redux/actions/modal.action";
@@ -126,7 +125,6 @@ class FormUserList extends Component {
       return;
     }
 
-    console.log(parseData);
     if (this.props.detail.id === "") {
       this.props.dispatch(postUserList(parseData));
     } else {
@@ -150,7 +148,6 @@ class FormUserList extends Component {
   render() {
     return (
       <WrapperModal
-        // isOpen={this.props.isOpen && this.props.type === "formUserList"}
         size="md"
         backdropClassName="rs-modal-backdrop"
         overflow={false}
@@ -248,24 +245,8 @@ class FormUserList extends Component {
             />
           </div>
         </Modal.Body>
-        <ModalFooter>
+        <Modal.Footer>
           <div className="form-group" style={{ textAlign: "right" }}>
-            {/* <button
-              style={{ color: "white" }}
-              type="button"
-              className="btn btn-warning mb-2 mr-2"
-              onClick={this.toggle}
-            >
-              <i className="ti-close" />
-              Keluar
-            </button>
-            <button
-              type="submit"
-              className="btn btn-primary mb-2"
-              onClick={this.handleSubmit}
-            >
-              <i className="ti-save" /> Simpan
-            </button> */}
             <Button
                 size="sm"
                 color="yellow"
@@ -281,7 +262,7 @@ class FormUserList extends Component {
                 <Icon icon="save" /> Simpan
               </Button>
           </div>
-        </ModalFooter>
+        </Modal.Footer>
       </WrapperModal>
     );
   }

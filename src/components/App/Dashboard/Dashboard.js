@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import Layout from "components/Layout";
 import moment from "moment";
 import "bootstrap-daterangepicker/daterangepicker.css";
-// import socketIOClient from "socket.io-client";
 
 import Cards from "./src/Cards";
 import Filter from "./src/Filter";
@@ -13,7 +12,6 @@ import Default from "assets/default.png";
 import { toCurrency } from "../../../helper";
 import { FetchBo } from "../../../redux/actions/dashboard/dashboard.action";
 import { Button, Icon, Nav, Rate } from "rsuite";
-import { getDataReportPaket } from "../../../redux/actions/laporan/report_paket.action";
 import { getMemberTopKontributor } from "../../../redux/actions/masterdata/member.action";
 
 // const socket = socketIOClient(HEADERS.URL);
@@ -164,9 +162,7 @@ class Dashboard extends Component {
         chart_pie_penjualan: this.props.resBo.chart_pie_penjualan,
         recent_order: this.props.resBo.recent_order,
       });
-      console.log("object", this.props.resBo);
     }
-    console.log("object", this.props.resBo);
   };
 
   refreshData(start = null, end = null) {
@@ -235,14 +231,6 @@ class Dashboard extends Component {
                 <Clock />
               </div>
               <div className="dashboard-btn-group d-flex align-items-center">
-                {/* <button
-                  type="button"
-                  onClick={(e) => this.handleSubmit(e)}
-                  className="btn btn-primary ml-1 float-right"
-                >
-                  <i className="fa fa-refresh" />
-                </button> */}
-                
                 <Button
                   size="md"
                   color="blue"
@@ -309,8 +297,6 @@ class Dashboard extends Component {
             <div className="card">
               <div className="card-header bg-transparent user-area d-flex align-items-center justify-content-between">
                   <h4 className="card-title mt-3">KONTRIBUTOR TERATAS</h4>
-                  {/* <button type="button" onClick={(e)=>this.HandleStock(e)} className="btn btn-primary"><i className="fa fa-refresh"></i></button> */}
-                  
                   <Nav style={{ backgroundColor: "transparent" }} appearance="subtle" activeKey={this.state.selectedIndex}>
                     {/* Filter : &nbsp; */}
                     <Nav.Item active={this.state.selectedIndex===0} eventKey={0} onSelect={() => this.handleSelect(0)}>Penjualan</Nav.Item>
@@ -326,7 +312,7 @@ class Dashboard extends Component {
                               <div className="widget-download-file d-flex align-items-center justify-content-between mb-4">
                                   <div className="d-flex align-items-center mr-3">
                                       <div className="download-file-icon mr-3" style={{padding:'unset', backgroundColor:'grey'}}>
-                                          <img src={i.foto} onError={(e)=>{e.target.onerror = null; e.target.src=`${Default}`}} alt="img" className="thumb-md mb-2 mr-2 rounded-circle" style={{maxHeight:'unset'}}></img>
+                                          <img src={i.foto} onError={(e)=>{e.target.onerror = null; e.target.src=`${Default}`}} alt="img" className="thumb-md mb-2 mr-2 rounded-circle" style={{maxHeight:'unset', width:'40px', height:'40px'}}></img>
                                       </div>
                                       <div className="user-text-table">
                                       <h6 className="d-inline-block font-15 mb-0">{i.fullname} - {i.referral}</h6>
@@ -350,7 +336,6 @@ class Dashboard extends Component {
             <div className="card">
               <div className="card-header bg-transparent user-area d-flex align-items-center justify-content-between">
                   <h4 className="card-title mt-3">10 ORDERAN TERAKHIR</h4>
-                  {/* <button type="button" onClick={(e)=>this.HandleStock(e)} className="btn btn-primary"><i className="fa fa-refresh"></i></button> */}
               </div>
               <div className="card-body" style={{height: '355px', overflowY: 'auto'}}>
                   {
@@ -361,7 +346,7 @@ class Dashboard extends Component {
                                   <div className="widget-download-file d-flex align-items-center justify-content-between mb-4">
                                       <div className="d-flex align-items-center mr-3">
                                           <div className="download-file-icon mr-3" style={{padding:'unset', backgroundColor:'grey'}}>
-                                              <img src={i.image_product} onError={(e)=>{e.target.onerror = null; e.target.src=`${Default}`}} alt="img" className="thumb-md rounded-circle" style={{maxHeight:'unset'}}></img>
+                                              <img src={i.image_product} onError={(e)=>{e.target.onerror = null; e.target.src=`${Default}`}} alt="img" className="thumb-md rounded-circle" style={{maxHeight:'unset', width:'40px', height:'40px'}}></img>
                                           </div>
                                           <div className="user-text-table">
                                           <h6 className="d-inline-block font-15 mb-0">{i.kd_trx} - {i.title}</h6>

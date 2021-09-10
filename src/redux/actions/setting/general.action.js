@@ -64,11 +64,8 @@ export const updateGeneral = (data, type = "site") => {
       onClose: () => {},
     });
     dispatch(setIsError(false));
-    let url = HEADERS.URL;
-    if (type !== "site") url += "site/config/general";
-    else url += "site/config/alokasi";
+    let url = HEADERS.URL+"site/config";
 
-    console.log(url);
     axios
       .put(url, data)
       .then(function (response) {

@@ -172,22 +172,6 @@ class Kategori extends Component {
           </div>
           <div className="col-4 col-xs-4 col-md-2  d-flex align-items-end justify-content-end">
             <div className="form-group">
-              {/* <button
-                style={{ marginTop: "27px" }}
-                type="button"
-                className="btn btn-primary"
-                onClick={(e) => this.handleSearch(e)}
-              >
-                <i className="fa fa-search" />
-              </button>
-              <button
-                style={{ marginTop: "27px", marginLeft: "5px" }}
-                type="button"
-                className="btn btn-primary"
-                onClick={(e) => this.handleModal(e, "")}
-              >
-                <i className="fa fa-plus" />
-              </button> */}
               <Button
                 size="lg"
                 color="blue"
@@ -230,19 +214,6 @@ class Kategori extends Component {
                             {i + 1 + 10 * (parseInt(current_page, 10) - 1)}
                           </td>
                           <td style={{...headStyle, width:'1%'}}>
-                            {/* <button
-                              onClick={(e) => this.handleModal(e, i)}
-                              className={"btn btn-primary"}
-                              style={{ marginRight: "10px" }}
-                            >
-                              <i className={"fa fa-pencil"} />
-                            </button>
-                            <button
-                              onClick={(e) => this.handleDelete(e, v.id)}
-                              className={"btn btn-primary"}
-                            >
-                              <i className={"fa fa-close"} />
-                            </button> */}
                             <Button
                               size="sm"
                               color="green"

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import WrapperModal from "../_wrapper.modal";
-import { ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { ModalToggle } from "../../../../redux/actions/modal.action";
 import { ToastQ } from "../../../../helper";
 import {
@@ -90,11 +89,6 @@ class FormKategori extends Component {
         }}
       >
         {this.props.isLoadingPost ? <Preloader /> : null}
-        {/* <ModalHeader toggle={this.toggle}>
-          {this.props.detail.id !== "" ? "Ubah" : "Tambah"} Kategori &nbsp;
-          {this.props.detail.param}
-        </ModalHeader> */}
-        
         <Modal.Header>
             <Modal.Title>
             {this.props.detail.id !== "" ? "Ubah" : "Tambah"} Kategori &nbsp;
@@ -133,25 +127,8 @@ class FormKategori extends Component {
 
           </div>
         </Modal.Body>
-        <ModalFooter>
+        <Modal.Footer>
           <div className="form-group" style={{ textAlign: "right" }}>
-            {/* <button
-              style={{ color: "white" }}
-              type="button"
-              className="btn btn-warning mb-2 mr-2"
-              onClick={this.toggle}
-            >
-              <i className="ti-close" />
-              Keluar
-            </button>
-            <button
-              type="submit"
-              className="btn btn-primary mb-2 mr-2"
-              onClick={this.handleSubmit}
-            >
-              <i className="ti-save" />
-              Simpan
-            </button> */}
             <Button
                 size="sm"
                 color="yellow"
@@ -167,7 +144,7 @@ class FormKategori extends Component {
                 <Icon icon="save" /> Simpan
               </Button>
           </div>
-        </ModalFooter>
+        </Modal.Footer>
       </WrapperModal>
     );
   }

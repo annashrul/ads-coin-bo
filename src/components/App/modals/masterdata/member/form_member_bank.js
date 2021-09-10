@@ -1,13 +1,10 @@
 import React, { Component } from "react";
 import WrapperModal from "../../_wrapper.modal";
 import connect from "react-redux/es/connect/connect";
-
-import { ModalBody, ModalHeader, ModalFooter } from "reactstrap";
 import { ModalToggle } from "../../../../../redux/actions/modal.action";
 import Select, { components } from "react-select";
 import { fetchDataBank } from "../../../../../redux/actions/setting/bank.action";
 import Skeleton from "react-loading-skeleton";
-// import { putMember } from "../../../../../redux/actions/masterdata/member.action";
 import Swal from "sweetalert2";
 import {
   putMemberBank,
@@ -93,7 +90,6 @@ class FormMemberBank extends Component {
         bank_id: nextProps.detailBank[0].id,
       });
     }
-    console.log("nextProps.detailBank", nextProps.detailBank);
   };
   componentWillMount() {
     this.props.dispatch(fetchDataBank());
@@ -104,7 +100,7 @@ class FormMemberBank extends Component {
   //     if(this.state.full_name!==prevState.full_name)this.setState({full_name:this.props.detail.name});
   // }
   toggle = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     const bool = !this.props.isOpen;
     this.props.dispatch(ModalToggle(bool));
     this.clearState();
@@ -200,11 +196,6 @@ class FormMemberBank extends Component {
               : "Ubah Member Bank"}
             </Modal.Title>
         </Modal.Header>
-        {/* <ModalHeader toggle={this.toggle}>
-          {this.props.detail.id === ""
-            ? "Tambah Member Bank"
-            : "Ubah Member Bank"}
-        </ModalHeader> */}
         <Modal.Body>
           <div className="row">
             <div className="col-12">
@@ -218,6 +209,7 @@ class FormMemberBank extends Component {
                     type="text"
                     className="form-control"
                     name="full_name"
+                    maxLength="200"
                     value={this.state.full_name}
                     onChange={this.handleChange}
                   />
@@ -234,7 +226,7 @@ class FormMemberBank extends Component {
                   </div>
                 </div>
                 <div className="form-group">
-                  <label className="text-light">Nama Bank</label>
+                  <label className="text-dark">Nama Bank</label>
                   {typeof this.state.bank_data === "object" ? (
                     this.state.bank_data.length > 0 ? (
                       <Select
@@ -294,7 +286,7 @@ class FormMemberBank extends Component {
             </div>
           </div>
         </Modal.Body>
-        <ModalFooter>
+        <Modal.Footer>
           <div className="form-group" style={{ textAlign: "right" }}>
             <button
               style={{ color: "white" }}
@@ -314,14 +306,13 @@ class FormMemberBank extends Component {
               {!this.props.isLoadingPost ? "Simpan" : "Loading ......"}
             </button>
           </div>
-        </ModalFooter>
+        </Modal.Footer>
       </WrapperModal>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  console.log("state.bankReducer",state.banksReducer);
   return {
     isOpen: state.modalReducer,
     type: state.modalTypeReducer,

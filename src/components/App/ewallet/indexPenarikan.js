@@ -8,7 +8,6 @@ import moment from "moment";
 import * as Swal from "sweetalert2";
 import { getExcelPenarikan, getPenarikan, postPenarikan } from "../../../redux/actions/ewallet/penarikan.action";
 import Select from "react-select";
-import { getConfigWallet } from "../../../redux/actions/ewallet/config_wallet.action";
 import { Button, Icon } from "rsuite";
 
 class IndexPenarikan extends Component {
@@ -24,7 +23,7 @@ class IndexPenarikan extends Component {
         { value: "fullname", label: "nama" },
         { value: "status", label: "status" },
       ],
-      kolom: "",
+      kolom: "fullname",
       status_data: [
         { value: "", label: "semua status" },
         { value: "0", label: "pending" },
@@ -64,7 +63,6 @@ class IndexPenarikan extends Component {
   componentWillMount() {
     let where = this.handleValidate();
     this.props.dispatch(getPenarikan(`page=1&${where}`));
-    this.props.dispatch(getConfigWallet());
   }
 
   handleSearch(e) {
@@ -255,12 +253,6 @@ class IndexPenarikan extends Component {
           </div>
           <div className="col-12 col-xs-12 col-md-2 d-flex align-items-end justify-content-end" style={{ textAlign: "right" }}>
             <div className="form-group">
-              {/* <button style={{ marginTop: "28px", marginRight: "5px" }} className="btn btn-primary" onClick={(e) => this.handleSearch(e)}>
-                <i className="fa fa-search" />
-              </button>
-              <button style={{ marginTop: "28px" }} className="btn btn-primary" onClick={(e) => this.printDocumentXLsx(e, per_page * last_page)}>
-                <i className="fa fa-print" />
-              </button> */}
               
               <Button
                 size="lg"
@@ -347,12 +339,6 @@ class IndexPenarikan extends Component {
                           <span className="circle">{i + 1 + 10 * (parseInt(current_page, 10) - 1)}</span>
                         </td>
                         <td style={{...columnStyle, width:'1%'}}>
-                          {/* <button style={{ marginRight: "5px" }} className={"btn btn-primary"} disabled={v.status === 1 || v.status === 2} onClick={(e) => this.handleApproval(e, v.id, 1)}>
-                            <i className={"fa fa-check"} />
-                          </button>
-                          <button style={{ marginRight: "5px" }} className={"btn btn-primary"} disabled={v.status === 1 || v.status === 2} onClick={(e) => this.handleApproval(e, v.id, 2)}>
-                            <i className={"fa fa-close"} />
-                          </button> */}
                           <Button
                             size="sm"
                             color="violet"

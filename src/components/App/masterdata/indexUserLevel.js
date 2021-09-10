@@ -174,19 +174,6 @@ class IndexUserLevel extends Component {
                           {i + 1 + 10 * (parseInt(current_page, 10) - 1)}
                         </td>
                         <td style={headStyle}>
-                          {/* <button
-                            onClick={(e) => this.handleModal(e, i)}
-                            className={"btn btn-primary"}
-                            style={{ marginRight: "10px" }}
-                          >
-                            <i className={"fa fa-pencil"} />
-                          </button>
-                          <button
-                            onClick={(e) => this.handleDelete(e, v.id)}
-                            className={"btn btn-primary"}
-                          >
-                            <i className={"fa fa-close"} />
-                          </button> */}
                             <Button
                               size="sm"
                               color="green"

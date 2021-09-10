@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Skeleton from "react-loading-skeleton";
 import { updateGeneral } from "../../../../../redux/actions/setting/general.action";
-import Switch from "react-switch";
 
 class Index extends Component {
   constructor(props) {
@@ -26,9 +24,6 @@ class Index extends Component {
   static getDerivedStateFromProps(props, state) {
     if (props.res_fee !== undefined && props.res_fee.length !== 0) {
       if (props.res_fee !== state.prevDataProps) {
-        // props.dispatch(fetchKota(props.res_fee.id_prov));
-        // props.dispatch(fetchKecamatan(props.res_fee.id_kota));
-        console.log('=======',props.res_fee);
 
         return {
           prevDataProps: props.res_fee,
@@ -53,7 +48,7 @@ class Index extends Component {
     const key_data = event.target.name;
     let type = "general";
     const data = {
-      [key_data]: event.target.value,
+      [key_data]: parseInt(event.target.value,10),
     };
     this.props.dispatch(updateGeneral(data, type));
   };
@@ -80,7 +75,6 @@ class Index extends Component {
   };
 
   handleChange = (event, e = null) => {
-    // console.log(event.target);
     if (e === null) {
       this.setState({ [event.target.name]: event.target.value });
     } else {
@@ -130,6 +124,7 @@ class Index extends Component {
                     }}
                     onChange={(event) => this.handleChange(event)}
                     value={this.state.dp_min}
+                    maxLength="15"
                     className="form-control"
                     placeholder="Minimal Withdraw"
                   />
@@ -149,6 +144,7 @@ class Index extends Component {
                     }}
                     onChange={(event) => this.handleChange(event)}
                     value={this.state.wd_min}
+                    maxLength="15"
                     className="form-control"
                     placeholder="Minimal Withdrawal"
                   />
@@ -193,6 +189,7 @@ class Index extends Component {
                     }}
                     onChange={(event) => this.handleChange(event)}
                     value={this.state.charge_wd}
+                    maxLength="15"
                     className="form-control"
                     placeholder="Minimal Transer"
                   />
@@ -234,6 +231,7 @@ class Index extends Component {
                     }}
                     onChange={(event) => this.handleChange(event)}
                     value={this.state.harga_copy}
+                    maxLength="15"
                     className="form-control"
                     placeholder="Harga Copy"
                   />
@@ -253,6 +251,7 @@ class Index extends Component {
                     }}
                     onChange={(event) => this.handleChange(event)}
                     value={this.state.komisi_kontributor}
+                    maxLength="15"
                     className="form-control"
                     placeholder="Komisi Kontributor"
                   />
@@ -272,6 +271,7 @@ class Index extends Component {
                     }}
                     onChange={(event) => this.handleChange(event)}
                     value={this.state.komisi_referral}
+                    maxLength="15"
                     className="form-control"
                     placeholder="Komisi Referral"
                   />
@@ -291,6 +291,7 @@ class Index extends Component {
                     }}
                     onChange={(event) => this.handleChange(event)}
                     value={this.state.konversi_coin}
+                    maxLength="15"
                     className="form-control"
                     placeholder="Konversi Coin"
                   />

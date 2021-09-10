@@ -1,16 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Layout from "../../../../components/Layout";
-import Paginationq, { statusQ, ToastQ, toCurrency, toRp } from "../../../../helper";
+import Paginationq, { statusQ, ToastQ, toCurrency } from "../../../../helper";
 import { NOTIF_ALERT } from "../../../../redux/actions/_constants";
 import { ModalToggle, ModalType } from "../../../../redux/actions/modal.action";
 import moment from "moment";
 import DetailInvesment from "../../modals/masterdata/member/detail_invesment";
 import { getMember, putMember } from "../../../../redux/actions/masterdata/member.action";
-import UncontrolledButtonDropdown from "reactstrap/es/UncontrolledButtonDropdown";
-import DropdownToggle from "reactstrap/es/DropdownToggle";
-import DropdownMenu from "reactstrap/es/DropdownMenu";
-import DropdownItem from "reactstrap/es/DropdownItem";
 import { fetchKategori } from "../../../../redux/actions/kategori/kategori.action";
 import { getExcelMember } from "../../../../redux/actions/masterdata/member.action";
 import { toExcel } from "../../../../helper";
@@ -19,7 +15,7 @@ import * as Swal from "sweetalert2";
 import Select from "react-select";
 import FormMemberBank from "../../modals/masterdata/member/form_member_bank";
 import FormMemberPinReset from "../../modals/masterdata/member/form_member_pin_reset";
-import { Table, Button, ButtonToolbar, Dropdown, Form, Icon } from 'rsuite';
+import { Button, ButtonToolbar, Dropdown, Icon } from 'rsuite';
 
 class IndexMember extends Component {
   constructor(props) {
@@ -36,6 +32,7 @@ class IndexMember extends Component {
         { value: "referral", label: "Referral" },
         { value: "mobile_no", label: "Telepon" },
         { value: "status", label: "Status" },
+        { value: "type", label: "Tipe" },
       ],
       membership: "",
       jenjangKarir: "",
@@ -44,6 +41,12 @@ class IndexMember extends Component {
         { value: "", label: "Semua" },
         { value: 0, label: "Tidak Aktif" },
         { value: 1, label: "Aktif" },
+      ],
+      type: "",
+      typeData: [
+        { value: "", label: "Semua" },
+        { value: 0, label: "Member" },
+        { value: 1, label: "Kontributor" },
       ],
       isModalInvest: false,
     };
@@ -59,6 +62,7 @@ class IndexMember extends Component {
     this.handleMemberEdit = this.handleMemberEdit.bind(this);
     this.handleMemberResetPin = this.handleMemberResetPin.bind(this);
     this.handleType = this.handleType.bind(this);
+    this.handleChangeType = this.handleChangeType.bind(this);
   }
 
   componentWillUnmount() {
@@ -157,6 +161,16 @@ class IndexMember extends Component {
       this.props.dispatch(getMember(1, `&${where}`));
     }
   }
+  handleChangeType(val) {
+    this.setState({ type: val.value });
+    let where = this.handleValidate();
+    // console.log(where);
+    if (val.value !== "") {
+      this.props.dispatch(getMember(1, `type=${val.value}&${where}`));
+    } else {
+      this.props.dispatch(getMember(1, `${where}`));
+    }
+  }
   handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
@@ -241,7 +255,7 @@ class IndexMember extends Component {
       cancelButtonText: "Batal",
     }).then((result) => {
       if (result.value) {
-        this.props.dispatch(putMember({ type_id: val.type_id === 0 ? "1" : "0" }, val.id));
+        this.props.dispatch(putMember({ type: val.type_id === 0 ? "1" : "0" }, val.id));
       }
     });
   }
@@ -443,8 +457,6 @@ class IndexMember extends Component {
   //   //   }
   // }
   render() {
-
-    const { Column, HeaderCell, Cell, ColumnGroup } = Table;
     
     const headStyle = {
       verticalAlign: "middle",
@@ -503,7 +515,26 @@ class IndexMember extends Component {
               <div
                 className="col-6 col-xs-6 col-md-3"
                 style={{
-                  display: this.state.searchBy === "status" ? "none" : "block",
+                  display: this.state.searchBy === "type" ? "block" : "none",
+                }}
+              >
+                <div className="form-group">
+                  <label>Tipe</label>
+
+                  <Select
+                    options={this.state.typeData}
+                    placeholder="==== Pilih ===="
+                    onChange={this.handleChangeType}
+                    value={this.state.typeData.find((op) => {
+                      return op.value === this.state.type;
+                    })}
+                  />
+                </div>
+              </div>
+              <div
+                className="col-6 col-xs-6 col-md-3"
+                style={{
+                  display: this.state.searchBy === "status" || this.state.searchBy === "type" ? "none" : "block",
                 }}
               >
                 <div className="form-group">
@@ -529,12 +560,6 @@ class IndexMember extends Component {
             <div className="row">
               <div className="col-md-12">
                 <div className="form-group">
-                  {/* <button style={{ marginTop: "28px", marginRight: "5px" }} className="btn btn-primary" onClick={this.handleSearch}>
-                    <i className="fa fa-search" />
-                  </button>
-                  <button style={{ marginTop: "28px" }} className="btn btn-primary" onClick={(e) => this.printDocumentXLsx(e, per_page * last_page)}>
-                    <i className="fa fa-print" />
-                  </button> */}
                   <Button 
                     size="lg"
                     color="blue"
@@ -715,7 +740,6 @@ class IndexMember extends Component {
   }
 }
 const mapStateToProps = (state) => {
-  console.log("state.memberReducer",state.memberReducer);
   return {
     isOpen: state.modalReducer,
     isShowModalInvestment: state.memberReducer.isShowModal,

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import WrapperModal from "../../_wrapper.modal";
 import connect from "react-redux/es/connect/connect";
 import Switch from "react-switch";
-import { ModalBody, ModalHeader, ModalFooter } from "reactstrap";
 import { ModalToggle } from "../../../../../redux/actions/modal.action";
 import { ToastQ } from "../../../../../helper";
 import {
@@ -245,7 +244,6 @@ class FormUserLevel extends Component {
     let parseData = {};
     parseData["level"] = this.state.lvl;
     parseData["access_level"] = JSON.stringify(this.state.menu);
-    console.log(this.state.menu);
     if (parseData["level"] === "" || parseData["level"] === undefined) {
       ToastQ.fire({
         icon: "error",
@@ -263,7 +261,6 @@ class FormUserLevel extends Component {
     const { menu } = this.state;
     return (
       <WrapperModal
-        // isOpen={this.props.isOpen && this.props.type === "formUserLevel"}
         
         backdropClassName="rs-modal-backdrop"
         size="lg"
@@ -276,9 +273,6 @@ class FormUserLevel extends Component {
         onEnter={() => {
         }}
       >
-        {/* <ModalHeader toggle={this.toggle}>
-          {this.props.detail.id === "" ? "Tambah" : "Ubah"} Akses Pengguna
-        </ModalHeader> */}
         <Modal.Header>
             <Modal.Title>{this.props.detail.id === "" ? "Tambah" : "Ubah"} Akses Pengguna</Modal.Title>
         </Modal.Header>
@@ -292,6 +286,7 @@ class FormUserLevel extends Component {
                   type="text"
                   className="form-control"
                   name="lvl"
+                  maxLength="100"
                   value={this.state.lvl}
                   onChange={(e) => this.handleChange(e)}
                 />
@@ -399,23 +394,8 @@ class FormUserLevel extends Component {
             })}
           </div>
         </Modal.Body>
-        <ModalFooter>
+        <Modal.Footer>
           <div className="form-group" style={{ textAlign: "right" }}>
-            {/* <button
-              style={{ color: "white" }}
-              type="button"
-              className="btn btn-warning mb-2 mr-2"
-              onClick={this.toggle}
-            >
-              <i className="ti-close" /> Keluar
-            </button>
-            <button
-              type="submit"
-              className="btn btn-primary mb-2 mr-2"
-              onClick={this.handleSubmit}
-            >
-              <i className="ti-save" /> Simpan
-            </button> */}
             <Button
                 size="sm"
                 color="yellow"
@@ -431,7 +411,7 @@ class FormUserLevel extends Component {
                 <Icon icon="save" /> Simpan
               </Button>
           </div>
-        </ModalFooter>
+        </Modal.Footer>
       </WrapperModal>
     );
   }

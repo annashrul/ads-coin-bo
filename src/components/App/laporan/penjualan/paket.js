@@ -201,22 +201,6 @@ class LaporanPaket extends Component {
             <div className="row">
               <div className="col-md-12">
                 <div className="form-group">
-                  {/* <button
-                    style={{ marginTop: "28px", marginRight: "5px" }}
-                    className="btn btn-primary"
-                    onClick={this.handleSearch}
-                  >
-                    <i className="fa fa-search" />
-                  </button>
-                  <button
-                    style={{ marginTop: "28px" }}
-                    className="btn btn-primary"
-                    onClick={(e) =>
-                      this.printDocumentXLsx(e, per_page * last_page)
-                    }
-                  >
-                    <i className="fa fa-print" />
-                  </button> */}
                   <Button
                     size="lg"
                     color="blue"

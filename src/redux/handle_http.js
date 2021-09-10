@@ -1,14 +1,7 @@
 import { HEADERS, NOTIF_ALERT } from "./actions/_constants";
-// import localforage from "localforage";
-import memoryDriver from "localforage-memoryStorageDriver";
-// import { setup } from "axios-cache-adapter";
 
 import Swal from "sweetalert2";
-import find from "lodash/find";
-import isEmpty from "lodash/isEmpty";
 import Axios from "axios";
-import { setupCache } from "axios-cache-adapter";
-import localforage from "localforage";
 import Nprogress from "nprogress";
 import "nprogress/nprogress.css";
 

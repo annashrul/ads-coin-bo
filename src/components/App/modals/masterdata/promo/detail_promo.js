@@ -1,12 +1,10 @@
 import React,{Component} from 'react';
-// import {ModalBody, ModalHeader} from "reactstrap";
 import connect from "react-redux/es/connect/connect";
 import WrapperModal from "../../_wrapper.modal";
 import {ModalToggle} from "redux/actions/modal.action";
 import { Modal } from 'rsuite';
 import moment from 'moment';
 import 'moment/locale/id'
-import { toRp } from '../../../../../helper';
 class DetailPromo extends Component{
     constructor(props){
         super(props);
@@ -35,14 +33,10 @@ class DetailPromo extends Component{
             max_user_uses,
             max_uses,
             status,
-            created_at,
             } = this.props.data_detail;
-        const columnStyle = {verticalAlign: "middle", textAlign: "center",};
         return (
             <div>
                 <WrapperModal 
-                    // isOpen={this.props.isOpen && this.props.type === "detailPromo"} size="lg" style={{maxWidth: '1600px', width: '100%'}}
-                    
                     backdropClassName="rs-modal-backdrop"
                     size="lg"
                     overflow={false}
@@ -53,7 +47,6 @@ class DetailPromo extends Component{
                     onHide={() => this.toggle()}
                     onEnter={() => {
                     }}>
-                    {/* <ModalHeader toggle={this.toggle}>Detail Promo</ModalHeader> */}
                     
                     <Modal.Header>
                         <Modal.Title>Detail Promo &nbsp;
@@ -122,7 +115,6 @@ class DetailPromo extends Component{
 }
 
 const mapStateToProps = (state) => {
-    console.log("state.promoReducer",state.promoReducer);
     return {
         isOpen: state.modalReducer,
         type: state.modalTypeReducer,

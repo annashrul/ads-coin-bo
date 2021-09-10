@@ -19,7 +19,6 @@ const initialState = {
 export const bonusReducer = (state = initialState, action) => {
     switch (action.type) {
         case BONUS.SUCCESS:
-            console.log("REDUCER BONUS",action.data.result);
             return Object.assign({}, state, {
                 status: action.data.status,
                 msg: action.data.msg,

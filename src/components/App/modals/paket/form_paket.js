@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import WrapperModal from "../_wrapper.modal";
-import { ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { ModalFooter } from "reactstrap";
 import { ModalToggle } from "../../../../redux/actions/modal.action";
 import { ToastQ } from "../../../../helper";
 import Select from "react-select";
@@ -170,8 +170,6 @@ class FormPaket extends Component {
   render() {
     return (
       <WrapperModal
-        // isOpen={this.props.isOpen && this.props.type === "formPaket"}
-        
         backdropClassName="rs-modal-backdrop"
         size="lg"
         overflow={false}
@@ -184,10 +182,6 @@ class FormPaket extends Component {
         }}
       >
         {this.props.isLoadingPost ? <Preloader /> : null}
-        {/* <ModalHeader toggle={this.toggle}>
-          {this.props.detail.id === "" ? "Tambah" : "Ubah"} Paket
-        </ModalHeader> */}
-        
         <Modal.Header>
             <Modal.Title>{this.props.detail.id === "" ? "Tambah" : "Ubah"} Paket</Modal.Title>
         </Modal.Header>
@@ -200,6 +194,7 @@ class FormPaket extends Component {
                   type="text"
                   className={"form-control"}
                   name={"title"}
+                  maxLength="200"
                   value={this.state.title}
                   onChange={this.handleChange}
                 />
@@ -223,6 +218,7 @@ class FormPaket extends Component {
                   type="text"
                   className={"form-control"}
                   name={"pin_required"}
+                  maxLength="20"
                   value={this.state.pin_required}
                   onChange={this.handleChange}
                 />
@@ -233,6 +229,7 @@ class FormPaket extends Component {
                   type="text"
                   className={"form-control"}
                   name={"price"}
+                  maxLength="20"
                   value={this.state.price}
                   onChange={this.handleChange}
                 />

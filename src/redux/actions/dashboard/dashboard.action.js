@@ -122,7 +122,6 @@ export const FetchBo = (where = '') => {
         axios.get(HEADERS.URL + `${url}`)
             .then(function(response){
                 const data = response.data;
-                console.log("action.data.result",data);
                 
                 dispatch(setBo(data));
                 dispatch(setLoadingBo(false));

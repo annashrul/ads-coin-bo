@@ -22,7 +22,6 @@ class DetailBank extends Component{
     };
 
     componentWillReceiveProps(nextProps){
-        console.log("props bank",nextProps);
     }
 
     render(){

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Layout from "../../../../components/Layout";
-import Paginationq, { statusQ, ToastQ, toCurrency, toRp } from "../../../../helper";
+import Paginationq from "../../../../helper";
 import { NOTIF_ALERT } from "../../../../redux/actions/_constants";
 import { ModalToggle, ModalType } from "../../../../redux/actions/modal.action";
 import moment from "moment";
@@ -9,7 +9,7 @@ import { deletePromo, detailPromo, getPromo, putPromo } from "../../../../redux/
 import { fetchKategori } from "../../../../redux/actions/kategori/kategori.action";
 import { getExcelPromo } from "../../../../redux/actions/masterdata/promo.action";
 import { toExcel } from "../../../../helper";
-import { getDetailBank, setShowModal } from "../../../../redux/actions/masterdata/bank.action";
+import { setShowModal } from "../../../../redux/actions/masterdata/bank.action";
 import * as Swal from "sweetalert2";
 import Select from "react-select";
 import { Button, ButtonToolbar, Icon } from 'rsuite';
@@ -224,7 +224,7 @@ class IndexPromo extends Component {
     e.preventDefault();
     Swal.fire({
       title: "Perhatian !!!",
-      html: `anda yakin akan ${val.status === 1 ? "Menonaktifkan Promo" : "Mengaktifkan Promo"} \"${val.title}\" ??`,
+      html: `anda yakin akan ${val.status === 1 ? "Menonaktifkan Promo" : "Mengaktifkan Promo"} "${val.title}" ??`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -269,11 +269,6 @@ class IndexPromo extends Component {
       textAlign: "center",
       whiteSpace: "nowrap",
     };
-    const numberStyle = {
-      verticalAlign: "middle",
-      textAlign: "right",
-      whiteSpace: "nowrap",
-    };
     const columnStyle = {
       verticalAlign: "middle",
       textAlign: "center",
@@ -287,7 +282,7 @@ class IndexPromo extends Component {
       whiteSpace: "nowrap",
     };
     const { data } = this.props.data;
-    const { last_page, total, per_page, current_page } = this.props.data.meta;
+    const { total, per_page, current_page } = this.props.data.meta;
 
     let totSaldo = 0;
     let totPayment = 0;
@@ -357,12 +352,6 @@ class IndexPromo extends Component {
             <div className="row">
               <div className="col-md-12">
                 <div className="form-group">
-                  {/* <button style={{ marginTop: "28px", marginRight: "5px" }} className="btn btn-primary" onClick={this.handleSearch}>
-                    <i className="fa fa-search" />
-                  </button>
-                  <button style={{ marginTop: "28px" }} className="btn btn-primary" onClick={(e) => this.printDocumentXLsx(e, per_page * last_page)}>
-                    <i className="fa fa-print" />
-                  </button> */}
                   <Button 
                     size="lg"
                     color="blue"
@@ -480,7 +469,6 @@ class IndexPromo extends Component {
                               >
                               <Icon icon="trash" />
                             </Button>
-                            {v.status===0?
                             <Button
                               color="orange"
                               onClick={(e) => this.handleStatusUpdate(e, v)}
@@ -488,7 +476,7 @@ class IndexPromo extends Component {
                               size="sm"
                               >
                               <Icon icon="toggle-on" />
-                            </Button>:''}
+                            </Button>
                           </ButtonToolbar>
                         </td>
                         <td style={cusStyle}>
@@ -561,7 +549,6 @@ class IndexPromo extends Component {
   }
 }
 const mapStateToProps = (state) => {
-  console.log("state.promoReducer",state.promoReducer);
   return {
     isOpen: state.modalReducer,
 

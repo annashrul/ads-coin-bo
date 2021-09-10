@@ -9,7 +9,6 @@ import moment from "moment";
 import { getDeposit, getExcelDeposit, postDeposit } from "../../../redux/actions/ewallet/deposit.action";
 import * as Swal from "sweetalert2";
 import Select from "react-select";
-import { getConfigWallet } from "../../../redux/actions/ewallet/config_wallet.action";
 import { Button, Icon } from "rsuite";
 
 class IndexDeposit extends Component {
@@ -25,7 +24,7 @@ class IndexDeposit extends Component {
         { value: "fullname", label: "nama" },
         { value: "status", label: "status" },
       ],
-      kolom: "",
+      kolom: "fullname",
       status_data: [
         { value: "", label: "semua status" },
         { value: "0", label: "pending" },
@@ -54,7 +53,6 @@ class IndexDeposit extends Component {
   componentWillMount() {
     let where = this.handleValidate();
     this.props.dispatch(getDeposit(`page=1&${where}`));
-    this.props.dispatch(getConfigWallet());
   }
   handleValidate() {
     let where = "";
@@ -203,7 +201,6 @@ class IndexDeposit extends Component {
     let totAmountRp = 0;
     const { data } = this.props.res;
     const { total, per_page, last_page, current_page } = this.props.res.meta;
-    console.log("config wallet", this.props.configWallet);
     return (
       <Layout page={"Laporan Deposit"}>
         <div className="row">
@@ -275,13 +272,6 @@ class IndexDeposit extends Component {
           </div>
           <div className="col-12 col-xs-12 col-md-2 d-flex align-items-end justify-content-end" style={{ textAlign: "right" }}>
             <div className="form-group">
-              {/* <button style={{ marginTop: "28px", marginRight: "5px" }} className="btn btn-primary" onClick={(e) => this.handleSearch(e)}>
-                <i className="fa fa-search" />
-              </button>
-              <button style={{ marginTop: "28px" }} className="btn btn-primary" onClick={(e) => this.printDocumentXLsx(e, per_page * last_page)}>
-                <i className="fa fa-print" />
-              </button> */}
-              
               <Button
                 size="lg"
                 color="blue"
@@ -315,9 +305,6 @@ class IndexDeposit extends Component {
                 </th>
                 <th rowSpan="2" style={columnStyle}>
                   NAMA
-                </th>
-                <th rowSpan="2" style={columnStyle}>
-                  DOWNLINE
                 </th>
                 <th rowSpan="2" style={columnStyle}>
                   BANK TUJUAN
@@ -365,15 +352,6 @@ class IndexDeposit extends Component {
                       <tr key={i}>
                         <td style={{...columnStyle, width:'1%'}}>{i + 1 + 10 * (parseInt(current_page, 10) - 1)}</td>
                         <td style={{...columnStyle, width:'1%'}}>
-                          {/* <button style={{ marginRight: "5px" }} className={"btn btn-primary"} disabled={v.status === 1 || v.status === 2} onClick={(e) => this.handleApproval(e, v.kd_trx, 1)}>
-                            <i className={"fa fa-check"} />
-                          </button>
-                          <button style={{ marginRight: "5px" }} className={"btn btn-primary"} disabled={v.status === 1 || v.status === 2} onClick={(e) => this.handleApproval(e, v.kd_trx, 2)}>
-                            <i className={"fa fa-close"} />
-                          </button>
-                          <button className={"btn btn-primary"} onClick={(e) => this.handlePaymentSlip(e, i)}>
-                            <i className={"fa fa-image"} />
-                          </button> */}
                           <Button
                             size="sm"
                             color="violet"
@@ -400,7 +378,6 @@ class IndexDeposit extends Component {
                         </td>
                         <td style={columnStyle}>{v.kd_trx}</td>
                         <td style={columnStyle}>{v.fullname}</td>
-                        <td style={columnStyle}>{v.downline}</td>
                         <td style={strStyle}>
                           {v.acc_name}
                           <br />
@@ -439,7 +416,7 @@ class IndexDeposit extends Component {
             </tbody>
             <tfoot className="">
               <tr>
-                <th colSpan={6}>TOTAL PERHALAMAN</th>
+                <th colSpan={5}>TOTAL PERHALAMAN</th>
                 <th colSpan={1} style={numStyle} className="poin">
                   {toCurrency(`${totAmountPoint}`)}
                 </th>

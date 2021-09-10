@@ -1,15 +1,9 @@
 import React, { Component } from "react";
 import WrapperModal from "../../_wrapper.modal";
 import connect from "react-redux/es/connect/connect";
-import { ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import Select from "react-select";
 import { getUserLevel } from "../../../../../redux/actions/masterdata/user_level.action";
 import { ModalToggle } from "../../../../../redux/actions/modal.action";
 import { ToastQ } from "../../../../../helper";
-import {
-  postUserList,
-  putUserList,
-} from "../../../../../redux/actions/masterdata/user_list.action";
 import Preloader from "../../../../../Preloader";
 import { Button, Icon, Modal } from 'rsuite';
 import { postPromo, putPromo } from "../../../../../redux/actions/masterdata/promo.action";
@@ -29,7 +23,7 @@ class FormUserList extends Component {
       deskripsi: "",
       type: 0,
       nominal: "",
-      kelipatan: "",
+      kelipatan: 0,
       periode_start: moment(new Date()).format("yyyy-MM-DD"),
       periode_end: moment(new Date()).add(1, "days").format("yyyy-MM-DD"),
       max_user_uses: "",
@@ -48,7 +42,7 @@ class FormUserList extends Component {
       deskripsi: "",
       type: "0",
       nominal: "",
-      kelipatan: "",
+      kelipatan: 0,
       periode_start: "1",
       periode_end: "",
       max_user_uses: "",
@@ -97,7 +91,7 @@ class FormUserList extends Component {
     parseData["max_user_uses"] = state.max_user_uses;
     parseData["max_uses"] = state.max_uses;
     parseData["image"] = state.image;
-    parseData["status"] = 1;
+    parseData["status"] = 0;
 
     if (parseData["title"] === "") {
       ToastQ.fire({ icon: "error", title: `Judul promo tidak boleh kosong` });
@@ -140,7 +134,6 @@ class FormUserList extends Component {
     //   return;
     // }
 
-    console.log(parseData);
     if (this.props.detail.id === "") {
       this.props.dispatch(postPromo(parseData));
     } else {
@@ -298,7 +291,7 @@ class FormUserList extends Component {
           </div>
           
         </Modal.Body>
-        <ModalFooter>
+        <Modal.Footer>
           <div className="form-group" style={{ textAlign: "right" }}>
             <Button
                 size="sm"
@@ -315,7 +308,7 @@ class FormUserList extends Component {
                 <Icon icon="save" /> Simpan
               </Button>
           </div>
-        </ModalFooter>
+        </Modal.Footer>
       </WrapperModal>
     );
   }

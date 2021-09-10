@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Layout from "components/Layout";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import moment from "moment";
 import General from "./general";
 import Fee from "./fee";
@@ -50,19 +49,6 @@ class IndexSetting extends Component {
                 <General res_general={this.props.resData} />
               </div>
             </div>
-            {/* <Tabs>
-              <TabList style={{ margin: "0px" }}>
-                <Tab>Fee</Tab>
-                <Tab>General</Tab>
-              </TabList>
-
-              <TabPanel>
-                <Fee res_fee={this.props.resData} />
-              </TabPanel>
-              <TabPanel>
-                <General res_general={this.props.resData} />
-              </TabPanel>
-            </Tabs> */}
           </div>
         </div>
       </Layout>
