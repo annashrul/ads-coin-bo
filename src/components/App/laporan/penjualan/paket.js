@@ -208,13 +208,13 @@ class LaporanPaket extends Component {
                     className="mr-2" onClick={(e) => this.handleSearch(e)}>
                     <Icon icon="search" />
                   </Button>
-                  <Button 
+                  {/* <Button 
                     size="lg"
                     color="cyan"
                     appearance="subtle"
                     className="" onClick={(e) => this.printDocumentXLsx(e, per_page * last_page)}>
                     <Icon icon="print" />
-                  </Button>
+                  </Button> */}
                 </div>
               </div>
             </div>
@@ -222,7 +222,40 @@ class LaporanPaket extends Component {
         </div>
         <br />
         <div style={{ overflowX: "auto" }}>
-          <table className="table table-hover  table-noborder">
+          <table className="table table-hover  table-noborder"><thead>
+              <tr>
+                <th rowSpan="2" style={{...columnStyle, width:'1%'}}>
+                  NO
+                </th>
+                <th rowSpan="2" style={columnStyle}>
+                  DETAIL PEMBELI
+                </th>
+                <th rowSpan="2" style={columnStyle}>
+                  DETAIL PEMBELIAN
+                </th>
+                <th rowSpan="2" style={columnStyle}>
+                  PENJUAL
+                </th>
+                <th rowSpan="2" style={columnStyle}>
+                  CHANEL
+                  <br/>
+                  PEMBAYARAN
+                </th>
+                <th rowSpan="2" style={columnStyle}>
+                  BIAYA
+                  <br/>
+                  ADMIN
+                </th>
+                <th rowSpan="2" style={columnStyle}>
+                  GRAND
+                  <br/>
+                  TOTAL
+                </th>
+                <th rowSpan="2" style={columnStyle}>
+                  STATUS
+                </th>
+              </tr>
+            </thead>
             <tbody>
               {typeof data === "object" ? (
                 data.length > 0 ? (
@@ -249,9 +282,9 @@ class LaporanPaket extends Component {
                           {i + 1 + 10 * (parseInt(current_page, 10) - 1)}
                         </td>
                         <td style={{...cusStyle, width:'1%'}}>
-                          {v.kd_trx}
+                          <strong className="text-dark">{v.kd_trx}</strong>
                           <br />
-                          {v.fullname}
+                          <small>a/n</small> &bull; <strong className="text-dark">{v.fullname}</strong>
                         </td>
                         <td style={cusStyle}>
                           <div
@@ -259,6 +292,7 @@ class LaporanPaket extends Component {
                             style={{
                               verticalAlign: "middle",
                               paddingTop: "13px",
+                              width:'max-content'
                             }}
                           >
                             <div class="mx-2">
@@ -280,19 +314,25 @@ class LaporanPaket extends Component {
                           </div>
                         </td>
 
-                        <td style={cusStyle} className="poin">
+                        <td style={columnStyle}>
+                          <small className="text-dark">
+                            {v.seller}
+                          </small>
+                        </td>
+                        <td style={columnStyle}>
                           <small className="text-dark">
                             {v.payment_channel}
                           </small>
-                          <br />
-                          {toCurrency(v.grand_total)}
                         </td>
-                        <td style={{...cusStyle, width:'1%'}}>
-                          <small className="text-left text-dark">
-                            {v.bank_name}
-                          </small>
-                          <br />
-                          <small className="text-dark">{v.acc_name}</small>
+                        <td style={cusStyle} className="poin">
+                          <strong className="text-dark">
+                            {toCurrency(v.biaya_admin)}
+                          </strong>
+                        </td>
+                        <td style={cusStyle} className="poin">
+                          <strong className="text-dark">
+                            {toCurrency(v.grand_total)}
+                          </strong>
                         </td>
                         <td style={{...cusStyle, width:'1%'}}>{status}</td>
                       </tr>

@@ -245,13 +245,13 @@ class LaporanTransaksiMember extends Component {
                     className="mr-2" onClick={(e) => this.handleSearch(e)}>
                     <Icon icon="search" />
                   </Button>
-                  <Button 
+                  {/* <Button 
                     size="lg"
                     color="cyan"
                     appearance="subtle"
                     className="" onClick={(e) => this.printDocumentXLsx(e, per_page * last_page)}>
                     <Icon icon="print" />
-                  </Button>
+                  </Button> */}
                 </div>
               </div>
             </div>
@@ -265,21 +265,21 @@ class LaporanTransaksiMember extends Component {
                 <th rowSpan="2" style={{...columnStyle, width:'1%'}}>
                   NO
                 </th>
-                {/* <th rowSpan="2" style={{...columnStyle, width:'1%'}}>
+                <th rowSpan="2" style={{...columnStyle, width:'1%'}}>
                   #
-                </th> */}
+                </th>
                 <th rowSpan="2" style={columnStyle}>
                   NAMA
                 </th>
-                <th colSpan="4" style={columnStyle}>
+                <th colSpan="4" style={{...columnStyle, width:'1%'}}>
                   SALDO
                 </th>
               </tr>
               <tr>
-                <th style={columnStyle}>AWAL</th>
-                <th style={columnStyle}>MASUK</th>
-                <th style={columnStyle}>KELUAR</th>
-                <th style={columnStyle}>AKHIR</th>
+                <th style={{...columnStyle, width:'1%'}}>AWAL</th>
+                <th style={{...columnStyle, width:'1%'}}>MASUK</th>
+                <th style={{...columnStyle, width:'1%'}}>KELUAR</th>
+                <th style={{...columnStyle, width:'1%'}}>AKHIR</th>
               </tr>
             </thead>
             <tbody>
@@ -296,7 +296,7 @@ class LaporanTransaksiMember extends Component {
                         <td style={columnStyle}>
                           {i + 1 + 10 * (parseInt(current_page, 10) - 1)}
                         </td>
-                        {/* <td style={columnStyle}>
+                        <td style={columnStyle}>
                           <Button
                             size="sm"
                             color="cyan"
@@ -304,7 +304,7 @@ class LaporanTransaksiMember extends Component {
                             className="" onClick={(e) => this.handleDetail(e, v.id, v.fullname)}>
                             <Icon icon="eye" />
                           </Button>
-                        </td> */}
+                        </td>
 
                         <td style={columnStyle}>{v.fullname}</td>
                         <td className={"coin"} style={numStyle}>

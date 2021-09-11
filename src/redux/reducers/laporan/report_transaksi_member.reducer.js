@@ -12,6 +12,9 @@ const initialState = {
   edit: [],
   detail: [],
   excel: [],
+  data_detail: [],
+  meta_detail:{},
+  total_detail:{},
   meta:{},
   total:{},
 };
@@ -29,7 +32,9 @@ export const reportTransaksiMemberReducer = (state = initialState, action) => {
 
     case REPORT_TRANSAKSI_MEMBER.DETAIL:
       return Object.assign({}, state, {
-        detail: action.data.result,
+        data_detail: action.data.result,
+        meta_detail: action.data.meta,
+        total_detail: action.data.total,
       });
     case REPORT_TRANSAKSI_MEMBER.EXCEL:
       return Object.assign({}, state, {

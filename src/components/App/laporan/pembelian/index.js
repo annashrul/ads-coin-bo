@@ -208,13 +208,13 @@ class LaporanPembelian extends Component {
                     className="mr-2" onClick={(e) => this.handleSearch(e)}>
                     <Icon icon="search" />
                   </Button>
-                  <Button 
+                  {/* <Button 
                     size="lg"
                     color="cyan"
                     appearance="subtle"
                     className="" onClick={(e) => this.printDocumentXLsx(e, per_page * last_page)}>
                     <Icon icon="print" />
-                  </Button>
+                  </Button> */}
                 </div>
               </div>
             </div>

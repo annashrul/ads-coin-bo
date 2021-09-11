@@ -75,8 +75,6 @@ class FormKategori extends Component {
   render() {
     return (
       <WrapperModal
-        isOpen={this.props.isOpen && this.props.type === "formKategori"}
-        
         backdropClassName="rs-modal-backdrop"
         size="sm"
         overflow={false}

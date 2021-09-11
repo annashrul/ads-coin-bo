@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import WrapperModal from "../_wrapper.modal";
 import connect from "react-redux/es/connect/connect";
-import { ModalBody, ModalHeader } from "reactstrap";
+import { Modal } from "rsuite";
 import { ModalToggle } from "../../../../redux/actions/modal.action";
 import { getDetailReportTransaksi } from "../../../../redux/actions/laporan/report_transaksi_member.action";
 import moment from "moment";
@@ -18,7 +18,7 @@ class DetailReportTransaksiMember extends Component {
   }
 
   toggle = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     const bool = !this.props.isOpen;
     this.props.dispatch(ModalToggle(bool));
   };
@@ -38,19 +38,28 @@ class DetailReportTransaksiMember extends Component {
   }
 
   render() {
-    const { total, per_page, current_page, data, summary } = this.props.data;
+    const data = this.props.data.data_detail;
+    const { total, per_page, current_page } = this.props.data.meta_detail;
+    const summary = this.props.data.total_detail;
     return (
       <WrapperModal
-        isOpen={
-          this.props.isOpen && this.props.type === "detailReportTransaksiMember"
-        }
+        backdropClassName="rs-modal-backdrop"
         size="lg"
+        overflow={false}
+        autoFocus={true}
+        backdrop={true}
+        // full
+        show={this.props.isOpen && this.props.type === "detailReportTransaksiMember"}
+        onHide={() => this.toggle()}
+        onEnter={() => {
+        }}
       >
-        <ModalHeader toggle={this.toggle}>
-          Laporan Transaksi {this.props.detail.nama}
-        </ModalHeader>
-        {this.props.isLoading ? <Preloader /> : null}
-        <ModalBody>
+      <Modal.Header>
+          <Modal.Title>
+            Laporan Transaksi {this.props.detail.nama}
+          </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
           <div className="row">
             {typeof data === "object" ? (
               data.length > 0 ? (
@@ -67,10 +76,10 @@ class DetailReportTransaksiMember extends Component {
                               className="media-body text-center mr-2"
                               style={{ maxWidth: "100px", minWidth: "100px" }}
                             >
-                              <h5 className="mb-1 text-muted text-white">
+                              <h5 className="mb-1 text-muted text-dark">
                                 {moment(v.created_at).format("HH:MM")}
                               </h5>
-                              <p className="mb-0 text-muted text-white">
+                              <p className="mb-0 text-muted text-dark">
                                 {moment(v.created_at).format("YYYY-DD-MM")}
                               </p>
                             </div>
@@ -78,10 +87,10 @@ class DetailReportTransaksiMember extends Component {
                               className="media-body text-left"
                               style={{ marginLeft: "20px" }}
                             >
-                              <p className="mb-2 text-mute text-white">
+                              <p className="mb-2 text-mute text-dark">
                                 {v.note}
                               </p>
-                              <h6 className="mb-1 text-white">{v.kd_trx}</h6>
+                              <h6 className="mb-1 text-dark">{v.kd_trx}</h6>
                             </div>
                             <div
                               className="media-body text-left ml-1"
@@ -197,7 +206,7 @@ class DetailReportTransaksiMember extends Component {
               </div>
             </div>
           </div>
-        </ModalBody>
+        </Modal.Body>
       </WrapperModal>
     );
   }
@@ -207,7 +216,7 @@ const mapStateToProps = (state) => {
   return {
     isOpen: state.modalReducer,
     type: state.modalTypeReducer,
-    data: state.reportTransaksiMemberReducer.detail,
+    data: state.reportTransaksiMemberReducer,
     isLoading: state.reportTransaksiMemberReducer.isLoadingDetail,
   };
 };

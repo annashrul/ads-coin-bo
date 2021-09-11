@@ -5,7 +5,7 @@ import connect from "react-redux/es/connect/connect";
 import {
   ToastQ,
 } from "../../../../../helper";
-import { ModalBody, ModalHeader, ModalFooter } from "reactstrap";
+import { Modal } from "rsuite";
 import { ModalToggle } from "../../../../../redux/actions/modal.action";
 import Swal from "sweetalert2";
 import { putMember } from "../../../../../redux/actions/masterdata/member.action";
@@ -43,7 +43,7 @@ class FormMemberPinReset extends Component {
   }
 
   toggle = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     const bool = !this.props.isOpen;
     this.props.dispatch(ModalToggle(bool));
     this.clearState();
@@ -138,16 +138,27 @@ class FormMemberPinReset extends Component {
   render() {
     return (
       <WrapperModal
-        isOpen={this.props.isOpen && this.props.type === "formMemberPinReset"}
-        size="md"
-      >
-        <ModalHeader toggle={this.toggle}>Reset PIN Member</ModalHeader>
-        <ModalBody>
+        backdropClassName="rs-modal-backdrop"
+        size="sm"
+        overflow={false}
+        autoFocus={true}
+        backdrop={true}
+        // full
+        show={this.props.isOpen && this.props.type === "formMemberPinReset"}
+        onHide={() => this.toggle()}
+        onEnter={() => {
+        }}>
+        <Modal.Header>
+            <Modal.Title>
+              Reset PIN Member
+            </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
           <div className="row">
             <div className="col-12">
               <div className="bg-transparent rounded-lg p-2">
                 <div className="form-group">
-                  <label className="text-light">PIN Baru</label>
+                  <label className="text-dark">PIN Baru</label>
                   <div className="input-group">
                     <input
                       type={this.state.sh_pin ? "text" : "password"}
@@ -179,7 +190,7 @@ class FormMemberPinReset extends Component {
                   </div>
                 </div>
                 <div className="form-group">
-                  <label className="text-light">Ulangi PIN Baru</label>
+                  <label className="text-dark">Ulangi PIN Baru</label>
                   <div className="input-group">
                     <input
                       type={this.state.sh_pin_re ? "text" : "password"}
@@ -212,8 +223,8 @@ class FormMemberPinReset extends Component {
               </div>
             </div>
           </div>
-        </ModalBody>
-        <ModalFooter>
+        </Modal.Body>
+        <Modal.Footer>
           <div className="form-group" style={{ textAlign: "right" }}>
             <button
               style={{ color: "white" }}
@@ -231,7 +242,7 @@ class FormMemberPinReset extends Component {
             >
               <i className="ti-save" />Reset</button>
           </div>
-        </ModalFooter>
+        </Modal.Footer>
       </WrapperModal>
     );
   }

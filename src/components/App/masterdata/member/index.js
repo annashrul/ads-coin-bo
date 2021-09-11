@@ -567,13 +567,13 @@ class IndexMember extends Component {
                     className="mr-2" onClick={(e) => this.handleSearch(e)}>
                     <Icon icon="search" />
                   </Button>
-                  <Button 
+                  {/* <Button 
                     size="lg"
                     color="cyan"
                     appearance="subtle"
                     className="" onClick={(e) => this.printDocumentXLsx(e, per_page * last_page)}>
                     <Icon icon="print" />
-                  </Button>
+                  </Button> */}
                 </div>
               </div>
             </div>
@@ -598,6 +598,9 @@ class IndexMember extends Component {
                 </th>
                 <th rowSpan="2" style={headStyle}>
                   NO.TELEPON
+                </th>
+                <th rowSpan="2" style={headStyle}>
+                  TIPE MEMBER
                 </th>
                 <th rowSpan="2" style={headStyle}>
                   TANGGAL JOIN
@@ -640,20 +643,20 @@ class IndexMember extends Component {
                           <div className="btn-group">
                             <ButtonToolbar>
                               <Dropdown appearance="default" title="AKSI" size="xs" placement="rightStart">
-                                  <Dropdown.Item onClick={(e)=>this.handleBankEdit(e, v.id, v.fullname)}>
+                                  {/* <Dropdown.Item onClick={(e)=>this.handleBankEdit(e, v.id, v.fullname)}>
                                   <Icon icon="edit2" /> Edit Bank {v.type_id === 1 ? "Kontributor" : "Member"}
-                                  </Dropdown.Item>
+                                  </Dropdown.Item> */}
                                   <Dropdown.Item onClick={(e)=>this.handleMemberEdit(e, v.id, v.fullname, v.mobile_no)}>
                                   <Icon icon="edit2" /> Edit {v.type_id === 1 ? "Kontributor" : "Member"}
                                   </Dropdown.Item>
                                   <Dropdown.Item onClick={(e)=>this.handleMemberResetPin(e, v.id)}>
-                                  <Icon icon="eye" /> Reset PIN {v.type_id === 1 ? "Kontributor" : "Member"}
+                                  <Icon icon="refresh" /> Reset PIN {v.type_id === 1 ? "Kontributor" : "Member"}
                                   </Dropdown.Item>
                                   <Dropdown.Item onClick={(e)=>this.handleType(e, v)}>
                                   <Icon icon="crosshairs" /> {v.type_id === 0 ? "Jadikan Kontributor" : "Jadikan Member"}
                                   </Dropdown.Item>
                                   <Dropdown.Item onClick={(e)=>this.handleUpdate(e, v)}>
-                                  <Icon icon="trash" /> {v.status === 0 ? "Aktifkan" : "Non-aktifkan"}
+                                  <Icon icon="toggle-on" /> {v.status === 0 ? "Aktifkan" : "Non-aktifkan"}
                                   </Dropdown.Item>
                               </Dropdown>
                             </ButtonToolbar>
@@ -662,6 +665,7 @@ class IndexMember extends Component {
                         <td style={headStyle}>{v.fullname}</td>
                         <td style={headStyle}>{v.referral}</td>
                         <td style={headStyle}>{v.mobile_no}</td>
+                        <td style={headStyle}>{v.type}</td>
                         <td style={headStyle}>{moment(v.created_at).format('yyyy-mm-DD')}</td>
               
                         <td style={numberStyle} className="poin">

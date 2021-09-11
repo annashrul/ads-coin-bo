@@ -13,6 +13,7 @@ import { toCurrency } from "../../../helper";
 import { FetchBo } from "../../../redux/actions/dashboard/dashboard.action";
 import { Button, Icon, Nav, Rate } from "rsuite";
 import { getMemberTopKontributor } from "../../../redux/actions/masterdata/member.action";
+import { NOTIF_ALERT } from "../../../redux/actions/_constants";
 
 // const socket = socketIOClient(HEADERS.URL);
 //
@@ -209,6 +210,20 @@ class Dashboard extends Component {
     this.setState({ selectedIndex: index }, () => {});
   };
   render() {
+    
+    const columnStyle = {
+      verticalAlign: "middle",
+      textAlign: "center",
+      whiteSpace: "nowrap",
+      color: "#888888",
+    };
+
+    const cusStyle = {
+      verticalAlign: "middle",
+      textAlign: "left",
+      whiteSpace: "nowrap",
+    };
+
     return (
       <Layout page="Dashboard">
         <div className="row align-items-center">
@@ -338,7 +353,130 @@ class Dashboard extends Component {
                   <h4 className="card-title mt-3">10 ORDERAN TERAKHIR</h4>
               </div>
               <div className="card-body" style={{height: '355px', overflowY: 'auto'}}>
-                  {
+                
+                <div style={{ overflowX: "auto" }}>
+                  <table className="table table-hover  table-noborder"><thead>
+                      <tr>
+                        <th rowSpan="2" style={columnStyle}>
+                          DETAIL PEMBELI
+                        </th>
+                        <th rowSpan="2" style={columnStyle}>
+                          PENJUAL
+                        </th>
+                        <th rowSpan="2" style={columnStyle}>
+                          CHANEL
+                          <br/>
+                          PEMBAYARAN
+                        </th>
+                        <th rowSpan="2" style={columnStyle}>
+                          BIAYA
+                          <br/>
+                          ADMIN
+                        </th>
+                        <th rowSpan="2" style={columnStyle}>
+                          GRAND
+                          <br/>
+                          TOTAL
+                        </th>
+                        <th rowSpan="2" style={columnStyle}>
+                          DETAIL PEMBELIAN
+                        </th>
+                        <th rowSpan="2" style={columnStyle}>
+                          STATUS
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {this.state.recent_order.length!==0 ? (
+                          this.state.recent_order.map((v,i)=>{
+                            let status = "";
+                            if (v.status === 0) {
+                              status = (
+                                <span className={"badge badge-warning"}>Pending</span>
+                              );
+                            }
+                            if (v.status === 1) {
+                              status = (
+                                <span className={"badge badge-success"}>Sukses</span>
+                              );
+                            }
+                            if (v.status === 2) {
+                              status = (
+                                <span className={"badge badge-danger"}>Gagal</span>
+                              );
+                            }
+                            return (
+                              <tr key={i}>
+                                <td style={{...cusStyle, width:'1%'}}>
+                                  <strong className="text-dark">{v.kd_trx}</strong>
+                                  <br />
+                                  <small>a/n</small> &bull; <strong className="text-dark">{v.fullname}</strong>
+                                </td>
+                                <td style={cusStyle} className="poin">
+                                  <small className="text-dark">
+                                    {v.seller}
+                                  </small>
+                                </td>
+                                <td style={columnStyle}>
+                                  <small className="text-dark">
+                                    {v.payment_channel}
+                                  </small>
+                                </td>
+                                <td style={cusStyle} className="poin">
+                                  <strong className="text-dark">
+                                    {toCurrency(v.biaya_admin)}
+                                  </strong>
+                                </td>
+                                <td style={cusStyle} className="poin">
+                                  <strong className="text-dark">
+                                    {toCurrency(v.grand_total)}
+                                  </strong>
+                                </td>
+                                <td style={cusStyle}>
+                                  <div
+                                    class="row"
+                                    style={{
+                                      verticalAlign: "middle",
+                                      paddingTop: "13px",
+                                      width:'max-content'
+                                    }}
+                                  >
+                                    <div class="mx-2">
+                                      <img
+                                        src={v.image_product}
+                                        className=""
+                                        onError={(e)=>{e.target.onerror = null; e.target.src=`${Default}`}} 
+                                        alt=""
+                                        style={{ height: "50px", width: "100px" }}
+                                      />
+                                    </div>
+                                    <p className="text-left text-dark">
+                                      {v.title}
+                                      <br />
+                                      <small className="txtGreen">
+                                        Preview : <b>{v.preview}</b>
+                                      </small>
+                                    </p>
+                                  </div>
+                                </td>
+
+                                <td style={{...cusStyle, width:'1%'}}>{status}</td>
+                              </tr>
+                            );
+                          })
+                        ) : (
+                        <tr>
+                          <td colSpan={9} style={columnStyle}>
+                            <img alt={"-"} src={`${NOTIF_ALERT.NO_DATA}`} />
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+
+
+                  {/* {
                       this.state.recent_order.length!==0?
                       (
                           this.state.recent_order.map((i,_inx)=>{
@@ -362,7 +500,7 @@ class Dashboard extends Component {
                       (
                           <div style={{textAlign:'center',fontSize:"11px",fontStyle:"italic"}}>Tidak tersedia.</div>
                       )
-                  }
+                  } */}
                   
               </div>
             </div>
