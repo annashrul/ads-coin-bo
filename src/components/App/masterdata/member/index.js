@@ -577,22 +577,19 @@ class IndexMember extends Component {
                 <th rowSpan="2" style={headStyle}>
                   TANGGAL JOIN
                 </th>
-                <th rowSpan="2" style={headStyle}>
-                  BIO
-                </th>
-                <th rowSpan="2" style={headStyle}>
-                  WEBSITE
-                </th>
-                <th rowSpan="2" style={headStyle}>
-                  RATING
-                </th>
-
                 <th colSpan="4" style={headStyle}>
                   TOTAL
                 </th>
 
                 <th rowSpan="2" style={headStyle}>
                   STATUS
+                </th>
+
+                <th rowSpan="2" style={headStyle}>
+                  WEBSITE
+                </th>
+                <th rowSpan="2" style={headStyle}>
+                  RATING
                 </th>
               </tr>
               <tr>
@@ -641,9 +638,7 @@ class IndexMember extends Component {
                         <td style={headStyle}>{v.referral}</td>
                         <td style={headStyle}>{v.mobile_no}</td>
                         <td style={headStyle}>{moment(v.created_at).format('yyyy-mm-DD')}</td>
-                        <td style={headStyle}>{v.bio}</td>
-                        <td style={headStyle}>{v.website}</td>
-                        <td style={headStyle}>{v.rating}</td>
+              
                         <td style={numberStyle} className="poin">
                           {toCurrency(parseFloat(v.saldo).toFixed(2))}
                         </td>
@@ -656,8 +651,10 @@ class IndexMember extends Component {
                         <td className="poin" style={numberStyle}>
                           {(v.copy_terjual)}
                         </td>
-
                         <td style={headStyle}>{statusQ(v.status)}</td>
+                        <td style={headStyle}>{v.website}</td>
+                        <td style={headStyle}>{v.rating}</td>
+
                       </tr>
                     );
                   })
