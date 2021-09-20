@@ -71,7 +71,7 @@ class IndexMember extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.dataExcel.data !== this.props.dataExcel.data) {
+    if (prevProps.dataExcel !== this.props.dataExcel) {
       this.getExcel(this.props);
     }
     // console.log("modal", prevProps.isShowModalInvestment);
@@ -93,45 +93,63 @@ class IndexMember extends Component {
     this.props.dispatch(fetchKategori(`membership`));
   }
   getExcel(props) {
-    if (props.dataExcel.data !== undefined) {
-      if (props.dataExcel.data.length > 0) {
+    if (props.dataExcel !== undefined) {
+      if (props.dataExcel.length > 0) {
         this.setState({ isLoading: false });
 
         let stts = this.state.status;
         let content = [];
         let totSaldo = 0;
-        let totSposor = 0;
-        let totPin = 0;
-        let totPayment = 0;
-        let totSlotActive = 0;
-        let totModal = 0;
-        let totOmset = 0;
+        let totTotalPayment = 0;
+        let totRef = 0;
+        let totCopy = 0;
 
-        props.dataExcel.data.forEach((v, i) => {
+        props.dataExcel.forEach((v, i) => {
           let newSaldo = parseFloat(v.saldo);
-          let newSponsor = parseFloat(v.sponsor);
-          let newPin = parseFloat(v.pin);
-          let newPayment = parseFloat(v.total_payment);
-          let newSlotActive = parseFloat(v.slot_active);
-          let newModal = parseFloat(v.total_modal);
-          let newOmset = parseFloat(v.omset);
+          let newTotalPayment = parseFloat(v.total_payment);
+          let newRef = parseFloat(v.total_referral);
+          let newCopy = parseFloat(v.copy_terjual);
 
           totSaldo += newSaldo;
-          totSposor += newSponsor;
-          totPin += newPin;
-          totPayment += newPayment;
-          totSlotActive += newSlotActive;
-          totModal += newModal;
-          totOmset += newOmset;
+          totTotalPayment += newTotalPayment;
+          totRef += newRef;
+          totCopy += newCopy;
 
-          content.push([v.fullname, v.referral, v.mobile_no, newSaldo, newSponsor, newPin, newPayment, newSlotActive, newModal, newOmset, v.status === 0 ? "Tidak Aktif" : "Aktif"]);
+          content.push([
+            v.fullname,
+            v.referral,
+            v.mobile_no,
+            v.type,
+            toCurrency(parseFloat(v.saldo).toFixed(2)),
+            toCurrency(parseFloat(v.total_payment).toFixed(2)),
+            v.total_referral,
+            v.copy_terjual,
+            v.status === 0 ? "Tidak Aktif" : "Aktif",
+            moment(v.created_at).format('YYYY-MM-DD'),
+            v.website,
+            v.rating,
+          ]);
         });
+        console.log("content",content);
         toExcel(
           `LAPORAN MEMBER ${stts === 0 ? "Tidak Aktif" : stts === 1 ? "Aktif" : ""}`,
           `SEMUA PERIODE`,
-          ["NAMA", "REFERRAL", "NO.TELEPON", "SALDO ( COIN )", "SPONSOR", "TIKET", "PENARIKAN ( COIN )", "SLOT AKTIF", "MODAL ( COIN )", "OMSET ( COIN )", "STATUS"],
+          [
+            "NAMA",
+            "REFERRAL",
+            "NO.TELEPON",
+            "TIPE MEMBER",
+            "TOTAL SALDO",
+            "TOTAL PENARIKAN",
+            "TOTAL REFERRAL",
+            "TOTAL COPY TERJUAL",
+            "STATUS",
+            "TANGGAL JOIN",
+            "WEBSITE",
+            "RATING",
+          ],
           content,
-          [[""], [""], ["TOTAL", "", "", totSaldo, totSposor, totPin, totPayment, totSlotActive, totModal, totOmset]]
+          [[""], [""], ["TOTAL", "", "", "", totSaldo, totTotalPayment, totRef, totCopy]]
         );
       }
     }
@@ -572,13 +590,13 @@ class IndexMember extends Component {
                     className="mr-2" onClick={(e) => this.handleSearch(e)}>
                     <Icon icon="search" />
                   </Button>
-                  {/* <Button 
+                  <Button 
                     size="lg"
                     color="cyan"
                     appearance="subtle"
                     className="" onClick={(e) => this.printDocumentXLsx(e, per_page * last_page)}>
                     <Icon icon="print" />
-                  </Button> */}
+                  </Button>
                 </div>
               </div>
             </div>
@@ -645,27 +663,39 @@ class IndexMember extends Component {
                       <tr key={i}>
                         <td style={headStyle}>{i + 1 + 10 * (parseInt(current_page, 10) - 1)}</td>
                         <td style={headStyle}>
-                          <div className="btn-group">
-                            <ButtonToolbar>
-                              <Dropdown appearance="default" title="AKSI" size="xs" placement="rightStart">
-                                  {/* <Dropdown.Item onClick={(e)=>this.handleBankEdit(e, v.id, v.fullname)}>
-                                  <Icon icon="edit2" /> Edit Bank {v.type_id === 1 ? "Kontributor" : "Member"}
-                                  </Dropdown.Item> */}
-                                  <Dropdown.Item onClick={(e)=>this.handleMemberEdit(e, v.id, v.fullname, v.mobile_no)}>
-                                  <Icon icon="edit2" /> Edit {v.type_id === 1 ? "Kontributor" : "Member"}
-                                  </Dropdown.Item>
-                                  <Dropdown.Item onClick={(e)=>this.handleMemberResetPin(e, v.id)}>
-                                  <Icon icon="refresh" /> Reset PIN {v.type_id === 1 ? "Kontributor" : "Member"}
-                                  </Dropdown.Item>
-                                  <Dropdown.Item onClick={(e)=>this.handleType(e, v)}>
-                                  <Icon icon="crosshairs" /> {v.type_id === 0 ? "Jadikan Kontributor" : "Jadikan Member"}
-                                  </Dropdown.Item>
-                                  <Dropdown.Item onClick={(e)=>this.handleUpdate(e, v)}>
-                                  <Icon icon="toggle-on" /> {v.status === 0 ? "Aktifkan" : "Non-aktifkan"}
-                                  </Dropdown.Item>
-                              </Dropdown>
-                            </ButtonToolbar>
-                          </div>
+                            
+                          <Button
+                            size="sm"
+                            color="violet"
+                            appearance="subtle"
+                            className="mr-2" onClick={(e)=>this.handleMemberEdit(e, v.id, v.fullname, v.mobile_no)}>
+                            <Icon icon="edit2" />
+                             {/* Edit {v.type_id === 1 ? "Kontributor" : "Member"} */}
+                          </Button>
+                          <Button 
+                            size="sm"
+                            color="red"
+                            appearance="subtle"
+                            className="mr-2" onClick={(e)=>this.handleMemberResetPin(e, v.id)}>
+                            <Icon icon="refresh" />
+                             {/* Reset PIN {v.type_id === 1 ? "Kontributor" : "Member"} */}
+                          </Button>
+                          <Button
+                            size="sm"
+                            color="cyan"
+                            appearance="subtle"
+                            className="mr-2" onClick={(e)=>this.handleType(e, v)}>
+                            <Icon icon="crosshairs" />
+                             {/* {v.type_id === 0 ? "Jadikan Kontributor" : "Jadikan Member"} */}
+                          </Button>
+                          <Button
+                            size="sm"
+                            color="cyan"
+                            appearance="subtle"
+                            className="" onClick={(e)=>this.handleUpdate(e, v)}>
+                            <Icon icon={v.status === 1 ?"toggle-on":"toggle-off"} />
+                             {/* {v.status === 0 ? "Aktifkan" : "Non-aktifkan"} */}
+                          </Button>
                         </td>
                         <td style={bodyStyle}>{v.fullname}</td>
                         <td style={bodyStyle}>{v.referral}</td>
@@ -745,6 +775,7 @@ class IndexMember extends Component {
   }
 }
 const mapStateToProps = (state) => {
+  console.log("state.memberReducer",state.memberReducer);
   return {
     isOpen: state.modalReducer,
     isShowModalInvestment: state.memberReducer.isShowModal,

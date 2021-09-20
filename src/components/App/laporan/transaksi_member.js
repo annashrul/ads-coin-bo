@@ -70,15 +70,23 @@ class LaporanTransaksiMember extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.dataExcel.data !== this.props.dataExcel.data) {
+    if (prevProps.dataExcel !== this.props.dataExcel) {
       this.getExcel(this.props);
     }
   }
   getExcel(props) {
-    if (props.dataExcel.data !== undefined) {
-      if (props.dataExcel.data.length > 0) {
+    if (props.dataExcel !== undefined) {
+      if (props.dataExcel.length > 0) {
         let content = [];
-        props.dataExcel.data.forEach((v, i) => {
+        let tot_saldo_awal = 0;
+        let tot_trx_in = 0;
+        let tot_trx_out = 0;
+        let tot_saldo_akhir = 0;
+        props.dataExcel.forEach((v, i) => {
+          tot_saldo_awal += parseFloat(v.saldo_awal)
+          tot_trx_in += parseFloat(v.trx_in)
+          tot_trx_out += parseFloat(v.trx_out)
+          tot_saldo_akhir += parseFloat(v.saldo_akhir)
           content.push([
             v.fullname,
             parseFloat(v.saldo_awal).toFixed(2),
@@ -97,18 +105,10 @@ class LaporanTransaksiMember extends Component {
             [""],
             [
               "TOTAL",
-              props.dataExcel.summary === undefined
-                ? 0
-                : parseFloat(props.dataExcel.summary.saldo_awal).toFixed(2),
-              props.dataExcel.summary === undefined
-                ? 0
-                : parseFloat(props.dataExcel.summary.trx_in).toFixed(2),
-              props.dataExcel.summary === undefined
-                ? 0
-                : parseFloat(props.dataExcel.summary.trx_out).toFixed(2),
-              props.dataExcel.summary === undefined
-                ? 0
-                : parseFloat(props.dataExcel.summary.saldo_akhir).toFixed(2),
+              tot_saldo_awal.toFixed(2),
+              tot_trx_in.toFixed(2),
+              tot_trx_out.toFixed(2),
+              tot_saldo_akhir.toFixed(2),
             ],
           ]
         );
@@ -221,6 +221,25 @@ class LaporanTransaksiMember extends Component {
             </div>
           </div>
 
+          <div className="col-12 col-xs-12 col-md-2 d-flex align-items-end justify-content-end" style={{ textAlign: "right" }}>
+            <div className="form-group">
+              
+              <Button
+                size="lg"
+                color="blue"
+                appearance="subtle"
+                className="mr-2" onClick={(e) => this.handleSearch(e)}>
+                <Icon icon="search" />
+              </Button>
+              <Button 
+                size="lg"
+                color="cyan"
+                appearance="subtle"
+                className="" onClick={(e) => this.printDocumentXLsx(e, per_page * last_page)}>
+                <Icon icon="print" />
+              </Button>
+            </div>
+          </div>
         </div>
         <br />
         <div style={{ overflowX: "auto" }}>

@@ -69,18 +69,19 @@ class IndexDeposit extends Component {
     return where;
   }
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.dataExcel.data !== this.props.dataExcel.data) {
+    if (prevProps.dataExcel !== this.props.dataExcel) {
       this.getExcel(this.props);
     }
   }
   getExcel(props) {
-    if (props.dataExcel.data !== undefined) {
-      if (props.dataExcel.data.length > 0) {
+    if (props.dataExcel !== undefined) {
+      if (props.dataExcel.length > 0) {
         let content = [];
-        let total = 0;
-        props.dataExcel.data.forEach((v) => {
-          let konv = parseInt(v.amount, 10) * parseInt(this.props.configWallet.konversi_poin, 10);
-          total = total + konv;
+        let total_amount = 0;
+        let total_amount_rupiah = 0;
+        props.dataExcel.forEach((v) => {
+          total_amount += parseFloat(v.amount);
+          total_amount_rupiah += parseFloat(v.amount_rupiah);
           let status = "";
           if (v.status === 0) {
             status = "Pending";
@@ -91,14 +92,34 @@ class IndexDeposit extends Component {
           if (v.status === 2) {
             status = "Gagal";
           }
-          content.push([v.kd_trx, v.fullname, v.downline, v.acc_name, v.acc_no, konv, parseInt(v.unique_code, 10), status, myDate(v.created_at)]);
+          content.push([
+            v.kd_trx,
+            v.fullname,
+            v.bank_name+` ${v.acc_no==='0'?'':`(${v.acc_no})`}`+` #`+v.acc_name,
+            toCurrency(`${v.amount}`),
+            `Rp ${toRp(v.amount_rupiah)} .-`,
+            v.unique_code,
+            status,
+            myDate(v.created_at),
+            
+          ]);
         });
         toExcel(
           "LAPORAN DEPOSIT",
           `${this.state.dateFrom} - ${this.state.dateTo}`,
-          ["KODE TRANSAKSI", "NAMA", "DOWNLINE", "BANK TUJUAN", "NO REKENING", "JUMLAH", "KODE UNIK", "STATUS", "TANGGAL"],
+          [
+            "KODE TRANSAKSI",
+            "NAMA",
+            "BANK TUJUAN",
+            "JUMLAH COIN",
+            "JUMLAH RUPIAH",
+            "KODE UNIK",
+            "STATUS",
+            "TANGGAL DIBUAT",
+            
+          ],
           content,
-          [[""], [""], ["TOTAL", "", "", "", "", total]]
+          [[""], [""], ["TOTAL", "", "", toCurrency(total_amount), `Rp. ${toRp(total_amount_rupiah)} ,-`]]
         );
       }
     }
@@ -279,13 +300,13 @@ class IndexDeposit extends Component {
                 className="mr-2" onClick={(e) => this.handleSearch(e)}>
                 <Icon icon="search" />
               </Button>
-              {/* <Button 
+              <Button 
                 size="lg"
                 color="cyan"
                 appearance="subtle"
                 className="" onClick={(e) => this.printDocumentXLsx(e, per_page * last_page)}>
                 <Icon icon="print" />
-              </Button> */}
+              </Button>
             </div>
           </div>
         </div>

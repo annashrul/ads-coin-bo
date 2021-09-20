@@ -179,7 +179,7 @@ class Index extends Component {
                 <label>Biaya Withdrawal</label>
                 <div className="input-group">
                   <div className="input-group-append">
-                    <span className="input-group-text">%</span>
+                    <span className="input-group-text">Rp</span>
                   </div>
                   <input
                     type="number"

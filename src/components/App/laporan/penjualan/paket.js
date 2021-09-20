@@ -73,44 +73,38 @@ class LaporanPaket extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.dataExcel.data !== this.props.dataExcel.data) {
+    if (prevProps.dataExcel !== this.props.dataExcel) {
       this.getExcel(this.props);
     }
   }
   getExcel(props) {
-    if (props.dataExcel.data !== undefined) {
-      if (props.dataExcel.data.length > 0) {
+    if (props.dataExcel !== undefined) {
+      if (props.dataExcel.length > 0) {
         let content = [];
         let status = "";
 
-        props.dataExcel.data.forEach((v, i) => {
+        props.dataExcel.forEach((v, i) => {
           if (v.status === 0) status = "Pending";
           if (v.status === 1) status = "Sukses";
           if (v.status === 2) status = "Gagal";
           content.push([
-            v.kd_trx,
-            v.title,
-            v.pin_required,
-            parseFloat(v.total).toFixed(2),
-            v.metode_pembayaran,
+            `#${v.kd_trx}`,
             v.fullname,
-            v.bank_name,
-            v.acc_name,
+            v.title+` (Kontributor : ${v.seller})`,
+            v.payment_channel,
+            toCurrency(v.grand_total),
             status,
           ]);
         });
         toExcel(
-          "LAPORAN PAKET",
+          "LAPORAN PENJUALAN PRODUK",
           `${this.state.dateFrom} - ${this.state.dateTo}`,
           [
             "KODE TRANSAKSI",
-            "NAMA PAKET",
-            "JUMLAH TIKET",
-            "JUMLAH PEMBAYARAN (COIN)",
-            "METODE PEMBAYARAN",
-            "NAMA PEMESAN",
-            "BANK TUJUAN",
-            "ATAS NAMA",
+            "Pembeli",
+            "Produk",
+            "Pembayaran",
+            "GRAND TOTAL",
             "STATUS",
           ],
           content
@@ -200,13 +194,13 @@ class LaporanPaket extends Component {
             <div className="row">
               <div className="col-md-12">
                 <div className="form-group">
-                  {/* <Button 
+                  <Button 
                     size="lg"
                     color="cyan"
                     appearance="subtle"
                     className="" onClick={(e) => this.printDocumentXLsx(e, per_page * last_page)}>
                     <Icon icon="print" />
-                  </Button> */}
+                  </Button>
                 </div>
               </div>
             </div>

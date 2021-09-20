@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Layout from "components/Layout";
 import { DateRangePicker } from "react-bootstrap-daterangepicker";
-import Paginationq, { rangeDate, toExcel, myDate, toRp } from "../../../helper";
+import Paginationq, { rangeDate, toExcel, myDate, toRp, toCurrency } from "../../../helper";
 import { NOTIF_ALERT } from "../../../redux/actions/_constants";
 import moment from "moment";
 import * as Swal from "sweetalert2";
@@ -121,18 +121,23 @@ class IndexPenarikan extends Component {
     });
   }
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.dataExcel.data !== this.props.dataExcel.data) {
+    if (prevProps.dataExcel !== this.props.dataExcel) {
       this.getExcel(this.props);
     }
   }
   getExcel(props) {
-    if (props.dataExcel.data !== undefined) {
-      if (props.dataExcel.data.length > 0) {
+    if (props.dataExcel !== undefined) {
+      if (props.dataExcel.length > 0) {
         let content = [];
-        let total = 0;
-        props.dataExcel.data.forEach((v, i) => {
-          let konv = parseInt(this.props.configWallet.konversi_poin, 10);
-          total = total + parseFloat(v.amount) * konv;
+        let total_amount = 0;
+        let total_amount_rupiah = 0;
+        let total_charge = 0;
+        let total_charge_rupiah = 0;
+        props.dataExcel.forEach((v, i) => {
+          total_amount += parseFloat(v.amount)
+          total_amount_rupiah += parseFloat(v.amount_rupiah)
+          total_charge += parseFloat(v.charge)
+          total_charge_rupiah += parseFloat(v.charge_rupiah)
 
           let status = "";
           if (v.status === 0) {
@@ -142,16 +147,36 @@ class IndexPenarikan extends Component {
             status = "Sukses";
           }
           if (v.status === 2) {
-            status = "Gagal";
+            status = "Dibatalkan";
           }
-          content.push([v.kd_trx, v.fullname, v.bank_name, v.acc_name, v.acc_no, parseFloat(v.amount) * konv, parseFloat(v.charge) * konv, status, myDate(v.created_at)]);
+          content.push([
+            v.kd_trx,
+            v.fullname,
+            v.acc_name+` ${v.bank_name}`+ `(${v.acc_no})`,
+            toCurrency(parseFloat(v.amount).toFixed(2)),
+            `Rp ${toRp(parseFloat(v.amount_rupiah).toFixed(2))} .-`,
+            toCurrency(parseFloat(v.charge).toFixed(2)),
+            `Rp ${toRp(parseFloat(v.charge_rupiah).toFixed(2))} .-`,
+            status,
+            myDate(v.created_at),
+          ]);
         });
         toExcel(
           "LAPORAN PENARIKAN",
           `${this.state.dateFrom} - ${this.state.dateTo}`,
-          ["KODE TRANSAKSI", "NAMA", "BANK", "ATAS NAMA", "NO REKENING", "JUMLAH", "BIAYA ADMIN", "STATUS", "TANGGAL"],
+          [
+            "KODE TRANSAKSI",
+            "NAMA",
+            "BANK",
+            "JUMLAH COIN",
+            "JUMLAH RUPIAH",
+            "BIAYA ADMIN COIN",
+            "BIAYA ADMIN RUPIAH",
+            "STATUS",
+            "TANGGAL DIBUAT",
+          ],
           content,
-          [[""], [""], ["TOTAL", "", "", "", "", total]]
+          [[""], [""], ["TOTAL", "", "", toCurrency(parseFloat(total_amount).toFixed(2)),'Rp. '+toRp(parseFloat(total_amount_rupiah).toFixed(2))+' ,-',toCurrency(parseFloat(total_charge).toFixed(2)),'Rp. '+toRp(parseFloat(total_charge_rupiah).toFixed(2))+' ,-']]
         );
       }
     }
@@ -261,13 +286,13 @@ class IndexPenarikan extends Component {
                 className="mr-2" onClick={(e) => this.handleSearch(e)}>
                 <Icon icon="search" />
               </Button>
-              {/* <Button 
+              <Button 
                 size="lg"
                 color="cyan"
                 appearance="subtle"
                 className="" onClick={(e) => this.printDocumentXLsx(e, per_page * last_page)}>
                 <Icon icon="print" />
-              </Button> */}
+              </Button>
             </div>
           </div>
         </div>

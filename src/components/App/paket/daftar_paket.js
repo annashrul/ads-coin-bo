@@ -149,16 +149,16 @@ class DaftarPaket extends Component {
     e.preventDefault();
     Swal.fire({
       title: "Perhatian !!!",
-      html: `anda yakin akan akan memblokir produk ini ??`,
+      html: `anda yakin akan akan ${val.status===2?'meng-unblokir':'memblokir'} produk ini ??`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: `Oke, Blok`,
+      confirmButtonText: `Oke, ${val.status===2?'Unblokir':'Blokir'}`,
       cancelButtonText: "Batal",
     }).then((result) => {
       if (result.value) {
-        this.props.dispatch(putPaket(val.id, { status: 2 }));
+        this.props.dispatch(putPaket(val.id, { status: val.status===2?0:2 }));
       }
     });
   }
@@ -357,9 +357,13 @@ class DaftarPaket extends Component {
                                       <Dropdown.Item onClick={(e)=>this.handleDetail(e,v.id)}>
                                       <Icon icon="eye" /> View
                                       </Dropdown.Item>
+                                      {v.status===2?
                                       <Dropdown.Item onClick={(e)=>this.handleUpdate(e,v)}>
-                                      <Icon icon="close-circle" /> Blokir
-                                      </Dropdown.Item>
+                                      <Icon icon="close-circle" /> Unblock
+                                      </Dropdown.Item>:
+                                      <Dropdown.Item onClick={(e)=>this.handleUpdate(e,v)}>
+                                      <Icon icon="close-circle" /> Block
+                                      </Dropdown.Item>}
                                   </Dropdown>
                                   </ButtonToolbar>
                                 </div>
