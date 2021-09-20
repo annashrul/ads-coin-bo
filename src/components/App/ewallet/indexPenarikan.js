@@ -291,11 +291,11 @@ class IndexPenarikan extends Component {
                 <th rowSpan="2" style={columnStyle}>
                   BANK
                 </th>
-                <th rowSpan="2" style={columnStyle}>
+                <th colSpan="2" style={columnStyle}>
                   JUMLAH
                 </th>
 
-                <th rowSpan="2" style={columnStyle}>
+                <th colSpan="2" style={columnStyle}>
                   BIAYA ADMIN
                 </th>
                 <th rowSpan="2" style={columnStyle}>
@@ -305,6 +305,12 @@ class IndexPenarikan extends Component {
                   TANGGAL DIBUAT
                 </th>
               </tr>
+              <tr>
+                <th style={columnStyle}>COIN</th>
+                <th style={columnStyle}>RUPIAH</th>
+                <th style={columnStyle}>COIN</th>
+                <th style={columnStyle}>RUPIAH</th>
+              </tr>
             </thead>
 
             <tbody>
@@ -312,13 +318,8 @@ class IndexPenarikan extends Component {
                 data.length > 0 ? (
                   data.map((v, i) => {
                     totAmountPoint = totAmountPoint + parseFloat(v.amount);
+                    totAmountRp = totAmountRp + parseFloat(v.amount_rupiah) ;
                     let nomRp = 0;
-                    let konv = 0;
-                    if (this.props.configWallet !== undefined) {
-                      konv = parseInt(this.props.configWallet.konversi_poin);
-                      nomRp = parseFloat(v.amount) * konv;
-                      totAmountRp = totAmountRp + parseFloat(v.amount) * konv;
-                    }
                     let badge = "";
                     let txt = "";
                     if (v.status === 0) {
@@ -364,10 +365,16 @@ class IndexPenarikan extends Component {
                           {v.bank_name} ({v.acc_no})
                         </td>
                         <td style={numStyle} className="txtGreen">
-                          Rp {toRp(parseFloat(nomRp).toFixed(2))} .-
+                          {toRp(parseFloat(v.amount).toFixed(2))} Coin
                         </td>
                         <td style={numStyle} className="txtGreen">
-                          Rp {toRp(parseFloat(v.charge).toFixed(2) * konv)} .-
+                          Rp {toRp(parseFloat(v.amount_rupiah).toFixed(2))} .-
+                        </td>
+                        <td style={numStyle} className="txtGreen">
+                          {toRp(parseFloat(v.charge).toFixed(2))} Coin
+                        </td>
+                        <td style={numStyle} className="txtGreen">
+                          Rp {toRp(parseFloat(v.charge_rupiah).toFixed(2))} .-
                         </td>
                         <td style={columnStyle}>
                           <span className={`span ${badge}`}>{txt}</span>
@@ -394,6 +401,9 @@ class IndexPenarikan extends Component {
             <tfoot className="">
               <tr>
                 <th colSpan={5}>TOTAL PERHALAMAN</th>
+                <th colSpan={1} style={numStyle} className="txtGreen">
+                  {toRp(parseFloat(`${totAmountPoint}`).toFixed(2))} Coin
+                </th>
                 <th colSpan={1} style={numStyle} className="txtGreen">
                   Rp {toRp(parseFloat(`${totAmountRp}`).toFixed(2))} .-
                 </th>

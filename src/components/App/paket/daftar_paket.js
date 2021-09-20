@@ -28,7 +28,7 @@ class DaftarPaket extends Component {
       any: "",
       searchBy: "",
       searchByData: [
-        { value: "", label: "Cari apa saja" },
+        { value: "", label: "Judul" },
         { value: "seller", label: "Penjual" },
         { value: "category", label: "Kategori" },
         { value: "status", label: "Status" },
@@ -326,126 +326,69 @@ class DaftarPaket extends Component {
             </div>
           </div>
         </div>
-        <div className="col-12 col-xs-12 col-md-2 d-flex align-items-end justify-content-end" style={{ textAlign: "right" }}>
-          <div className="row">
-            <div className="col-md-12">
-              <div className="form-group">
-                <Button 
-                  size="lg"
-                  color="blue"
-                  appearance="subtle"
-                  className="mr-2" onClick={(e) => this.handleSearch(e)}>
-                  <Icon icon="search" />
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
-        <div className="row">
-          {/* <div className="col-8 col-xs-8 col-md-10">
-            <div className="row">
-              <div className="col-md-5">
-                <div className="form-group">
-                  <label>Cari</label>
-                  <input
-                    type="text"
-                    className="form-control form-control-lg"
-                    name="any"
-                    placeholder={"cari disini"}
-                    value={this.state.any}
-                    onChange={this.handleChange}
-                    onKeyPress={(event) => {
-                      if (event.key === "Enter") {
-                        this.handleSearch(event);
-                      }
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-4 col-xs-4 col-md-2 d-flex align-items-end justify-content-end">
-            <div className="form-group">
-              <Button
-                size="lg"
-                color="blue"
-                appearance="subtle"
-                className="mr-2" onClick={(e) => this.handleSearch(e)}>
-                <Icon icon="search" />
-              </Button>
-            </div>
-          </div> */}
-          <br />
+        <div className="row  p-10">
             <div className="card mx-3 w-100 rounded-lg">
             <div className="card-columns" style={{columnRule:'solid #e8ebf1', columnRuleWidth:'thin'}}>
               {typeof data === "object" ? (
                 data.length > 0 ? (
                   data.map((v, i) => {
                     return (
+                      
                   <div className="border border-0 w-100" key={i} style={{display:'inline-block'}}>
-                    {/* <div className="chat">
-                      <div className="d-flex justify-content-between align-items-center pt-3 pb-2 px-2">
-                        <div className="chat-header-text d-flex">
-                          <div className="chat-header-thumb">
-                            <img src={v.seller_foto} alt="avatar" style={{width:'100px',height:'100px'}}/>
-                          </div>
-                          <div className="chat-about">
-                            <div className="chat-with font-18">{v.seller}</div>
-                          </div>
-                        </div>
-                        <div className="chat-features text-right" style={{width:'-webkit-fill-available'}}>
-                            <ButtonToolbar>
-                            <Dropdown appearance="default" title="AKSI" size="xs" placement="bottomEnd">
-                                <Dropdown.Item onClick={(e)=>this.handleDetail(e,v.id)}>
-                                <Icon icon="eye" /> View
-                                </Dropdown.Item>
-                                <Dropdown.Item onClick={(e)=>this.handleUpdate(e,v)}>
-                                <Icon icon="close-circle" /> Blokir
-                                </Dropdown.Item>
-                            </Dropdown>
-                            </ButtonToolbar>
-                        </div>
-                      </div>
-                    </div> */}
                     <div className="px-2">
                       <div className="card shadow-none bg-light rounded-lg">
                         <div className="card-body">
-                          <div className="d-flex justify-content-between align-items-center">
-                            <div className="w-75">
-                              {v.status===1?<span className="text-success font-12">[DIPUBLIKASI]</span>:v.status===0?<span className="text-danger font-12">[DRAFT]</span>:v.status===2?<span className="text-danger font-12">[DIBLOKIR]</span>:''}&nbsp;
-                              <strong className="font-20 mb-0">{v.title}</strong>
+                          <div className='row'>
+                            <div className="col-3">
+                              <img src={v.image} alt='logo'/>
                             </div>
-                            <div>
-                              <ButtonToolbar>
-                              <Dropdown 
-                                renderTitle={() => {
-                                  return <IconButton appearance="default" icon={<Icon icon="ellipsis-v" size="2x" />} />;
-                                }}>
-                                  <Dropdown.Item onClick={(e)=>this.handleDetail(e,v.id)}>
-                                  <Icon icon="eye" /> View
-                                  </Dropdown.Item>
-                                  <Dropdown.Item onClick={(e)=>this.handleUpdate(e,v)}>
-                                  <Icon icon="close-circle" /> Blokir
-                                  </Dropdown.Item>
-                              </Dropdown>
-                              </ButtonToolbar>
-                            </div>
-                          </div>
-                          <div className="text-right mb-2">
-                          <small className="fort-12 text-dark text-right">Oleh : <strong>{v.seller}</strong></small>
-                          </div>
+                            <div className="col-9">
+                              <div className="d-flex justify-content-between align-items-center">
+                                <div className="w-75">
+                                  <strong className="font-15 mb-0">{v.title}</strong>
+                                </div>
+                                <div>
+                                  <ButtonToolbar>
+                                  <Dropdown 
+                                    renderTitle={() => {
+                                      return <IconButton appearance="default" icon={<Icon icon="ellipsis-v" size="2x" />} />;
+                                    }}>
+                                      <Dropdown.Item onClick={(e)=>this.handleDetail(e,v.id)}>
+                                      <Icon icon="eye" /> View
+                                      </Dropdown.Item>
+                                      <Dropdown.Item onClick={(e)=>this.handleUpdate(e,v)}>
+                                      <Icon icon="close-circle" /> Blokir
+                                      </Dropdown.Item>
+                                  </Dropdown>
+                                  </ButtonToolbar>
+                                </div>
+                              </div>
 
-                          <p className="m-0 p-0">{v.preview}</p>
-                          
-                          <div className="d-flex justify-content-between align-items-center">
-                            <p className="">#{v.category}</p>
-                            <Rate defaultValue={v.rating} allowHalf readOnly />
-                          </div>
-                            <hr className="m-0 p-0"/>
-                          <div className="d-flex justify-content-between align-items-center">
-                          <p className="m-0 p-0">Harga {toCurrency(parseFloat(v.price))}</p>
-                            <p className="">{v.terjual}x terjual</p>
+                              <p className="m-0 p-0">{v.preview}</p>
+                            </div>
+                            <div className="col-12">
+                              <div className="d-flex justify-content-between align-items-center">
+                                <p className="">
+                                  {v.status===1?<span className={"badge badge-success"}>Aktif</span>:v.status===0?<span className={"badge badge-info"}>Draft</span>:v.status===2?<span className={"badge badge-danger"}>Di blokir</span>:''}
+
+                                </p>
+                                <Rate defaultValue={v.rating} allowHalf readOnly />
+                              </div>
+                              <hr className="m-0 p-0"/>
+                              <div className="d-flex justify-content-between align-items-center">
+                                <p className="m-0 p-0">
+                                  <small className="fort-12 text-dark text-right">Kontributor : <strong>{v.seller}</strong></small>
+                                  <br/>
+                                  #{v.category}
+                                  </p>
+                                <p className="">
+                                  {toCurrency(parseFloat(v.price))}<br/>
+                                  {v.terjual}x terjual
+                                </p>
+                              </div>
+
+                            </div>
                           </div>
                         </div>
                       </div>

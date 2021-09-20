@@ -1,20 +1,22 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Layout from "../../../../components/Layout";
-import Paginationq from "../../../../helper";
 import { NOTIF_ALERT } from "../../../../redux/actions/_constants";
 import { ModalToggle, ModalType } from "../../../../redux/actions/modal.action";
 import moment from "moment";
 import { deletePromo, detailPromo, getPromo, putPromo } from "../../../../redux/actions/masterdata/promo.action";
 import { fetchKategori } from "../../../../redux/actions/kategori/kategori.action";
 import { getExcelPromo } from "../../../../redux/actions/masterdata/promo.action";
-import { toExcel } from "../../../../helper";
 import { setShowModal } from "../../../../redux/actions/masterdata/bank.action";
 import * as Swal from "sweetalert2";
 import Select from "react-select";
 import { Button, ButtonToolbar, Icon } from 'rsuite';
 import FormPromo from "../../modals/masterdata/promo/form_promo";
 import DetailPromo from "../../modals/masterdata/promo/detail_promo";
+import Paginationq, {
+  toExcel,
+  toRp
+} from "../../../../helper";
 
 import Default from "assets/default.png";
 class IndexPromo extends Component {
@@ -354,13 +356,6 @@ class IndexPromo extends Component {
                 <div className="form-group">
                   <Button 
                     size="lg"
-                    color="blue"
-                    appearance="subtle"
-                    className="mr-2" onClick={(e) => this.handleSearch(e)}>
-                    <Icon icon="search" />
-                  </Button>
-                  <Button 
-                    size="lg"
                     color="cyan"
                     appearance="subtle"
                     className="" onClick={(e) => this.handleModal(e, '')}>
@@ -377,31 +372,31 @@ class IndexPromo extends Component {
             <thead>
               <tr>
                 <th rowSpan="2" style={{...headStyle, width:'1%'}}>
-                  NO
+                  No
                 </th>
                 <th rowSpan="2" style={{...headStyle, width:'1%'}}>
                   #
                 </th>
                 <th rowSpan="2" colSpan="2" style={{...headStyle, width:'1%'}}>
-                  PROMO
+                  Title
                 </th>
                 <th rowSpan="2" style={{...headStyle, width:'1%'}}>
-                  KETENTUAN PENGGUNAAN
+                  Status
                 </th>
                 <th rowSpan="2" style={{...headStyle, width:'1%'}}>
-                  PERIODE
+                  Ketentuan Penggunaan
                 </th>
                 <th rowSpan="2" style={{...headStyle, width:'1%'}}>
-                  TIPE
+                  Periode
                 </th>
                 <th rowSpan="2" style={{...headStyle, width:'1%'}}>
-                  NOMINAL
+                  Tipe
                 </th>
                 <th rowSpan="2" style={{...headStyle, width:'1%'}}>
-                  MIN TRX
+                  Nominal
                 </th>
                 <th rowSpan="2" style={{...headStyle, width:'1%'}}>
-                  STATUS
+                  Minimal Transaksi
                 </th>
               </tr>
             </thead>
@@ -427,12 +422,12 @@ class IndexPromo extends Component {
                     let type = "";
                     if (v.type === 0) {
                       type = (
-                        <span className={"badge badge-warning"}>Bonus</span>
+                        <span className={"badge badge-info"}>Bonus</span>
                       );
                     }
                     if (v.type === 1) {
                       type = (
-                        <span className={"badge badge-success"}>Konversi</span>
+                        <span className={"badge badge-primary"}>Konversi</span>
                       );
                     }
 
@@ -451,7 +446,6 @@ class IndexPromo extends Component {
                               >
                               <Icon icon="eye" />
                             </Button>
-                            {/* <span style={{ padding: 2 }}>|</span> */}
                             <Button
                               color="blue"
                               onClick={(e) => this.handleModal(e, i)}
@@ -460,7 +454,6 @@ class IndexPromo extends Component {
                               >
                               <Icon icon="edit" />
                             </Button>
-                            {/* <span style={{ padding: 2 }}>|</span> */}
                             <Button
                               color="red"
                               onClick={(e) => this.handleDelete(e, v.id)}
@@ -470,12 +463,12 @@ class IndexPromo extends Component {
                               <Icon icon="trash" />
                             </Button>
                             <Button
-                              color="orange"
+                              color = "violet"
                               onClick={(e) => this.handleStatusUpdate(e, v)}
                               appearance="subtle"
                               size="sm"
                               >
-                              <Icon icon="toggle-on" />
+                              <Icon icon={v.status===0?"toggle-off":"toggle-on"} style={v.status===0?{color:"#f44336"}:{color:"#4caf50"}} />
                             </Button>
                           </ButtonToolbar>
                         </td>
@@ -484,7 +477,7 @@ class IndexPromo extends Component {
                             src={v.image}
                             alt=""
                             onError={(e)=>{e.target.onerror = null; e.target.src=`${Default}`}} 
-                            style={{ height: "50px", width: "100px", maxWidth:'unset' }}
+                            style={{ height: "50px", width: "50px", maxWidth:'unset' }}
                           />
                         </td>
                         <td style={cusStyle}>
@@ -496,6 +489,7 @@ class IndexPromo extends Component {
                             </small>
                           </p>
                         </td>
+                        <td style={{...cusStyle, width:'1%'}}>{status}</td>
                         <td style={cusStyle}>
                           Maks. Pemakaian : <strong className="text-dark">{v.max_uses}</strong>
                           <br />
@@ -507,9 +501,8 @@ class IndexPromo extends Component {
                           Periode Akhir : <strong className="text-dark">{moment(v.periode_end).format('LL')}</strong>
                         </td>
                         <td style={cusStyle}>{type}</td>
-                        <td style={{...cusStyle, width:'1%'}}>{v.type===1?'Rp. ':''}{v.nominal}{v.type===0?' Coin':''}</td>
-                        <td style={{...cusStyle, width:'1%'}}>{v.type===0?v.kelipatan:''}</td>
-                        <td style={{...cusStyle, width:'1%'}}>{status}</td>
+                        <td style={{...cusStyle, width:'1%'}}>{v.type===1?'Rp. ':''}{toRp(v.nominal)}{v.type===0?' Coin':''}</td>
+                        <td style={{...cusStyle, width:'1%'}}>{v.type===0?'Rp. '+toRp(v.kelipatan):'-'}</td>
                       </tr>
                     );
                   })

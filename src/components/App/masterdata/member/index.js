@@ -463,6 +463,11 @@ class IndexMember extends Component {
       textAlign: "center",
       whiteSpace: "nowrap",
     };
+    const bodyStyle = {
+      verticalAlign: "middle",
+      textAlign: "left",
+      whiteSpace: "nowrap",
+    };
     const numberStyle = {
       verticalAlign: "middle",
       textAlign: "right",
@@ -602,9 +607,6 @@ class IndexMember extends Component {
                 <th rowSpan="2" style={headStyle}>
                   TIPE MEMBER
                 </th>
-                <th rowSpan="2" style={headStyle}>
-                  TANGGAL JOIN
-                </th>
                 <th colSpan="4" style={headStyle}>
                   TOTAL
                 </th>
@@ -613,6 +615,9 @@ class IndexMember extends Component {
                   STATUS
                 </th>
 
+                <th rowSpan="2" style={headStyle}>
+                  TANGGAL JOIN
+                </th>
                 <th rowSpan="2" style={headStyle}>
                   WEBSITE
                 </th>
@@ -662,12 +667,10 @@ class IndexMember extends Component {
                             </ButtonToolbar>
                           </div>
                         </td>
-                        <td style={headStyle}>{v.fullname}</td>
-                        <td style={headStyle}>{v.referral}</td>
-                        <td style={headStyle}>{v.mobile_no}</td>
-                        <td style={headStyle}>{v.type}</td>
-                        <td style={headStyle}>{moment(v.created_at).format('yyyy-mm-DD')}</td>
-              
+                        <td style={bodyStyle}>{v.fullname}</td>
+                        <td style={bodyStyle}>{v.referral}</td>
+                        <td style={bodyStyle}>{v.mobile_no}</td>
+                        <td style={bodyStyle}>{v.type_id===1?<span className={"badge badge-info"}>{v.type}</span>:<span className={"badge badge-warning"}>{v.type}</span>}</td>
                         <td style={numberStyle} className="poin">
                           {toCurrency(parseFloat(v.saldo).toFixed(2))}
                         </td>
@@ -675,14 +678,15 @@ class IndexMember extends Component {
                           {toCurrency(parseFloat(v.total_payment).toFixed(2))}
                         </td>
                         <td className="poin" style={numberStyle}>
-                          {(v.total_referral)}
+                          {(v.total_referral)} Member
                         </td>
                         <td className="poin" style={numberStyle}>
-                          {(v.copy_terjual)}
+                          {(v.copy_terjual)} Copy
                         </td>
-                        <td style={headStyle}>{statusQ(v.status)}</td>
-                        <td style={headStyle}>{v.website}</td>
-                        <td style={headStyle}>{v.rating}</td>
+                        <td style={bodyStyle}>{statusQ(v.status)}</td>
+                        <td style={bodyStyle}>{moment(v.created_at).format('YYYY-MM-DD')}</td>
+                        <td style={bodyStyle}>{v.website}</td>
+                        <td style={bodyStyle}>{v.rating}</td>
 
                       </tr>
                     );
@@ -704,7 +708,7 @@ class IndexMember extends Component {
             </tbody>
             <tfoot className="">
               <tr>
-                <td colSpan={9}>TOTAL PERHALAMAN</td>
+                <td colSpan={6}>TOTAL PERHALAMAN</td>
                 <td style={numberStyle} className="poin">
                   {toCurrency(totSaldo.toFixed(2))}
                 </td>
@@ -712,10 +716,10 @@ class IndexMember extends Component {
                   {toCurrency(totPayment.toFixed(2))}
                 </td>
                 <td style={numberStyle} className="poin">
-                  {(totReferral)}
+                  {(totReferral)} Member
                 </td>
                 <td className="poin" style={numberStyle}>
-                  {(totCopyTerjual)}
+                  {(totCopyTerjual)} Copy
                 </td>
                 <td />
               </tr>

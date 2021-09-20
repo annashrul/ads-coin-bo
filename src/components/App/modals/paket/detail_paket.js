@@ -53,20 +53,6 @@ class DetailPaket extends Component{
                     <Modal.Body>
                         <div className="img-thumbnail mb-3">
                         <div className="border border-0 w-100" style={{display:'inline-block'}}>
-                          {/* <div className="chat">
-                            <div className="d-flex justify-content-between align-items-center pt-3 pb-2 px-2">
-                              <div className="chat-header-text d-flex align-items-center w-100">
-                                <div className="chat-header-thumb">
-                                  <img src={seller_foto} alt="avatar" style={{width:'50px'}}/>
-                                </div>
-                                <div className="chat-about">
-                                  <div className="chat-with font-18">{seller}</div>
-                                </div>
-                              </div>
-                              <div className="chat-features text-right" style={{width:'-webkit-fill-available'}}>
-                              </div>
-                            </div>
-                          </div> */}
                           <div className="px-2">
                             <div className="card shadow-none bg-light rounded-lg">
                               <div className="card-body">
@@ -79,7 +65,7 @@ class DetailPaket extends Component{
                                 <p className="m-0 p-0">Harga {toCurrency(parseFloat(price))}</p>
                                   <p className="">{terjual}x terjual</p>
                                 </div>
-                                <div style={{height:'300px', width:'100%', background:`url(${image}) no-repeat center`, backgroundSize:'cover'}} className="imgExpand" >
+                                <div style={{height:'300px', width:'100%', background:`url(${image}) no-repeat center`, backgroundSize:'cover'}}  >
                                 </div>
                                 <div className="rounded-lg p-2 mt-4" style={{border:'1px dashed #9e9e9e'}}>
                                     <strong className="font-20 mb-0">{title}</strong>

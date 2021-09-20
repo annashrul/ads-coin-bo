@@ -87,7 +87,7 @@ class Layout extends Component {
                   e.target.src = `${Default}`;
                 }}
                 alt="Desktop Logo"
-                style={{ maxHeight: "30px" }}
+                style={{ maxHeight: "60px" }}
               />{" "}
               <img
                 className="small-logo"

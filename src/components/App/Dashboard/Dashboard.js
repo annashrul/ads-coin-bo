@@ -21,8 +21,8 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      startDate: moment(new Date()).format("yyyy-MM-DD"),
-      endDate: moment(new Date()).format("yyyy-MM-DD"),
+      startDate: moment().startOf('month').format("yyyy-MM-DD"),
+      endDate: moment().endOf('month').format("yyyy-MM-DD"),
       saldo_member: 0,
       total_komisi_perusahaan: 0,
       slot_aktif: 0,
@@ -104,26 +104,6 @@ class Dashboard extends Component {
       },
     };
     this.handleEvent = this.handleEvent.bind(this);
-
-    // socket.on('refresh_dashboard',(data)=>{
-    //     this.refreshData();
-    // })
-
-    // socket.on("set_dashboard_bo", (data) => {
-    //     this.setState({
-    //         penjualan_pin:data.penjualan_pin,
-    //         chart_column_omset:data.chart_column_omset,
-    //         pie_membership:data.pie_membership,
-    //         pie_karir:data.pie_karir,
-    //         pie_signup:data.pie_signup,
-    //         saldo_member: data.saldo_member,
-    //         total_komisi_perusahaan: data.total_komisi_perusahaan,
-    //         total_member_aktif: data.total_member_aktif,
-    //         total_penjualan: data.total_penjualan,
-    //         get_sponsor_terbaik: data.get_sponsor_terbaik,
-    //         get_member_baru: data.get_member_baru,
-    //     });
-    // });
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -167,14 +147,10 @@ class Dashboard extends Component {
   };
 
   refreshData(start = null, end = null) {
-    // socket.emit('get_dashboard_bo', {
-    //     datefrom: start!==null?start:this.state.startDate,
-    //     dateto: end!==null?end:this.state.endDate,
-    // })
+    this.props.dispatch(FetchBo(`datefrom=${this.state.startDate}&dateto=${this.state.endDate}`));
   }
 
   componentWillMount() {
-    this.props.dispatch(FetchBo());
     this.props.dispatch(getMemberTopKontributor(1,`&type=${this.state.selectedIndex===0?'penjualan':'rating'}`));
     this.refreshData();
     // this.props.dispatch(CheckDaily());
@@ -200,10 +176,8 @@ class Dashboard extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.dispatch(
-      FetchBo(`datefrom=${this.state.startDate}&dateto=${this.state.endDate}`)
-    );
-    // this.refreshData();
+    
+    this.refreshData();
   };
   handleSelect = (index) => {
     this.props.dispatch(getMemberTopKontributor(1,`&type=${index===0?'penjualan':'rating'}`));
@@ -311,7 +285,7 @@ class Dashboard extends Component {
           <div className="col-md-5 box-margin">
             <div className="card">
               <div className="card-header bg-transparent user-area d-flex align-items-center justify-content-between">
-                  <h4 className="card-title mt-3">KONTRIBUTOR TERATAS</h4>
+                  <h4 className="card-title mt-3">Top Kontributor</h4>
                   <Nav style={{ backgroundColor: "transparent" }} appearance="subtle" activeKey={this.state.selectedIndex}>
                     {/* Filter : &nbsp; */}
                     <Nav.Item active={this.state.selectedIndex===0} eventKey={0} onSelect={() => this.handleSelect(0)}>Penjualan</Nav.Item>
@@ -350,7 +324,7 @@ class Dashboard extends Component {
           <div className="col-md-7 box-margin">
             <div className="card">
               <div className="card-header bg-transparent user-area d-flex align-items-center justify-content-between">
-                  <h4 className="card-title mt-3">10 ORDERAN TERAKHIR</h4>
+                  <h4 className="card-title mt-3">Transaksi Terbaru</h4>
               </div>
               <div className="card-body" style={{height: '355px', overflowY: 'auto'}}>
                 
@@ -358,28 +332,21 @@ class Dashboard extends Component {
                   <table className="table table-hover  table-noborder"><thead>
                       <tr>
                         <th rowSpan="2" style={columnStyle}>
-                          DETAIL PEMBELI
+                          #
                         </th>
                         <th rowSpan="2" style={columnStyle}>
-                          PENJUAL
+                          Pembeli
                         </th>
                         <th rowSpan="2" style={columnStyle}>
-                          CHANEL
-                          <br/>
-                          PEMBAYARAN
+                          Produk
                         </th>
                         <th rowSpan="2" style={columnStyle}>
-                          BIAYA
-                          <br/>
-                          ADMIN
+                          Pembayaran
                         </th>
                         <th rowSpan="2" style={columnStyle}>
                           GRAND
                           <br/>
                           TOTAL
-                        </th>
-                        <th rowSpan="2" style={columnStyle}>
-                          DETAIL PEMBELIAN
                         </th>
                         <th rowSpan="2" style={columnStyle}>
                           STATUS
@@ -408,30 +375,14 @@ class Dashboard extends Component {
                             return (
                               <tr key={i}>
                                 <td style={{...cusStyle, width:'1%'}}>
-                                  <strong className="text-dark">{v.kd_trx}</strong>
-                                  <br />
-                                  <small>a/n</small> &bull; <strong className="text-dark">{v.fullname}</strong>
+                                  <strong className="text-dark">#{v.kd_trx}</strong>
                                 </td>
                                 <td style={cusStyle} className="poin">
                                   <small className="text-dark">
-                                    {v.seller}
+                                    {v.fullname}
                                   </small>
                                 </td>
-                                <td style={columnStyle}>
-                                  <small className="text-dark">
-                                    {v.payment_channel}
-                                  </small>
-                                </td>
-                                <td style={cusStyle} className="poin">
-                                  <strong className="text-dark">
-                                    {toCurrency(v.biaya_admin)}
-                                  </strong>
-                                </td>
-                                <td style={cusStyle} className="poin">
-                                  <strong className="text-dark">
-                                    {toCurrency(v.grand_total)}
-                                  </strong>
-                                </td>
+                                
                                 <td style={cusStyle}>
                                   <div
                                     class="row"
@@ -447,17 +398,27 @@ class Dashboard extends Component {
                                         className=""
                                         onError={(e)=>{e.target.onerror = null; e.target.src=`${Default}`}} 
                                         alt=""
-                                        style={{ height: "50px", width: "100px" }}
+                                        style={{ height: "50px", width: "50px" }}
                                       />
                                     </div>
                                     <p className="text-left text-dark">
                                       {v.title}
                                       <br />
                                       <small className="txtGreen">
-                                        Preview : <b>{v.preview}</b>
+                                        Kontributor : <b>{v.seller}</b>
                                       </small>
                                     </p>
                                   </div>
+                                </td>
+                                <td style={columnStyle}>
+                                  <small className="text-dark">
+                                    {v.payment_channel}
+                                  </small>
+                                </td>
+                                <td style={cusStyle} className="poin">
+                                  <strong className="text-dark">
+                                    {toCurrency(v.grand_total)}
+                                  </strong>
                                 </td>
 
                                 <td style={{...cusStyle, width:'1%'}}>{status}</td>
@@ -474,34 +435,6 @@ class Dashboard extends Component {
                     </tbody>
                   </table>
                 </div>
-
-
-                  {/* {
-                      this.state.recent_order.length!==0?
-                      (
-                          this.state.recent_order.map((i,_inx)=>{
-                              return(
-                                  <div className="widget-download-file d-flex align-items-center justify-content-between mb-4">
-                                      <div className="d-flex align-items-center mr-3">
-                                          <div className="download-file-icon mr-3" style={{padding:'unset', backgroundColor:'grey'}}>
-                                              <img src={i.image_product} onError={(e)=>{e.target.onerror = null; e.target.src=`${Default}`}} alt="img" className="thumb-md rounded-circle" style={{maxHeight:'unset', width:'40px', height:'40px'}}></img>
-                                          </div>
-                                          <div className="user-text-table">
-                                          <h6 className="d-inline-block font-15 mb-0">{i.kd_trx} - {i.title}</h6>
-                                          <p className="mb-0">{i.fullname}</p>
-                                          </div>
-                                      </div>
-                                      <a href="about:blank" className={"download-link badge badge-info badge-pill"} style={{padding:'8px'}}>{i.category}</a>
-                                  </div>
-                              )
-                          })
-                      )
-                      :
-                      (
-                          <div style={{textAlign:'center',fontSize:"11px",fontStyle:"italic"}}>Tidak tersedia.</div>
-                      )
-                  } */}
-                  
               </div>
             </div>
           </div>
@@ -521,10 +454,6 @@ const mapStateToProps = (state) => {
     resBo: state.dashboardReducer.data_bo,
     isLoading: state.dashboardReducer.isLoadingBo,
     resTop: state.memberReducer.data_top_kontributor,
-    
-
-    // skipped: state.transactionReducer.skipped,
-    // isLoadingCheck: state.transactionReducer.isLoadingCheck,
   };
 };
 

@@ -2,6 +2,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { PROMO, HEADERS, NOTIF_ALERT } from "../_constants";
 import { handleGet } from "../../handle_http";
+import { ModalToggle } from "../modal.action";
 
 export function setLoading(load) {
   return {
@@ -155,6 +156,8 @@ export const putPromo = (data, id) => {
         setTimeout(function () {
           Swal.close();
           const data = response.data;
+          dispatch(ModalToggle(false));
+          dispatch(getPromo(1));
           if (data.status === "success") {
             Swal.fire({
               title: "Success",
@@ -211,13 +214,14 @@ export const postPromo = (data, id) => {
         setTimeout(function () {
           Swal.close();
           const data = response.data;
+           dispatch(ModalToggle(false));
+           dispatch(getPromo(1));
           if (data.status === "success") {
             Swal.fire({
               title: "Success",
               icon: "success",
               text: NOTIF_ALERT.SUCCESS,
             });
-            dispatch(getPromo(1));
           } else {
             Swal.fire({
               title: "failed",
@@ -225,7 +229,7 @@ export const postPromo = (data, id) => {
               text: NOTIF_ALERT.FAILED,
             });
           }
-          dispatch(getPromo(1));
+         
         }, 800);
       })
       .catch(function (error) {

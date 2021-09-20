@@ -6,6 +6,10 @@ import General from "./general";
 import Fee from "./fee";
 import { fetchGeneral } from "../../../../redux/actions/setting/general.action";
 import { Nav } from "rsuite";
+import { ModalToggle, ModalType } from "redux/actions/modal.action";
+import { Button, Icon } from "rsuite";
+import Broadcast from "../../modals/setting/broadcast.modal";
+
 class IndexSetting extends Component {
   constructor(props) {
     super(props);
@@ -28,10 +32,26 @@ class IndexSetting extends Component {
     this.setState({ selectedIndex: index }, () => {});
   };
 
+  handleModal(e) {
+    e.preventDefault();
+    const bool = !this.props.isOpen;
+    this.props.dispatch(ModalToggle(bool));
+    this.props.dispatch(ModalType("formModalBroadcast"));
+  }
+
   render() {
     return (
       <Layout page={"Pengaturan Umum"}>
         <div className="row">
+          <div className="d-flex flex-row-reverse col-12">
+            <Button 
+              size="md"
+              color="cyan"
+              onClick={(e) => this.handleModal(e)}>
+              Buat Broadcast
+            </Button>
+          </div>
+
           <div className="col-12 box-margin">
             
             
@@ -39,7 +59,7 @@ class IndexSetting extends Component {
               <Nav.Item active={this.state.selectedIndex===0} eventKey={0} onSelect={() => this.handleSelect(0)}>Fee</Nav.Item>
               <Nav.Item active={this.state.selectedIndex===1} eventKey={1} onSelect={() => this.handleSelect(1)}>General</Nav.Item>
             </Nav>
-
+       
           
             <div className="mt-4">
               <div className={this.state.selectedIndex===0?'':'d-none'}>
@@ -51,6 +71,7 @@ class IndexSetting extends Component {
             </div>
           </div>
         </div>
+        <Broadcast/>
       </Layout>
     );
   }

@@ -135,7 +135,6 @@ class LaporanPaket extends Component {
     const columnStyle = {
       verticalAlign: "middle",
       textAlign: "center",
-      whiteSpace: "nowrap",
       color: "#888888",
     };
 
@@ -201,13 +200,6 @@ class LaporanPaket extends Component {
             <div className="row">
               <div className="col-md-12">
                 <div className="form-group">
-                  <Button
-                    size="lg"
-                    color="blue"
-                    appearance="subtle"
-                    className="mr-2" onClick={(e) => this.handleSearch(e)}>
-                    <Icon icon="search" />
-                  </Button>
                   {/* <Button 
                     size="lg"
                     color="cyan"
@@ -222,33 +214,22 @@ class LaporanPaket extends Component {
         </div>
         <br />
         <div style={{ overflowX: "auto" }}>
-          <table className="table table-hover  table-noborder"><thead>
+          <table className="table table-hover table-noborder"><thead>
               <tr>
-                <th rowSpan="2" style={{...columnStyle, width:'1%'}}>
-                  NO
+                <th rowSpan="2" style={columnStyle}>
+                  #
                 </th>
                 <th rowSpan="2" style={columnStyle}>
-                  DETAIL PEMBELI
+                  Pembeli
                 </th>
                 <th rowSpan="2" style={columnStyle}>
-                  DETAIL PEMBELIAN
+                  Produk
                 </th>
                 <th rowSpan="2" style={columnStyle}>
-                  PENJUAL
-                </th>
-                <th rowSpan="2" style={columnStyle}>
-                  CHANEL
-                  <br/>
-                  PEMBAYARAN
-                </th>
-                <th rowSpan="2" style={columnStyle}>
-                  BIAYA
-                  <br/>
-                  ADMIN
+                  Pembayaran
                 </th>
                 <th rowSpan="2" style={columnStyle}>
                   GRAND
-                  <br/>
                   TOTAL
                 </th>
                 <th rowSpan="2" style={columnStyle}>
@@ -278,14 +259,15 @@ class LaporanPaket extends Component {
                     }
                     return (
                       <tr key={i}>
-                        <td style={{...columnStyle, width:'1%'}}>
-                          {i + 1 + 10 * (parseInt(current_page, 10) - 1)}
-                        </td>
                         <td style={{...cusStyle, width:'1%'}}>
-                          <strong className="text-dark">{v.kd_trx}</strong>
-                          <br />
-                          <small>a/n</small> &bull; <strong className="text-dark">{v.fullname}</strong>
+                          <strong className="text-dark">#{v.kd_trx}</strong>
                         </td>
+                        <td style={cusStyle} className="poin">
+                          <small className="text-dark">
+                            {v.fullname}
+                          </small>
+                        </td>
+                        
                         <td style={cusStyle}>
                           <div
                             class="row"
@@ -301,39 +283,29 @@ class LaporanPaket extends Component {
                                 className=""
                                 onError={(e)=>{e.target.onerror = null; e.target.src=`${Default}`}} 
                                 alt=""
-                                style={{ height: "50px", width: "100px" }}
+                                style={{ height: "50px", width: "50px" }}
                               />
                             </div>
                             <p className="text-left text-dark">
                               {v.title}
                               <br />
                               <small className="txtGreen">
-                                Preview : <b>{v.preview}</b>
+                                Kontributor : <b>{v.seller}</b>
                               </small>
                             </p>
                           </div>
-                        </td>
-
-                        <td style={columnStyle}>
-                          <small className="text-dark">
-                            {v.seller}
-                          </small>
                         </td>
                         <td style={columnStyle}>
                           <small className="text-dark">
                             {v.payment_channel}
                           </small>
                         </td>
-                        <td style={cusStyle} className="poin">
-                          <strong className="text-dark">
-                            {toCurrency(v.biaya_admin)}
-                          </strong>
-                        </td>
-                        <td style={cusStyle} className="poin">
+                        <td style={columnStyle} className="poin">
                           <strong className="text-dark">
                             {toCurrency(v.grand_total)}
                           </strong>
                         </td>
+
                         <td style={{...cusStyle, width:'1%'}}>{status}</td>
                       </tr>
                     );

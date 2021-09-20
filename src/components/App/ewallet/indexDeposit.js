@@ -331,13 +331,9 @@ class IndexDeposit extends Component {
               {typeof data === "object" ? (
                 data.length > 0 ? (
                   data.map((v, i) => {
-                    totAmountPoint = totAmountPoint + parseInt(v.amount);
+                    totAmountPoint = totAmountPoint + parseFloat(v.amount);
+                    totAmountRp = totAmountRp + parseFloat(v.amount_rupiah);
                     let nomRp = 0;
-                    if (this.props.configWallet !== undefined) {
-                      let konv = parseInt(v.amount, 10) * parseInt(this.props.configWallet.konversi_poin);
-                      nomRp = konv;
-                      totAmountRp = totAmountRp + parseInt(konv);
-                    }
                     let status = "";
                     if (v.status === 0) {
                       status = <span className={"badge badge-warning"}>Pending</span>;
@@ -376,20 +372,19 @@ class IndexDeposit extends Component {
                             <Icon icon="file-image-o" />
                           </Button>
                         </td>
-                        <td style={columnStyle}>{v.kd_trx}</td>
-                        <td style={columnStyle}>{v.fullname}</td>
+                        <td style={strStyle}>{v.kd_trx}</td>
+                        <td style={strStyle}>{v.fullname}</td>
                         <td style={strStyle}>
-                          {v.acc_name}
-                          <br />
                           <div style={{ paddingTop: "5px" }}>
-                            {v.bank_name} ({v.acc_no})
+                            {v.bank_name} {v.acc_no==='0'?'':`(${v.acc_no})`}
                           </div>
+                          <strong>#{v.acc_name}</strong>
                         </td>
                         <td style={numStyle} className="poin">
                           {toCurrency(`${v.amount}`)}
                         </td>
                         <td style={numStyle} className="txtGreen">
-                          Rp {toRp(nomRp)} .-
+                          Rp {toRp(v.amount_rupiah)} .-
                         </td>
                         <td style={numStyle} className="txtRed">
                           {v.unique_code}

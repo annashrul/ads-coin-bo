@@ -111,3 +111,60 @@ export const updateGeneral = (data, type = "site") => {
       });
   };
 };
+
+export const broadcast = (title, message) => {
+  return (dispatch) => {
+    dispatch(setLoading(true));
+    Swal.fire({
+      title: "Tunggu sebentar.",
+      html: "Memproses permintaan..",
+      onBeforeOpen: () => {
+        Swal.showLoading();
+      },
+      onClose: () => {},
+    });
+    dispatch(setIsError(false));
+    let url = HEADERS.URL + "site/broadcast";
+
+    axios
+      .post(url, {
+            title,
+            message
+      })
+      .then(function (response) {
+        const datum = response.data;
+        Swal.close();
+        dispatch(ModalToggle(false));
+        if (datum.status === "success") {
+          ToastQ.fire({
+            icon: "success",
+            title: `Broadcast terkirim.`,
+          });
+          dispatch(setIsError(true));
+          dispatch(fetchGeneral());
+        } 
+        dispatch(setLoading(false));
+      })
+      .catch(function (error) {
+        Swal.close();
+        dispatch(ModalToggle(false));
+        dispatch(setLoading(false));
+        dispatch(setIsError(false));
+        if (error.message === "Network Error") {
+          Swal.fire(
+            "Network Failed!.",
+            "Please check your connection",
+            "error"
+          );
+        } else {
+          Swal.fire({
+            title: "failed",
+            icon: "error",
+            text: error.response.data.msg,
+          });
+
+          if (error.response) {}
+        }
+      });
+  };
+};

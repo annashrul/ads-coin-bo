@@ -190,6 +190,11 @@ class LaporanTransaksiMember extends Component {
                       readOnly={true}
                       className="form-control form-control-lg"
                       value={`${this.state.dateFrom} to ${this.state.dateTo}`}
+                      onKeyPress={(event) => {
+                      if (event.key === "Enter") {
+                        this.handleSearch(event);
+                      }
+                    }}
                     />
                   </DateRangePicker>
                 </div>
@@ -215,47 +220,7 @@ class LaporanTransaksiMember extends Component {
               </div>
             </div>
           </div>
-          <div
-            className="col-12 col-xs-12 col-md-2 d-flex align-items-end justify-content-end"
-            style={{ textAlign: "right" }}
-          >
-            <div className="row">
-              <div className="col-md-12">
-                <div className="form-group">
-                  {/* <button
-                    style={{ marginTop: "28px", marginRight: "5px" }}
-                    className="btn btn-primary"
-                    onClick={this.handleSearch}
-                  >
-                    <i className="fa fa-search" />
-                  </button>
-                  <button
-                    style={{ marginTop: "28px", marginRight: "5px" }}
-                    className="btn btn-primary"
-                    onClick={(e) =>
-                      this.printDocumentXLsx(e, per_page * last_page)
-                    }
-                  >
-                    <i className="fa fa-print" />
-                  </button> */}
-                  <Button
-                    size="lg"
-                    color="blue"
-                    appearance="subtle"
-                    className="mr-2" onClick={(e) => this.handleSearch(e)}>
-                    <Icon icon="search" />
-                  </Button>
-                  {/* <Button 
-                    size="lg"
-                    color="cyan"
-                    appearance="subtle"
-                    className="" onClick={(e) => this.printDocumentXLsx(e, per_page * last_page)}>
-                    <Icon icon="print" />
-                  </Button> */}
-                </div>
-              </div>
-            </div>
-          </div>
+
         </div>
         <br />
         <div style={{ overflowX: "auto" }}>
@@ -271,15 +236,15 @@ class LaporanTransaksiMember extends Component {
                 <th rowSpan="2" style={columnStyle}>
                   NAMA
                 </th>
-                <th colSpan="4" style={{...columnStyle, width:'1%'}}>
+                <th colSpan="4" style={{...columnStyle}}>
                   SALDO
                 </th>
               </tr>
               <tr>
-                <th style={{...columnStyle, width:'1%'}}>AWAL</th>
-                <th style={{...columnStyle, width:'1%'}}>MASUK</th>
-                <th style={{...columnStyle, width:'1%'}}>KELUAR</th>
-                <th style={{...columnStyle, width:'1%'}}>AKHIR</th>
+                <th style={{...columnStyle}}>AWAL</th>
+                <th style={{...columnStyle}}>MASUK</th>
+                <th style={{...columnStyle}}>KELUAR</th>
+                <th style={{...columnStyle}}>AKHIR</th>
               </tr>
             </thead>
             <tbody>
@@ -306,17 +271,17 @@ class LaporanTransaksiMember extends Component {
                           </Button>
                         </td>
 
-                        <td style={columnStyle}>{v.fullname}</td>
-                        <td className={"coin"} style={numStyle}>
+                        <td>{v.fullname}</td>
+                        <td className={"coin"} style={columnStyle}>
                           {toCurrency(`${parseFloat(v.saldo_awal).toFixed(2)}`)}
                         </td>
-                        <td className={"coin"} style={numStyle}>
+                        <td className={"coin"} style={columnStyle}>
                           {toCurrency(`${parseFloat(v.trx_in).toFixed(2)}`)}
                         </td>
-                        <td className={"coin"} style={numStyle}>
+                        <td className={"coin"} style={columnStyle}>
                           {toCurrency(`${parseFloat(v.trx_out).toFixed(2)}`)}
                         </td>
-                        <td className={"coin"} style={numStyle}>
+                        <td className={"coin"} style={columnStyle}>
                           {toCurrency(`${parseFloat(v.saldo_akhir).toFixed(2)}`)}
                         </td>
                       </tr>
@@ -339,45 +304,45 @@ class LaporanTransaksiMember extends Component {
             </tbody>
             <tfoot className="">
               <tr>
-                <th colSpan={2}>TOTAL PERHALAMAN</th>
-                <th className={"coin"} style={numStyle}>
+                <th colSpan={3}>TOTAL PERHALAMAN</th>
+                <th className={"coin"} style={columnStyle}>
                   {toCurrency(`${totSaldoAwal.toFixed(2)}`)}
                 </th>
-                <th className={"coin"} style={numStyle}>
+                <th className={"coin"} style={columnStyle}>
                   {toCurrency(`${totTrxIn.toFixed(2)}`)}
                 </th>
-                <th className={"coin"} style={numStyle}>
+                <th className={"coin"} style={columnStyle}>
                   {toCurrency(`${totTrxOut.toFixed(2)}`)}
                 </th>
-                <th className={"coin"} style={numStyle}>
+                <th className={"coin"} style={columnStyle}>
                   {toCurrency(`${totSaldoAkhir.toFixed(2)}`)}
                 </th>
               </tr>
 
               <tr>
-                <th colSpan={2}>TOTAL KESELURUHAN</th>
-                <th className={"coin"} style={numStyle}>
+                <th colSpan={3}>TOTAL KESELURUHAN</th>
+                <th className={"coin"} style={columnStyle}>
                   {summary === undefined
                     ? "0 Coin"
                     : parseInt(summary.saldo_awal, 10) === 0
                     ? "0 Coin"
                     : toCurrency(`${parseFloat(summary.saldo_awal).toFixed(2)}`)}
                 </th>
-                <th className={"coin"} style={numStyle}>
+                <th className={"coin"} style={columnStyle}>
                   {summary === undefined
                     ? "0 Coin"
                     : parseInt(summary.trx_in, 10) === 0
                     ? "0 Coin"
                     : toCurrency(`${parseFloat(summary.trx_in).toFixed(2)}`)}
                 </th>
-                <th className={"coin"} style={numStyle}>
+                <th className={"coin"} style={columnStyle}>
                   {summary === undefined
                     ? "0 Coin"
                     : parseInt(summary.trx_out, 10) === 0
                     ? "0 Coin"
                     : toCurrency(`${parseFloat(summary.trx_out).toFixed(2)}`)}
                 </th>
-                <th className={"coin"} style={numStyle}>
+                <th className={"coin"} style={columnStyle}>
                   {summary === undefined
                     ? "0 Coin"
                     : parseInt(summary.saldo_akhir, 10) === 0

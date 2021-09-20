@@ -172,13 +172,6 @@ class Kategori extends Component {
           </div>
           <div className="col-4 col-xs-4 col-md-2  d-flex align-items-end justify-content-end">
             <div className="form-group">
-              <Button
-                size="lg"
-                color="blue"
-                appearance="subtle"
-                className="mr-2" onClick={(e) => this.handleSearch(e)}>
-                <Icon icon="search" />
-              </Button>
               <Button 
                 size="lg"
                 color="cyan"
