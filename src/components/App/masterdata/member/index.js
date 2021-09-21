@@ -29,10 +29,10 @@ class IndexMember extends Component {
       searchBy: "fullname",
       searchByData: [
         { value: "fullname", label: "Nama" },
-        { value: "referral", label: "Referral" },
+        // { value: "referral", label: "Referral" },
         { value: "mobile_no", label: "Telepon" },
-        { value: "status", label: "Status" },
-        { value: "type", label: "Tipe" },
+        // { value: "status", label: "Status" },
+        // { value: "type", label: "Tipe" },
       ],
       membership: "",
       jenjangKarir: "",
@@ -171,23 +171,23 @@ class IndexMember extends Component {
   }
   handleStatus(val) {
     this.setState({ status: val.value });
-    let where = this.handleValidate();
+    // let where = this.handleValidate();
     // console.log(where);
-    if (val.value !== "") {
-      this.props.dispatch(getMember(1, `&status=${val.value}&${where}`));
-    } else {
-      this.props.dispatch(getMember(1, `&${where}`));
-    }
+    // if (val.value !== "") {
+    //   this.props.dispatch(getMember(1, `&status=${val.value}&${where}`));
+    // } else {
+    //   this.props.dispatch(getMember(1, `&${where}`));
+    // }
   }
   handleChangeType(val) {
     this.setState({ type: val.value });
-    let where = this.handleValidate();
+    // let where = this.handleValidate();
     // console.log(where);
-    if (val.value !== "") {
-      this.props.dispatch(getMember(1, `type=${val.value}&${where}`));
-    } else {
-      this.props.dispatch(getMember(1, `${where}`));
-    }
+    // if (val.value !== "") {
+    //   this.props.dispatch(getMember(1, `type=${val.value}&${where}`));
+    // } else {
+    //   this.props.dispatch(getMember(1, `${where}`));
+    // }
   }
   handleChange = (event) => {
     this.setState({
@@ -196,11 +196,21 @@ class IndexMember extends Component {
   };
   handleValidate() {
     let any = this.state.any;
+    let type = this.state.type;
+    let status = this.state.status;
     let searchBy = this.state.searchBy;
     let where = `searchby=${searchBy}`;
     if (any !== null && any !== undefined && any !== "") {
       where += `&q=${any}`;
       this.setState({ any: "" });
+    }
+    if (type !== null && type !== undefined && type !== "") {
+      where += `&type=${type}`;
+      this.setState({ type: "" });
+    }
+    if (status !== null && status !== undefined && status !== "") {
+      where += `&status=${status}`;
+      this.setState({ status: "" });
     }
 
     return where;
@@ -518,9 +528,6 @@ class IndexMember extends Component {
               </div>
               <div
                 className="col-6 col-xs-6 col-md-3"
-                style={{
-                  display: this.state.searchBy === "status" ? "block" : "none",
-                }}
               >
                 <div className="form-group">
                   <label>Status</label>
@@ -537,9 +544,6 @@ class IndexMember extends Component {
               </div>
               <div
                 className="col-6 col-xs-6 col-md-3"
-                style={{
-                  display: this.state.searchBy === "type" ? "block" : "none",
-                }}
               >
                 <div className="form-group">
                   <label>Tipe</label>
@@ -556,9 +560,9 @@ class IndexMember extends Component {
               </div>
               <div
                 className="col-6 col-xs-6 col-md-3"
-                style={{
-                  display: this.state.searchBy === "status" || this.state.searchBy === "type" ? "none" : "block",
-                }}
+                // style={{
+                //   display: this.state.searchBy === "status" || this.state.searchBy === "type" ? "none" : "block",
+                // }}
               >
                 <div className="form-group">
                   <label>Tulis Pencarian Disini</label>
@@ -663,39 +667,27 @@ class IndexMember extends Component {
                       <tr key={i}>
                         <td style={headStyle}>{i + 1 + 10 * (parseInt(current_page, 10) - 1)}</td>
                         <td style={headStyle}>
-                            
-                          <Button
-                            size="sm"
-                            color="violet"
-                            appearance="subtle"
-                            className="mr-2" onClick={(e)=>this.handleMemberEdit(e, v.id, v.fullname, v.mobile_no)}>
-                            <Icon icon="edit2" />
-                             {/* Edit {v.type_id === 1 ? "Kontributor" : "Member"} */}
-                          </Button>
-                          <Button 
-                            size="sm"
-                            color="red"
-                            appearance="subtle"
-                            className="mr-2" onClick={(e)=>this.handleMemberResetPin(e, v.id)}>
-                            <Icon icon="refresh" />
-                             {/* Reset PIN {v.type_id === 1 ? "Kontributor" : "Member"} */}
-                          </Button>
-                          <Button
-                            size="sm"
-                            color="cyan"
-                            appearance="subtle"
-                            className="mr-2" onClick={(e)=>this.handleType(e, v)}>
-                            <Icon icon="crosshairs" />
-                             {/* {v.type_id === 0 ? "Jadikan Kontributor" : "Jadikan Member"} */}
-                          </Button>
-                          <Button
-                            size="sm"
-                            color="cyan"
-                            appearance="subtle"
-                            className="" onClick={(e)=>this.handleUpdate(e, v)}>
-                            <Icon icon={v.status === 1 ?"toggle-on":"toggle-off"} />
-                             {/* {v.status === 0 ? "Aktifkan" : "Non-aktifkan"} */}
-                          </Button>
+                          <div className="btn-group">
+                            <ButtonToolbar>
+                              <Dropdown appearance="default" title="AKSI" size="xs" placement="rightStart">
+                                  {/* <Dropdown.Item onClick={(e)=>this.handleBankEdit(e, v.id, v.fullname)}>
+                                  <Icon icon="edit2" /> Edit Bank {v.type_id === 1 ? "Kontributor" : "Member"}
+                                  </Dropdown.Item> */}
+                                  <Dropdown.Item onClick={(e)=>this.handleMemberEdit(e, v.id, v.fullname, v.mobile_no)}>
+                                  <Icon icon="edit2" /> Edit {v.type_id === 1 ? "Kontributor" : "Member"}
+                                  </Dropdown.Item>
+                                  <Dropdown.Item onClick={(e)=>this.handleMemberResetPin(e, v.id)}>
+                                  <Icon icon="refresh" /> Reset PIN {v.type_id === 1 ? "Kontributor" : "Member"}
+                                  </Dropdown.Item>
+                                  <Dropdown.Item onClick={(e)=>this.handleType(e, v)}>
+                                  <Icon icon="crosshairs" /> {v.type_id === 0 ? "Jadikan Kontributor" : "Jadikan Member"}
+                                  </Dropdown.Item>
+                                  <Dropdown.Item onClick={(e)=>this.handleUpdate(e, v)}>
+                                  <Icon icon="toggle-on" /> {v.status === 0 ? "Aktifkan" : "Non-aktifkan"}
+                                  </Dropdown.Item>
+                              </Dropdown>
+                            </ButtonToolbar>
+                          </div>
                         </td>
                         <td style={bodyStyle}>{v.fullname}</td>
                         <td style={bodyStyle}>{v.referral}</td>
