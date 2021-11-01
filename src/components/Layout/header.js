@@ -14,6 +14,9 @@ import {
   DropdownToggle,
 } from "reactstrap";
 import { noImage } from "../../helper";
+import { HEADERS } from "../../redux/actions/_constants";
+import moment from "moment";
+import Swal from "sweetalert2";
 // import socketIOClient from "socket.io-client";
 
 // const socket = socketIOClient(HEADERS.URL);
@@ -62,7 +65,63 @@ class Header extends Component {
       toggleMobileNav: !this.state.toggleMobileNav,
     });
   };
-  componentWillMount() {}
+  componentWillMount() {
+    fetch(HEADERS.URL + `site/config/info`, {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then(
+        (data) => {
+    //   let data = {
+    //     "result": [
+    //         {
+    //             "billing_expired": "2021-10-31T17:00:00.000Z",
+    //             "billing_saminggu": "2021-10-25T13:21:51.747Z"
+    //         }
+    //     ],
+    //     "meta": [],
+    //     "total": [],
+    //     "msg": "Berhasil mengambil data.",
+    //     "status": "success"
+    // }
+          console.log(data);
+          console.log(moment(Date.now()));
+          console.log(moment(data.result[0].billing_expired));
+
+          let dateNow = moment(Date.now());
+          let dateExp = moment(data.result[0].billing_expired);
+          let dateSmg = moment(data.result[0].billing_saminggu);
+            
+          console.log(dateNow.diff(dateSmg, 'days',false));
+          if (
+            dateNow.diff(dateExp, 'days',false) === 0
+          ) {
+            Swal.fire({
+              allowOutsideClick: false,
+              title: "Warning!",
+              html: `<h6>Aplikasi telah kedaluarsa.</h6><br/>
+                            <p>Silahkan lakukan pembayaran</p>`,
+              icon: "warning",
+              confirmButtonColor: "#ff9800",
+              confirmButtonText: "Oke",
+            }).then((result) => {});
+            this.props.logoutUser();
+          }
+
+          this.setState({
+            isShowNotif: dateNow.diff(dateExp, 'days',false) < dateNow.diff(dateSmg, 'days',false) ? true : false,
+            isDay: Math.abs(dateNow.diff(dateExp, 'days',false)),
+            tanggal_tempo: moment(data.result[0].billing_expired).format("yyyy-MM-DD"),
+          });
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error,
+          });
+        }
+      );
+  }
 
   handleUpdate = (e, id, param) => {
     e.preventDefault();
@@ -74,8 +133,19 @@ class Header extends Component {
     // this.props.dispatch(putInbox({status:1},id));
     // this.props.dispatch(putInbox({status:1},id));
   };
-
+  handleNotif(e) {
+    e.preventDefault();
+    Swal.fire({
+      allowOutsideClick: false,
+      title: "Informasi Pembayaran.",
+      html: `<div class="card"><div class="card-header text-center"><h6 class="">Silahkan lakukan pembayaran dan korfirmasikan pembayaran anda pada Customer Support Kami.</h6></div></div>`,
+      icon: "info",
+      confirmButtonColor: "#ff9800",
+      confirmButtonText: "Oke",
+    }).then((result) => {});
+  }
   render() {
+    const { isShowNotif, isDay } = this.state;
     return (
       // <!-- Top Header Area -->
       <header
@@ -124,7 +194,27 @@ class Header extends Component {
           </div>
 
           {/* <!-- Left Side Nav --> */}
-          <ul className="left-side-navbar d-flex align-items-center"></ul>
+          <ul className="left-side-navbar d-flex align-items-center">
+            {isShowNotif ? (
+              <li
+                className={`full-screen-mode ml-1 animate__animated animate__bounceInRight`}
+                style={{ marginTop: "14px", cursor: "pointer" }}
+                onClick={this.handleNotif}
+              >
+                <div
+                  className="alert alert-warning"
+                  style={{ backgroundColor: "#ffeb3b", border: "none" }}
+                  role="alert"
+                >
+                  <p style={{ marginBottom: "0" }}>
+                    <i className="fa fa-warning" /> Aplikasi kedaluarsa {isDay}{" "}
+                    hari lagi.{" "}
+                  </p>
+                </div>
+              </li>
+            ) : (
+              ""
+            )}</ul>
         </div>
 
         <div className="right-side-navbar d-flex align-items-center justify-content-end">

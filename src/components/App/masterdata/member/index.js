@@ -279,11 +279,11 @@ class IndexMember extends Component {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: `Oke, ${val.type_id === 1 ? "jadikan MEMBER" : "jadikan KONTRIBUTOR"}`,
+      confirmButtonText: `Oke, ${val.type_id === 1 ? "jadikan MEMBER" : val.type_id === 0 ? "jadikan KONTRIBUTOR" : "Pulihkan KONTRIBUTOR"}`,
       cancelButtonText: "Batal",
     }).then((result) => {
       if (result.value) {
-        this.props.dispatch(putMember({ type: val.type_id === 0 ? "1" : "0" }, val.id));
+        this.props.dispatch(putMember({ type: val.type_id === 0 || val.type_id === 2 ? "1" : "0" }, val.id));
       }
     });
   }
@@ -680,7 +680,7 @@ class IndexMember extends Component {
                                   <Icon icon="refresh" /> Reset PIN {v.type_id === 1 ? "Kontributor" : "Member"}
                                   </Dropdown.Item>
                                   <Dropdown.Item onClick={(e)=>this.handleType(e, v)}>
-                                  <Icon icon="crosshairs" /> {v.type_id === 0 ? "Jadikan Kontributor" : "Jadikan Member"}
+                                  <Icon icon="crosshairs" /> {v.type_id === 0 ? "Jadikan Kontributor" : v.type_id === 1 ? "Jadikan Member":"Pulihkan Kontributor"}
                                   </Dropdown.Item>
                                   <Dropdown.Item onClick={(e)=>this.handleUpdate(e, v)}>
                                   <Icon icon="toggle-on" /> {v.status === 0 ? "Aktifkan" : "Non-aktifkan"}
@@ -692,7 +692,7 @@ class IndexMember extends Component {
                         <td style={bodyStyle}>{v.fullname}</td>
                         <td style={bodyStyle}>{v.referral}</td>
                         <td style={bodyStyle}>{v.mobile_no}</td>
-                        <td style={bodyStyle}>{v.type_id===1?<span className={"badge badge-info"}>{v.type}</span>:<span className={"badge badge-warning"}>{v.type}</span>}</td>
+                        <td style={bodyStyle}>{v.type_id===1?<span className={"badge badge-info"}>{v.type}</span>:v.type_id===2?<span className={"badge badge-danger"}>{v.type}</span>:<span className={"badge badge-warning"}>{v.type}</span>}</td>
                         <td style={numberStyle} className="poin">
                           {toCurrency(parseFloat(v.saldo).toFixed(2))}
                         </td>

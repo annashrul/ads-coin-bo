@@ -5,6 +5,8 @@ import BgAuth from "../../../../assets/logo.png"
 import './login.css'
 import {loginUser} from '../../../../redux/actions/authActions';
 import Swal from 'sweetalert2'
+import moment from 'moment';
+import { HEADERS } from '../../../../redux/actions/_constants';
 class Login extends Component {
     constructor(props) {
         super(props);
@@ -25,44 +27,94 @@ class Login extends Component {
         return document.getElementById("favicon");
     }
 
-    componentDidMount (){
-        if(this.props.auth.isAuthenticated){
-            this.props.history.push('/')
-        }
-        // this.initFetch(false);
-    }
-
-    // initFetch(check){
-    //     fetch(HEADERS.URL + `site/get`)
-    //     .then(res => res.json())
-    //     .then(
-    //         (data) => {
-    //             localStorage.setItem("logos",data.result.logo)
-    //             localStorage.setItem("site_title", data.result.site_name)
-    //             document.title = `${data.result.site_name}`;
-    //             this.setState({
-    //                 logo: data.result.logo,
-    //                 width:data.result.width
-    //             })
-    //             const favicon = this.getFaviconEl(); // Accessing favicon element
-    //             favicon.href = data.result.site_url;
-    //         },
-    //         (error) => {
-    //             this.setState({
-    //                 isLoaded: true,
-    //                 error
-    //             });
-    //         }
-    //     )
+    // componentDidMount (){
+    //     if(this.props.auth.isAuthenticated){
+    //         this.props.history.push('/')
+    //     }
+    //     // this.initFetch(false);
     // }
+
+    
+  componentWillMount() {
+      
+    this.getProps(this.props);
+    fetch(HEADERS.URL + `site/config/info`, {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then(
+        (data) => {
+
+    // let data = {
+    //     "result": [
+    //         {
+    //             "billing_expired": "2021-10-31T17:00:00.000Z",
+    //             "billing_saminggu": "2021-10-25T13:21:51.747Z"
+    //         }
+    //     ],
+    //     "meta": [],
+    //     "total": [],
+    //     "msg": "Berhasil mengambil data.",
+    //     "status": "success"
+    // }
+
+          let dateNow = moment(Date.now());
+          let dateExp = moment(data.result[0].billing_expired);
+          let dateSmg = moment(data.result[0].billing_saminggu);
+            
+          if (
+            dateNow.diff(dateExp, 'days',false) === 0
+          ) {
+            Swal.fire({
+              allowOutsideClick: false,
+              title: "Warning!",
+              html: `<h6>Aplikasi telah kedaluarsa.</h6><br/>
+                            <p>Silahkan lakukan pembayaran</p>`,
+              icon: "warning",
+              confirmButtonColor: "#ff9800",
+              confirmButtonText: "Oke",
+            }).then((result) => {});
+            // this.props.logoutUser();
+          } else
+          if (
+            dateNow.diff(dateExp, 'days',false) < dateNow.diff(dateSmg, 'days',false) ? true : false
+          ) {
+            Swal.fire({
+              allowOutsideClick: false,
+              title: "Warning!",
+              html: `<h6>Server akan kadaluarsa dalam ${Math.abs(dateNow.diff(dateExp, 'days',false))} hari lagi</h6><br/>
+                            <p>Silahkan lakukan pembayaran sebelum masa tenggang.</p>`,
+              icon: "warning",
+              confirmButtonColor: "#ff9800",
+              confirmButtonText: "Oke",
+            }).then((result) => {});
+            // this.props.logoutUser();
+          }
+
+          this.setState({
+            isShowNotif: dateNow.diff(dateExp, 'days',false) < dateNow.diff(dateSmg, 'days',false) ? true : false,
+            isDay: Math.abs(dateNow.diff(dateExp, 'days',false)),
+            tanggal_tempo: moment(data.result[0].billing_expired).format("yyyy-MM-DD"),
+          });
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error,
+          });
+        }
+      );
+  }
+
+
 
 
     componentWillReceiveProps = (nextProps)=>{
         this.getProps(nextProps)
      }
-     componentWillMount(){
-        this.getProps(this.props);
-     }
+    //  componentWillMount(){
+    //     this.getProps(this.props);
+    //  }
      getProps(param){
          if(param.auth.isAuthenticated){
              param.history.push('/');

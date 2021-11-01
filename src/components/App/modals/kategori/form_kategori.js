@@ -50,14 +50,18 @@ class FormKategori extends Component {
   handleSubmit(e) {
     e.preventDefault();
     let state = this.state;
-    let parsedata = { title: state.title, type: this.props.detail.paramType, status: state.status };
+    let parsedata = { title: state.title, type: this.props.detail.paramType, status: state.status, icon:state.image.base64 };
     if (state.title === "" || state.title === undefined) {
       ToastQ.fire({ icon: "error", title: `title tidak boleh kosong` });
       return;
     }
-    if(parsedata['image']!==''){
+    if(state.image!==''){
         parsedata['icon'] = this.state.image.base64;
+    } else {
+      parsedata['icon'] = "-";
     }
+    console.log("========",state);
+    console.log("========",parsedata);
     if (this.props.detail.id !== "") {
       this.props.dispatch(
         putKategori(this.props.detail.id, parsedata, this.props.detail.param)

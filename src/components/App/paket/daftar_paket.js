@@ -158,7 +158,7 @@ class DaftarPaket extends Component {
       cancelButtonText: "Batal",
     }).then((result) => {
       if (result.value) {
-        this.props.dispatch(putPaket(val.id, { status: val.status===2?0:2 }));
+        this.props.dispatch(putPaket(val.id, { status: val.status===2?1:2 }));
       }
     });
   }
